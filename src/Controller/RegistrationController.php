@@ -49,6 +49,11 @@ class RegistrationController extends Controller
                 $user->setRoles(['ROLE_ADMIN']);
             }
 
+            $this->addFlash(
+                    'success',
+                    'Nouvel utilisateur enregistré'
+            );
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
