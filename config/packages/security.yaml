@@ -19,6 +19,7 @@ security:
                 secret:   '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
                 path:     /
+                domain:   ~
             pattern: ^/
             provider: user_provider
             anonymous: ~
