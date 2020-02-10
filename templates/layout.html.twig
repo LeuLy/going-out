@@ -19,6 +19,15 @@
 {% include'includes/test.html.twig' %}
 <div class="container-fluid">
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="page-header">
@@ -31,34 +40,32 @@
                     <a class="nav-link active" href="#">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mon Profile</a>
+                    <a class="nav-link" href="#">Mon Profil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Se Déconnecter</a>
+                    <a class="nav-link disabled" href="#">Villes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Sites</a>
                 </li>
                 <li class="nav-item dropdown ml-md-auto">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">Dropdown link</a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider">
-                        </div> <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
+                    <a class="nav-link disabled" href="#">Se Déconnecter</a>
                 </li>
             </ul>
         </div>
     </div>
 
 
-    {% block body %}
-        BODY PAR DEFAUT
-    {% endblock %}
+
+
 
     <div class="row">
         <div class="col-md-12">
         </div>
     </div>
 
-
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
 
 
 </div>

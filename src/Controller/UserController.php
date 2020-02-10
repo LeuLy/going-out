@@ -40,4 +40,22 @@ class UserController extends Controller
 
 
     }
+    /**
+     * @Route("/profilModif", name="profilModif")
+     */
+    public function profilModif()
+    {
+        return $this->render('user/profilModif.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
+    }
+    /**
+     * @Route("/affichProfil", name="affichProfil")
+     */
+    public function affichProfil()
+    {
+        return $this->render('user/affichProfil.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
+    }
 }
