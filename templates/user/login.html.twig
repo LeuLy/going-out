@@ -14,8 +14,10 @@
                 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-
+            <fieldset class="border p-2">
+                <legend  class="w-auto">Connexion</legend>
             <form action="{{ path('login') }}" method="post">
+
                 <div class="form-group">
 
                     <label for="username">Identifiant</label>
@@ -38,10 +40,12 @@
 
 
                 </div>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btnValid">
                     Connexion
                 </button>
+
             </form>
+            </fieldset>
         </div>
         <div class="col-xs-2 col-md-3">
         </div>
