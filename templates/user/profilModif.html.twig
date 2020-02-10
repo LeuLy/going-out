@@ -1,0 +1,93 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Modifier Profil
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-5 col-sm-3">
+            <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" class="img-thumbnail" />
+        </div>
+        <div class="col-sm-8 col-md-6">
+            <h3>
+                Mon Profil
+            </h3>
+            <form role="form">
+                <div class="form-group">
+
+                    <label for="username">
+                        Pseudo
+                    </label>
+                    <input type="email" class="form-control" id="username" />
+                </div>
+                <div class="form-group">
+
+                    <label for="firstName">
+                        Prénom
+                    </label>
+                    <input type="text" class="form-control" id="firstName" />
+                </div>
+                <div class="form-group">
+
+                    <label for="name">
+                        Nom
+                    </label>
+                    <input type="text" class="form-control" id="name" />
+                </div>
+                <div class="form-group">
+
+                    <label for="phone">
+                        Téléphone
+                    </label>
+                    <input type="tel" class="form-control" id="phone" />
+                </div>
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+                    <input type="email" class="form-control" id="email" />
+                </div>
+                <div class="form-group">
+
+                    <label for="password">
+                        Mot de passe
+                    </label>
+                    <input type="password" class="form-control" id="password" />
+                </div>
+                <div class="form-group">
+
+                    <label for="passwordConfirm">
+                        Confirmation
+                    </label>
+                    <input type="password" class="form-control" id="passwordConfirm" />
+                </div>
+                <div class="form-group">
+
+                    <label for="exampleInputFile">
+                        Ma photo
+                    </label>
+                    <input type="file" class="form-control-file" id="exampleInputFile" />
+                </div>
+
+                <label for="city">Ville de rattachement</label>
+
+                <select name="cities" id="city">
+                    <option value="">--Choisir une ville--</option>
+                    <option value="city1">city1</option>
+                    <option value="city2">city2</option>
+                    <option value="city3">city3</option>
+                </select>
+                <button type="submit" class="btn btn-primary">
+                    Enregistrer
+                </button>
+                <button type="reset" class="btn btn-primary">
+                    Annuler
+                </button>
+            </form>
+        </div>
+        <div class="col-sm-1 col-md-3">
+        </div>
+    </div>
+{% endblock %}
