@@ -21,12 +21,12 @@
             {% if app.user %}
                 <small>Connecté</small>
                 <li class="nav-item dropdown ml-md-auto">
-                    <a class="nav-link disabled" href="#">Se Déconnecter</a>
+                    <a class="nav-link" href="{{ path('logout') }}"> Se déconnecter </a>
                 </li>
             {% else %}
 
                 <li class="nav-item dropdown ml-md-auto">
-                    <a class="nav-link disabled" href="#">Se Connecter</a>
+                    <a class="nav-link" href="{{ path('login') }}"> Se connecter </a>
                 </li>
                 <small>Non Connecté</small>
             {% endif %}
