@@ -12,31 +12,30 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PlaceController extends Controller
 {
-
-    public function createEventPlace(Request $request)
-    {
-
-        $eventPlace     = new Place();
-        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
-        $eventPlaceForm->handleRequest($request);
-        $eventPlace->setCreator($this->getUser());
-
-        if ($eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($eventPlace);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('create-events');
-        }
-
-        return $this->render(
-            'events/createEvent.html.twig',
-            [
-                'eventPlaceForm' => $eventPlaceForm->createView(),
-            ]
-        );
-
-    }
+//
+//    public function createEventPlace(Request $request)
+//    {
+//
+//        $eventPlace     = new Place();
+//        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
+//        $eventPlaceForm->handleRequest($request);
+//
+//        if ($eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($eventPlace);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('create-events');
+//        }
+//
+//        return $this->render(
+//            'events/createEvent.html.twig',
+//            [
+//                'eventPlaceForm' => $eventPlaceForm->createView(),
+//            ]
+//        );
+//
+//    }
 
 }

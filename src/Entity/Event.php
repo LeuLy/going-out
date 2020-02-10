@@ -82,130 +82,77 @@ class Event
         $this->members = new ArrayCollection();
     }
 
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getLabel()
     {
         return $this->label;
     }
 
-    /**
-     * @param mixed $label
-     */
-    public function setLabel($label): void
+    public function setLabel($label): self
     {
         $this->label = $label;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDateStart()
     {
         return $this->dateStart;
     }
 
-    /**
-     * @param mixed $dateStart
-     */
-    public function setDateStart($dateStart): void
+    public function setDateStart($dateStart): self
     {
         $this->dateStart = $dateStart;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDuration()
     {
         return $this->duration;
     }
 
-    /**
-     * @param mixed $duration
-     */
-    public function setDuration($duration): void
+    public function setDuration($duration): self
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDateInscriptionEnd()
     {
         return $this->dateInscriptionEnd;
     }
 
-    /**
-     * @param mixed $dateInscriptionEnd
-     */
-    public function setDateInscriptionEnd($dateInscriptionEnd): void
+    public function setDateInscriptionEnd($dateInscriptionEnd): self
     {
         $this->dateInscriptionEnd = $dateInscriptionEnd;
     }
 
-    /**
-     * @return mixed
-     */
     public function getMaxMembers()
     {
         return $this->maxMembers;
     }
 
-    /**
-     * @param mixed $maxMembers
-     */
-    public function setMaxMembers($maxMembers): void
+    public function setMaxMembers($maxMembers): self
     {
         $this->maxMembers = $maxMembers;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDescription()
     {
         return $this->description;
     }
 
-    /**
-     * @param mixed $description
-     */
-    public function setDescription($description): void
+    public function setDescription($description): self
     {
         $this->description = $description;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCreator()
     {
         return $this->creator;
     }
 
-    /**
-     * @param mixed $creator
-     */
-    public function setCreator($creator): void
+    public function setCreator($creator): self
     {
         $this->creator = $creator;
     }
