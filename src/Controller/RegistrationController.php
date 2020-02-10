@@ -23,18 +23,19 @@ class RegistrationController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
             $user->setUsername($user->getName() .".". $user->getFirstname());
             $user->setPassword($user->getFirstname() .".". $user->getName());
             $user->setActive(true);
             $user->setEmail($user->getFirstname() .".". $user->getName() . $user->getInscriptionYear() . '@campus-eni.fr');
+
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $user->getPassword()
+//                    $form->get('plainPassword')->getData()
+                )
+            );
 
             if (
 //                  (($user->getName() == 'Laz') && ($user->getFirstname() == 'Baptiste')) ||
