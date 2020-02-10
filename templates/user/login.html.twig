@@ -9,27 +9,34 @@
         <div class="col-md-4">
         </div>
         <div class="col-md-4">
-            <form role="form">
+
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+
+            <form action="{{ path('login') }}" method="post">
                 <div class="form-group">
 
-                    <label for="exampleInputEmail1">
-                        Email address
-                    </label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" />
+                    <label for="username">Identifiant</label>
+                    <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"
+                           placeholder="Identifiant"/>
                 </div>
                 <div class="form-group">
 
                     <label for="exampleInputPassword1">
                         Password
                     </label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" />
+                    <input type="password" class="form-control" id="password" name="_password" placeholder="Password"/>
                 </div>
 
                 <div class="checkbox">
 
-                    <label>
-                        <input type="checkbox" /> Se souvenir de moi
-                    </label>
+
+                    <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                    <label for="remember_me">Keep me logged in</label>
+
+
                 </div>
                 <button type="submit" class="btn btn-primary">
                     Connexion
