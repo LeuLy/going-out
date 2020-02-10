@@ -16,4 +16,13 @@ class UserController extends Controller
             'controller_name' => 'UserController',
         ]);
     }
+    /**
+     * @Route("/login", name="login")
+     */
+    public function login()
+    {
+        return $this->render('user/login.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
+    }
 }
