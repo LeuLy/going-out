@@ -18,6 +18,15 @@
 <body>
 <div class="container-fluid">
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="page-header">
@@ -48,16 +57,16 @@
     </div>
 
 
-    {% block body %}
-        BODY PAR DEFAUT
-    {% endblock %}
+
+
 
     <div class="row">
         <div class="col-md-12">
         </div>
     </div>
 
-
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
 
 
 </div>
