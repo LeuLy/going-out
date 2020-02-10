@@ -82,94 +82,134 @@ class Event
         $this->members = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabel()
     {
         return $this->label;
     }
 
-    public function setLabel(string $label): self
+    /**
+     * @param mixed $label
+     */
+    public function setLabel($label): void
     {
         $this->label = $label;
-
-        return $this;
     }
 
-    public function getDateStart(): ?string
+    /**
+     * @return mixed
+     */
+    public function getDateStart()
     {
         return $this->dateStart;
     }
 
-    public function setDateStart(string $dateStart): self
+    /**
+     * @param mixed $dateStart
+     */
+    public function setDateStart($dateStart): void
     {
         $this->dateStart = $dateStart;
-
-        return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDuration()
     {
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $duration): self
+    /**
+     * @param mixed $duration
+     */
+    public function setDuration($duration): void
     {
         $this->duration = $duration;
-
-        return $this;
     }
 
-    public function getDateInscriptionEnd(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDateInscriptionEnd()
     {
         return $this->dateInscriptionEnd;
     }
 
-    public function setDateInscriptionEnd(\DateTimeInterface $dateInscriptionEnd): self
+    /**
+     * @param mixed $dateInscriptionEnd
+     */
+    public function setDateInscriptionEnd($dateInscriptionEnd): void
     {
         $this->dateInscriptionEnd = $dateInscriptionEnd;
-
-        return $this;
     }
 
-    public function getMaxMembers(): ?string
+    /**
+     * @return mixed
+     */
+    public function getMaxMembers()
     {
         return $this->maxMembers;
     }
 
-    public function setMaxMembers(string $maxMembers): self
+    /**
+     * @param mixed $maxMembers
+     */
+    public function setMaxMembers($maxMembers): void
     {
         $this->maxMembers = $maxMembers;
-
-        return $this;
     }
 
-    public function getDescription(): ?string
+    /**
+     * @return mixed
+     */
+    public function getDescription()
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    public function getCreator(): ?User
+    /**
+     * @return mixed
+     */
+    public function getCreator()
     {
         return $this->creator;
     }
 
-    public function setCreator(?User $creator): self
+    /**
+     * @param mixed $creator
+     */
+    public function setCreator($creator): void
     {
         $this->creator = $creator;
-
-        return $this;
     }
+
 
     /**
      * @return Collection|User[]
