@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>
+                Sortir.com <small>la plateforme qui organise vos sorties !</small>
+            </h1>
+        </div>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Mon Profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Villes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Sites</a>
+            </li>
+            {% if app.user %}
+                <small>Connecté</small>
+                <li class="nav-item dropdown ml-md-auto">
+                    <a class="nav-link disabled" href="#">Se Déconnecter</a>
+                </li>
+            {% else %}
+
+                <li class="nav-item dropdown ml-md-auto">
+                    <a class="nav-link disabled" href="#">Se Connecter</a>
+                </li>
+                <small>Non Connecté</small>
+            {% endif %}
+
+        </ul>
+    </div>
+</div>
