@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -64,6 +66,22 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="creator")
+     */
+    private $events;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="members")
+     */
+    private $eventsMember;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+        $this->eventsMember = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -195,5 +213,64 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            // set the owning side to null (unless already changed)
+            if ($event->getCreator() === $this) {
+                $event->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEventsMember(): Collection
+    {
+        return $this->eventsMember;
+    }
+
+    public function addEventsMember(Event $eventsMember): self
+    {
+        if (!$this->eventsMember->contains($eventsMember)) {
+            $this->eventsMember[] = $eventsMember;
+            $eventsMember->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventsMember(Event $eventsMember): self
+    {
+        if ($this->eventsMember->contains($eventsMember)) {
+            $this->eventsMember->removeElement($eventsMember);
+            $eventsMember->removeMember($this);
+        }
+
+        return $this;
     }
 }

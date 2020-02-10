@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,40 @@ class Event
      * @ORM\Column(type="string", length=1024)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $creator;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="eventsMember")
+     */
+    private $members;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $place;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +155,80 @@ class Event
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(User $member): self
+    {
+        if (!$this->members->contains($member)) {
+            $this->members[] = $member;
+        }
+
+        return $this;
+    }
+
+    public function removeMember(User $member): self
+    {
+        if ($this->members->contains($member)) {
+            $this->members->removeElement($member);
+        }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
