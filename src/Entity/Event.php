@@ -152,7 +152,7 @@ class Event
         return $this->creator;
     }
 
-    public function setCreator($creator): self
+    public function setCreator($creator)
     {
         $this->creator = $creator;
     }

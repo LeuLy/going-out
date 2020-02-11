@@ -1,5 +1,5 @@
-{#{% form_theme eventForm 'bootstrap_4_layout.html.twig' %}#}
-{% form_theme eventPlaceForm 'bootstrap_4_layout.html.twig' %}
+{% form_theme eventForm 'bootstrap_4_layout.html.twig' %}
+{#{% form_theme eventPlaceForm 'bootstrap_4_layout.html.twig' %}#}
 {% extends 'layout.html.twig' %}
 
 {% block title %}New Event{% endblock %}
@@ -18,19 +18,11 @@
             {{ form_row(eventForm.dateInscriptionEnd) }}
             {{ form_row(eventForm.maxMembers) }}
             {{ form_row(eventForm.description) }}
+            {{ form_row(eventForm.place) }}
 
-
-            {{ form_end(eventForm) }}
-
-
-            {{ form_start(eventPlaceForm) }}
-            {{ form_row(eventPlaceForm.label) }}
-            {{ form_row(eventPlaceForm.address) }}
-            {{ form_row(eventPlaceForm.latitude) }}
-            {{ form_row(eventPlaceForm.longitude) }}
 
             <button class="btn">Register</button>
-            {{ form_end(eventPlaceForm) }}
+            {{ form_end(eventForm) }}
         </div>
         <div class="col-xs-2 col-md-3">
         </div>
