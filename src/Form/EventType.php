@@ -35,7 +35,8 @@ class EventType extends AbstractType
 //                datetime
                 [
                     'label' => 'Date de début',
-                    'widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    'date_widget' => 'single_text',
                 ]
             )
             ->add(
@@ -51,7 +52,8 @@ class EventType extends AbstractType
                 DateTimeType::class,
                 [
                     'label' => 'Date de fin d \'inscription',
-                    'widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    'date_widget' => 'single_text',
                 ]
             )
             ->add(

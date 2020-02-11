@@ -45,7 +45,26 @@ DQL;
     }
 
 
+    public function findEventByDescription($var, $page = 0, $limit = 100)
+    {
+        $entityManager = $this->getEntityManager();
+        $dql           = <<<DQL
+ SELECT e
+FROM APP\ENTITY\Event e
+WHERE e.label       LIKE :var
+or e.description    LIKE :var
+DQL;
 
+        $query     = $entityManager
+            ->createQuery($dql)
+            ->setParameter(':var', "%".$var."%")
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
+        $paginator = new Paginator($query, true);
+
+        return $paginator;
+
+    }
 
 //
 //    public function findEventBySite($site, $page = 0, $limit = 10)
