@@ -1,5 +1,4 @@
 {% form_theme eventForm 'bootstrap_4_layout.html.twig' %}
-{#{% form_theme eventPlaceForm 'bootstrap_4_layout.html.twig' %}#}
 {% extends 'layout.html.twig' %}
 
 {% block title %}New Event{% endblock %}
@@ -19,6 +18,7 @@
             {{ form_row(eventForm.maxMembers) }}
             {{ form_row(eventForm.description) }}
             {{ form_row(eventForm.place) }}
+            {% include 'includes/modalFormPlace.html.twig' %}
 
 
             <button class="btn">Register</button>

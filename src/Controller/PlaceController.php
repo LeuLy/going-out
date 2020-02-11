@@ -29,7 +29,7 @@ class PlaceController extends Controller
             $entityManager->persist($eventPlace);
             $entityManager->flush();
 
-            return $this->redirectToRoute('create-events');
+        //   return $this->redirectToRoute('create-events');
         }
 
         return $this->render(
