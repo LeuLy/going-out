@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Place;
 use App\Form\EventType;
 use App\Form\PlaceType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,7 +58,25 @@ class EventsController extends Controller
 
     }
 
+    /**
+     * @Route("/event/{page}", name="event", requirements={"page": "\d+"})
+     */
+    public function home(Request $request, EntityManagerInterface $entityManager, $page = 0)
+    {
+        $limit = 5;
 
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $site            = $request->query->get("site");
+
+        $event = $eventRepository->findEventBySite($site, $page, $limit);
+
+        $nbTotalPictures = count($event);
+
+        $nbPage = ceil($nbTotalPictures / $limit);
+
+
+        return $this->render('main/home.html.twig', compact('event', 'page', 'nbPage', 'site'));
+    }
 
 
 
