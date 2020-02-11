@@ -66,7 +66,7 @@ class Event
     private $site;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Place", inversedBy="events", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $place;
@@ -92,7 +92,7 @@ class Event
         return $this->label;
     }
 
-    public function setLabel($label): self
+    public function setLabel($label)
     {
         $this->label = $label;
     }
@@ -102,7 +102,7 @@ class Event
         return $this->dateStart;
     }
 
-    public function setDateStart($dateStart): self
+    public function setDateStart($dateStart)
     {
         $this->dateStart = $dateStart;
     }
@@ -112,7 +112,7 @@ class Event
         return $this->duration;
     }
 
-    public function setDuration($duration): self
+    public function setDuration($duration)
     {
         $this->duration = $duration;
     }
@@ -122,7 +122,7 @@ class Event
         return $this->dateInscriptionEnd;
     }
 
-    public function setDateInscriptionEnd($dateInscriptionEnd): self
+    public function setDateInscriptionEnd($dateInscriptionEnd)
     {
         $this->dateInscriptionEnd = $dateInscriptionEnd;
     }
@@ -132,7 +132,7 @@ class Event
         return $this->maxMembers;
     }
 
-    public function setMaxMembers($maxMembers): self
+    public function setMaxMembers($maxMembers)
     {
         $this->maxMembers = $maxMembers;
     }
@@ -142,7 +142,7 @@ class Event
         return $this->description;
     }
 
-    public function setDescription($description): self
+    public function setDescription($description)
     {
         $this->description = $description;
     }
@@ -166,7 +166,7 @@ class Event
         return $this->members;
     }
 
-    public function addMember(User $member): self
+    public function addMember(User $member)
     {
         if (!$this->members->contains($member)) {
             $this->members[] = $member;
@@ -175,7 +175,7 @@ class Event
         return $this;
     }
 
-    public function removeMember(User $member): self
+    public function removeMember(User $member)
     {
         if ($this->members->contains($member)) {
             $this->members->removeElement($member);
@@ -189,7 +189,7 @@ class Event
         return $this->site;
     }
 
-    public function setSite(?Site $site): self
+    public function setSite(?Site $site)
     {
         $this->site = $site;
 
@@ -201,7 +201,7 @@ class Event
         return $this->place;
     }
 
-    public function setPlace(?Place $place): self
+    public function setPlace(?Place $place)
     {
         $this->place = $place;
 
@@ -213,7 +213,7 @@ class Event
         return $this->status;
     }
 
-    public function setStatus(?Status $status): self
+    public function setStatus(?Status $status)
     {
         $this->status = $status;
 

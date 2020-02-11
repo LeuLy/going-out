@@ -26,32 +26,27 @@ class EventsController extends Controller
     }
 
 
+
+
     /**
      * @Route("/create-events", name="create-events")
      */
     public function createEvent(Request $request)
     {
 
-        $eventPlace     = new Place();
-        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
         $event     = new Event();
         $eventForm = $this->createForm(EventType::class, $event);
-        $eventPlaceForm->handleRequest($request);
+        $eventForm->handleRequest($request);
         $event->setCreator($this->getUser());
-
-        if ($eventForm->isSubmitted() & $eventForm->isValid()
-                & $eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
+        
+        if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($eventPlace);
-            $entityManager->flush();
             $entityManager->persist($event);
             $entityManager->flush();
 
             return $this->redirectToRoute('create-events');
         }
-
-
 
         return $this->render(
             'events/createEvent.html.twig',
@@ -61,6 +56,103 @@ class EventsController extends Controller
         );
 
     }
+
+
+
+
+
+
+//    /**
+//     * @Route("/create-events", name="create-events")
+//     */
+//    public function createEvent(Request $request)
+//    {
+//
+//        $eventPlace     = new Place();
+//        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
+//        $event     = new Event();
+//        $eventForm = $this->createForm(EventType::class, $event);
+//        $eventPlaceForm->handleRequest($request);
+//        $eventForm->handleRequest($request);
+//        $event->setCreator($this->getUser());
+//
+//        if ($eventForm->isSubmitted() & $eventForm->isValid()
+//            & $eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($eventPlace);
+////            $entityManager->flush();
+//            $entityManager->persist($event);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('create-events');
+//        }
+//
+//
+//
+//        return $this->render(
+//            'events/createEvent.html.twig',
+//            [
+//                'eventForm' => $eventForm->createView(),
+//            ]
+//        );
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    /**
+//     * @Route("/create-events", name="create-events")
+//     */
+//    public function createEvent(Request $request)
+//    {
+//
+//        $eventPlace     = new Place();
+//        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
+//        $event     = new Event();
+//        $eventForm = $this->createForm(EventType::class, $event);
+//        $eventPlaceForm->handleRequest($request);
+//        $event->setCreator($this->getUser());
+//
+//        if ($eventForm->isSubmitted() & $eventForm->isValid()
+//                & $eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($eventPlace);
+//            $entityManager->flush();
+//            $entityManager->persist($event);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('create-events');
+//        }
+//
+//
+//
+//        return $this->render(
+//            'events/createEvent.html.twig',
+//            [
+//                'eventForm' => $eventForm->createView(),
+//            ]
+//        );
+//
+//    }
 
 }
 

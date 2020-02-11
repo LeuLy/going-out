@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Event;
 use App\Entity\Site;
+use App\Entity\Status;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -68,6 +69,15 @@ class EventType extends AbstractType
                 [
                     'label' => 'Site',
                     'class' => Site::class,
+                    'choice_label' => 'label',
+                ]
+            )
+            ->add(
+                'status',
+                EntityType::class,
+                [
+                    'label' => 'Status',
+                    'class' => Status::class,
                     'choice_label' => 'label',
                 ]
             )
