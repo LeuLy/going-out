@@ -94,7 +94,9 @@ class EventType extends AbstractType
                     [
                             'label' => 'Lieu',
                             'class' => Place::class,
-                            'choice_label' => 'label'
+                            'choice_label' => 'label',
+                            'placeholder' => 'Choisissez un lieu ou ajoutez un nouveau lieu',
+                            'required' => false,
                     ]
             )
             ->add (
@@ -102,6 +104,7 @@ class EventType extends AbstractType
                     PlaceType::class,
                     [
                             'mapped' => false,
+                            'required' => false,
                     ]
             )
             ->add(

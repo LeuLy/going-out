@@ -49,7 +49,7 @@ class EventsController extends Controller
 
 
 
-            if (!empty($formData['event']['placeForm'])) {
+            if (empty($formData['event']['place'])) {
 
                 $place = new Place();
 

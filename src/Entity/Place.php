@@ -58,7 +58,7 @@ class Place
         return $this->label;
     }
 
-    public function setLabel(string $label): self
+    public function setLabel(string $label)
     {
         $this->label = $label;
 
@@ -70,7 +70,7 @@ class Place
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(string $address)
     {
         $this->address = $address;
 
@@ -82,7 +82,7 @@ class Place
         return $this->latitude;
     }
 
-    public function setLatitude(float $latitude): self
+    public function setLatitude(float $latitude)
     {
         $this->latitude = $latitude;
 
@@ -94,7 +94,7 @@ class Place
         return $this->longitude;
     }
 
-    public function setLongitude(float $longitude): self
+    public function setLongitude(float $longitude)
     {
         $this->longitude = $longitude;
 
@@ -109,7 +109,7 @@ class Place
         return $this->events;
     }
 
-    public function addEvent(Event $event): self
+    public function addEvent(Event $event)
     {
         if (!$this->events->contains($event)) {
             $this->events[] = $event;
@@ -119,7 +119,7 @@ class Place
         return $this;
     }
 
-    public function removeEvent(Event $event): self
+    public function removeEvent(Event $event)
     {
         if ($this->events->contains($event)) {
             $this->events->removeElement($event);
