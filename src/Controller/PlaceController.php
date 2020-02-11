@@ -12,14 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PlaceController extends Controller
 {
-
+    /**
+     * @Route("/create-events-place", name="create-events-place")
+     */
     public function createEventPlace(Request $request)
     {
 
         $eventPlace     = new Place();
         $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
         $eventPlaceForm->handleRequest($request);
-        $eventPlace->setCreator($this->getUser());
 
         if ($eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
 

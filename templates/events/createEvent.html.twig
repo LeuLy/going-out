@@ -10,17 +10,17 @@
         <div class="col-xs-8 col-md-6">
             <h1>Register</h1>
 
-{#            {{ form_start(eventForm) }}#}
+            {{ form_start(eventForm) }}
 
-{#            {{ form_row(eventForm.label) }}#}
-{#            {{ form_row(eventForm.dateStart) }}#}
-{#            {{ form_row(eventForm.duration) }}#}
-{#            {{ form_row(eventForm.dateInscriptionEnd) }}#}
-{#            {{ form_row(eventForm.maxMembers) }}#}
-{#            {{ form_row(eventForm.description) }}#}
+            {{ form_row(eventForm.label) }}
+            {{ form_row(eventForm.dateStart) }}
+            {{ form_row(eventForm.duration) }}
+            {{ form_row(eventForm.dateInscriptionEnd) }}
+            {{ form_row(eventForm.maxMembers) }}
+            {{ form_row(eventForm.description) }}
 
 
-{#            {{ form_end(eventForm) }}#}
+            {{ form_end(eventForm) }}
 
 
             {{ form_start(eventPlaceForm) }}
@@ -28,6 +28,7 @@
             {{ form_row(eventPlaceForm.address) }}
             {{ form_row(eventPlaceForm.latitude) }}
             {{ form_row(eventPlaceForm.longitude) }}
+
             <button class="btn">Register</button>
             {{ form_end(eventPlaceForm) }}
         </div>
