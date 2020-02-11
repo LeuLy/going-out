@@ -92,7 +92,7 @@ class EventType extends AbstractType
                     [
                             'label' => 'Lieu',
                             'class' => Place::class,
-                            'choice_label' => 'label',
+                            'choice_label' => 'label'
                     ]
             )
             ->add (

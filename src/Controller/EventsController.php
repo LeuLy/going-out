@@ -44,6 +44,52 @@ class EventsController extends Controller
         if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
+            $formData = $request->request->all();
+            dump($formData);
+
+
+
+            if (!empty($formData['event']['placeForm'])) {
+
+                $place = new Place();
+
+                $placeData = $formData['event']['placeForm'];
+                dump($formData);
+                dump($placeData);
+
+                $place->setLabel($formData['event']['placeForm']['label']);
+                $place->setAddress($formData['event']['placeForm']['address']);
+                $place->setLatitude($formData['event']['placeForm']['latitude']);
+                $place->setLongitude($formData['event']['placeForm']['longitude']);
+                dump($place);
+                $entityManager->persist($place);
+                $entityManager->flush();
+                $event->setPlace($place);
+            }
+
+//            $testPlace = null;
+//            $testPlace = $formData['event']['place'];
+//            dump($testPlace);
+
+//            if (empty($formData['event']['place'])) {
+//
+//                $place = new Place();
+//
+//                $placeData = $formData['event']['placeForm'];
+//                dump($formData);
+//                dump($placeData);
+//
+//                $place->setLabel($formData['event']['placeForm']['label']);
+//                $place->setAddress($formData['event']['placeForm']['address']);
+//                $place->setLatitude($formData['event']['placeForm']['latitude']);
+//                $place->setLongitude($formData['event']['placeForm']['longitude']);
+//                dump($place);
+//                $entityManager->persist($place);
+//                $entityManager->flush();
+//                $event->setPlace($place);
+//            }
+
+
             $entityManager->persist($event);
             $entityManager->flush();
 
