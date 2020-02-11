@@ -1,38 +1,41 @@
 #body{
     background-color: #fffdfb;
     min-height:100vh;
-    color: #042f4b;
+    color: #235784;
 }
 #header{
-    background-color: #0881a3;
+    background-color: #FFFFFF;
     padding: 1em;
     margin-bottom: 2em;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+/*    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);*/
 }
 h1{
-    color: #ffffff;
+    color: #235784;
+    font-family: 'Abril Fatface', cursive;
 }
 /* Couleur des titres affichés dans la barre */
 .nav-item .nav-link:active, .nav-item .nav-link:focus{
-    color: #0881a3;
-    background-color: #fde9df;
+    color: white;
+    background-color: #f7aa00;
 }
 .nav-link, small{
-    color: #fffdfb;
+    color: #235784;
 }
 .nav-link:hover{
-    color: #fde9df;
+    color: #235784;
+    display: flex;
+    text-align: right;
 }
 .btnValid{
     border-radius: 4px;
     padding: 0.5em;
     font-size: 1rem; /* si le texte devient piti, mettre la valeur 1.6rem */
     color: white; /* blanc sur rouge foncé */
-    background: #0881a3;
+    background: #235784;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
 }
 .btnValid:hover{
-    color: #0881a3;
+    color: #235784;
     background: #fffdfb;
 }
 form{
@@ -40,5 +43,30 @@ form{
 }
 fieldset{
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fde9df;
+    background-color: #fffdfb;
+}
+nav{
+    color: #235784;
+}
+nav a{
+    position: relative;
+}
+nav a:before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #235784;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+nav a:hover:before{
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
 }

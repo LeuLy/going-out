@@ -1,36 +1,45 @@
-<div class="row">
-    <div class="col-md-12" id="header">
-        <div class="page-header">
+
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="d-flex flex-grow-1">
+        <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+        <a class="navbar-brand d-none d-lg-inline-block" href="#">
             <h1>
-                Sortir.com <small>la plateforme qui organise vos sorties !</small>
-            </h1>
+                Sortir.com
+            </h1><small>la plateforme qui organise vos sorties !</small>
+        </a>
+        <a class="navbar-brand-two mx-auto d-lg-none d-inline-block" href="#">
+            <img src="//placehold.it/40?text=LOGO" alt="logo">
+        </a>
+        <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
-        <ul class="nav nav-pills">
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar">
+        <ul class="navbar-nav ml-auto flex-nowrap">
             <li class="nav-item">
-                <a class="nav-link"  href="{{ path('home') }}">Accueil</a>
+                <a class="nav-link m-2 menu-item nav-active" href="{{ path('home') }}">Accueil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Mon Profil</a>
+                <a href="#" class="nav-link m-2 menu-item">Mon Profil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Villes</a>
+                <a href="#" class="nav-link m-2 menu-item">Villes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Sites</a>
+                <a href="#" class="nav-link m-2 menu-item">Sites</a>
             </li>
             {% if app.user %}
-                <small>Connecté</small>
-                <li class="nav-item dropdown ml-md-auto">
-                    <a class="nav-link" href="{{ path('logout') }}"> Se déconnecter </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link m-2 menu-item" href="{{ path('logout') }}">Se déconnecter</a>
+            </li>
             {% else %}
-
-                <li class="nav-item dropdown ml-md-auto">
-                    <a class="nav-link" href="{{ path('login') }}"> Se connecter </a>
+                <li class="nav-item">
+                    <a class="nav-link m-2 menu-item" href="{{ path('login') }}">Se connecter</a>
                 </li>
-                <small>Non Connecté</small>
             {% endif %}
-
         </ul>
     </div>
-</div>
+</nav>
