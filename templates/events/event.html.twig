@@ -16,32 +16,42 @@
                     <button class="btn btn-outline-info" type="submit">Rechercher</button>
                 </div>
 
-                {% for site in event %}
+                {% for event in event %}
 
-                    <p>{{ site.label }}</p>
+                    <p>
+                        Site label: {{ event.label }} <br>
+                        Site id: {{ event.id }} <br>
+                        Site description: {{ event.description }} <br>
+                        Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s')}} <br>
+                        Site dateStart: {{ event.dateStart |date('d-m-Y H:i:s')}} <br>
+                        Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s')}} <br>
+                        Site duration: {{ event.duration |date('H:i:s')}} <br>
+                        Site maxMembers: {{ event.maxMembers }} <br>
+
+                    </p>
 
                 {% endfor %}
 
 
             </form>
 
-            {% if nbPage > 0 %}
-                {% for i in range(1, nbPage) %}
-                    {% if page == i - 1 %}
-                        <b> <a href="{{ path('event',{'page': i - 1}) }}?label={{ site }}"
-                               style="color:#242326;">{{ i }}</a></b>
-                    {% else %}
-                        <a href="{{ path('event',{'page': i - 1}) }}?label={{ site }}"
-                           style="color:#242326;">{{ i }}</a>
+{#            {% if nbPage > 0 %}#}
+{#                {% for i in range(1, nbPage) %}#}
+{#                    {% if page == i - 1 %}#}
+{#                        <b> <a href="{{ path('event',{'page': i - 1}) }}?label={{ site }}"#}
+{#                               style="color:#242326;">{{ i }}</a></b>#}
+{#                    {% else %}#}
+{#                        <a href="{{ path('event',{'page': i - 1}) }}?label={{ site }}"#}
+{#                           style="color:#242326;">{{ i }}</a>#}
 
-                    {% endif %}
-                    {% if not loop.last %}
-                        &nbsp;-&nbsp;
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                <h4>Aucun resultat pour cette recherche.</h4>
-            {% endif %}
+{#                    {% endif %}#}
+{#                    {% if not loop.last %}#}
+{#                        &nbsp;-&nbsp;#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#            {% else %}#}
+{#                <h4>Aucun resultat pour cette recherche.</h4>#}
+{#            {% endif %}#}
         </div>
         <div class="col-xs-2 col-md-3">
         </div>

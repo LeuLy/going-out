@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Place;
+use App\Entity\Site;
 use App\Form\EventType;
 use App\Form\PlaceType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -61,13 +62,16 @@ class EventsController extends Controller
     /**
      * @Route("/event/{page}", name="event", requirements={"page": "\d+"})
      */
-    public function home(Request $request, EntityManagerInterface $entityManager, $page = 0)
+    public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
     {
         $limit = 5;
+        $siteRepository = $entityManager->getRepository(Site::class);
+
+
 
         $eventRepository = $entityManager->getRepository(Event::class);
-        $site            = $request->query->get("label");
-
+        $siteLabel            = $request->query->get("label");
+        $site = $siteRepository->findByLabel($siteLabel);
         $event = $eventRepository->findEventBySite($site, $page, $limit);
 
         $nbTotalPictures = count($event);
