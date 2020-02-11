@@ -38,7 +38,7 @@ class EventsController extends Controller
         $eventForm = $this->createForm(EventType::class, $event);
         $eventForm->handleRequest($request);
         $event->setCreator($this->getUser());
-        
+
         if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();

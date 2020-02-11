@@ -34,6 +34,7 @@ class EventType extends AbstractType
 //                datetime
                 [
                     'label' => 'Date de début',
+                    'widget' => 'single_text',
                 ]
             )
             ->add(
@@ -41,6 +42,7 @@ class EventType extends AbstractType
                 TimeType::class,
                 [
                     'label' => 'Durée de la sortie',
+                    'widget' => 'single_text',
                 ]
             )
             ->add(
@@ -48,6 +50,7 @@ class EventType extends AbstractType
                 DateTimeType::class,
                 [
                     'label' => 'Date de fin d \'inscription',
+                    'widget' => 'single_text',
                 ]
             )
             ->add(
