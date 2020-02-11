@@ -1,0 +1,49 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Liste des events{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-2 col-md-3"></div>
+        <div class="col-xs-8 col-md-6">
+            <h1>Register</h1>
+            <form role="search" action="{{ path('event') }}">
+                <div>
+                    <input type="search" class="form-control" id="site-search" name="label"
+                           placeholder="Votre recherche ..."
+                           aria-label="Search through site content">
+                    <br>
+                    <button class="btn btn-outline-info" type="submit">Rechercher</button>
+                </div>
+
+                {% for site in event %}
+
+                    <p>{{ site.label }}</p>
+
+                {% endfor %}
+
+
+            </form>
+
+            {% if nbPage > 0 %}
+                {% for i in range(1, nbPage) %}
+                    {% if page == i - 1 %}
+                        <b> <a href="{{ path('event',{'page': i - 1}) }}?label={{ site }}"
+                               style="color:#242326;">{{ i }}</a></b>
+                    {% else %}
+                        <a href="{{ path('event',{'page': i - 1}) }}?label={{ site }}"
+                           style="color:#242326;">{{ i }}</a>
+
+                    {% endif %}
+                    {% if not loop.last %}
+                        &nbsp;-&nbsp;
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <h4>Aucun resultat pour cette recherche.</h4>
+            {% endif %}
+        </div>
+        <div class="col-xs-2 col-md-3">
+        </div>
+    </div>
+{% endblock %}

@@ -28,12 +28,12 @@ class EventRepository extends ServiceEntityRepository
         $dql           = <<<DQL
 SELECT i
 FROM APP\ENTITY\Site i
-WHERE i.site = :site
+WHERE i.label = :label
 DQL;
 
         $query     = $entityManager
             ->createQuery($dql)
-            ->setParameter(':site', $site)
+            ->setParameter(':label', $site)
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
         $paginator = new Paginator($query, true);

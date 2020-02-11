@@ -66,7 +66,7 @@ class EventsController extends Controller
         $limit = 5;
 
         $eventRepository = $entityManager->getRepository(Event::class);
-        $site            = $request->query->get("site");
+        $site            = $request->query->get("label");
 
         $event = $eventRepository->findEventBySite($site, $page, $limit);
 
@@ -75,7 +75,7 @@ class EventsController extends Controller
         $nbPage = ceil($nbTotalPictures / $limit);
 
 
-        return $this->render('main/home.html.twig', compact('event', 'page', 'nbPage', 'site'));
+        return $this->render('events/event.html.twig', compact('event', 'page', 'nbPage', 'site'));
     }
 
 
