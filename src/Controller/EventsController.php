@@ -105,28 +105,35 @@ class EventsController extends Controller
 
     }
 
+
     /**
-     * @Route("/event/{page}", name="event", requirements={"page": "\d+"})
+     * @Route("/event/{page}", name="listEvent", requirements={"page": "\d+"})
      */
     public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
     {
-        $limit = 5;
+        $limit          = 1;
         $siteRepository = $entityManager->getRepository(Site::class);
 
 
-
         $eventRepository = $entityManager->getRepository(Event::class);
-        $siteLabel            = $request->query->get("label");
-        $site = $siteRepository->findByLabel($siteLabel);
-        $event = $eventRepository->findEventBySite($site, $page, $limit);
+
+//        $var                = $request->query->get("var");
+//        $eventByDescription = $eventRepository->findEventByDescription($var, $page, $limit);
+
+
+
+        $siteLabel = $request->query->get("label");
+        $site      = $siteRepository->findByLabel($siteLabel);
+        $event     = $eventRepository->findEventBySite($site, $page, $limit);
 
         $nbTotalPictures = count($event);
 
         $nbPage = ceil($nbTotalPictures / $limit);
 
 
-        return $this->render('events/event.html.twig', compact('event', 'page', 'nbPage', 'site'));
+        return $this->render('events/event.html.twig', compact('event', 'page', 'nbPage', 'site', 'siteLabel'));
     }
+
 
 
 
