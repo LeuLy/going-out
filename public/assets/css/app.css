@@ -1,0 +1,44 @@
+#body{
+    background-color: #fffdfb;
+    min-height:100vh;
+    color: #042f4b;
+}
+#header{
+    background-color: #0881a3;
+    padding: 1em;
+    margin-bottom: 2em;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+h1{
+    color: #ffffff;
+}
+/* Couleur des titres affichés dans la barre */
+.nav-item .nav-link:active, .nav-item .nav-link:focus{
+    color: #0881a3;
+    background-color: #fde9df;
+}
+.nav-link, small{
+    color: #fffdfb;
+}
+.nav-link:hover{
+    color: #fde9df;
+}
+.btnValid{
+    border-radius: 4px;
+    padding: 0.5em;
+    font-size: 1rem; /* si le texte devient piti, mettre la valeur 1.6rem */
+    color: white; /* blanc sur rouge foncé */
+    background: #0881a3;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+}
+.btnValid:hover{
+    color: #0881a3;
+    background: #fffdfb;
+}
+form{
+    padding: 2em;
+}
+fieldset{
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fde9df;
+}

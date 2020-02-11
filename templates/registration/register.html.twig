@@ -9,6 +9,9 @@
 <div class="col-xs-8 col-md-6">
     <h1>Register</h1>
 
+    <fieldset class="border p-2">
+        <legend  class="w-auto">Inscription</legend>
+
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.name) }}
         {{ form_row(registrationForm.firstname) }}
@@ -16,7 +19,7 @@
         {{ form_row(registrationForm.phone) }}
         {{ form_row(registrationForm.agreeTerms) }}
 
-        <button class="btn">Register</button>
+        <button class="btnValid">Register</button>
     {{ form_end(registrationForm) }}
 </div>
     <div class="col-xs-2 col-md-3">
