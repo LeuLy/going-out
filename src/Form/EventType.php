@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Place;
 use App\Entity\Site;
 use App\Entity\Status;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -86,8 +87,20 @@ class EventType extends AbstractType
                 ]
             )
             ->add (
-                'place',
-                PlaceType::class
+                    'place',
+                    EntityType::class,
+                    [
+                            'label' => 'Lieu',
+                            'class' => Place::class,
+                            'choice_label' => 'label',
+                    ]
+            )
+            ->add (
+                    'placeForm',
+                    PlaceType::class,
+                    [
+                            'mapped' => false,
+                    ]
             )
             ->add(
                     'save',

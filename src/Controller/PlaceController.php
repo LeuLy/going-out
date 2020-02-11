@@ -33,7 +33,7 @@ class PlaceController extends Controller
         }
 
         return $this->render(
-            'events/createEvent.html.twig',
+                'events/createEvent.html.twig',
             [
                 'eventPlaceForm' => $eventPlaceForm->createView(),
             ]
