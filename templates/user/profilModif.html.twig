@@ -7,7 +7,7 @@
 {% block body %}
     <div class="row">
         <div class="col-xs-5 col-sm-3">
-            <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" class="img-thumbnail" />
+            <img alt="Bootstrap Image Preview" src="{{ asset('img/icon_HW.png') }}" class="img-thumbnail" />
         </div>
         <div class="col-sm-8 col-md-6"  id="form_format">
 
@@ -65,27 +65,37 @@
                     <input type="password" class="form-control" id="passwordConfirm" />
                 </div>
                 <div class="form-group">
-
-                    <label for="exampleInputFile">
-                        Ma photo
-                    </label>
-                    <input type="file" class="form-control-file" id="exampleInputFile" />
+                    <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Sélectionner une photo</label>
+                </div>
                 </div>
 
                 <label for="city">Ville de rattachement</label>
 
-                <select name="cities" id="city">
+                <select class="custom-select mr-sm-2" name="cities" id="city">
                     <option value="">--Choisir une ville--</option>
                     <option value="city1">city1</option>
                     <option value="city2">city2</option>
                     <option value="city3">city3</option>
                 </select>
-                <button type="submit" class="btnValid">
-                    Enregistrer
-                </button>
-                <button type="reset" class="btnValid">
-                    Annuler
-                </button>
+                <div class="row d-flex justify-content-around">
+
+
+                        <button type="submit" class="btnValid">
+                            Enregistrer
+                        </button>
+
+
+                        <button type="reset" class="btnValid">
+                            Annuler
+                        </button>
+
+
+
+
+                </div>
+
             </form>
 
         </div>
