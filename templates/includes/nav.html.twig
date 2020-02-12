@@ -1,11 +1,16 @@
+{% block javascripts %}
+    <script type="text/javascript">
 
+
+    </script>
+{% endblock %}
 
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="d-flex flex-grow-1">
         <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
         <a class="navbar-brand d-none d-lg-inline-block" href="{{ path('home') }}">
             <img id="logo" src="{{ asset('img/logo_HW.png') }}" alt="logo">
-            <small>la plateforme qui organise vos sorties !</small>
+            <small id="catch">la plateforme qui organise vos sorties !</small>
         </a>
         <a class="navbar-brand-two mx-auto d-lg-none d-inline-block" href="#">
             <img src="{{ asset('img/logo_HW.png') }}" alt="logo">
@@ -19,31 +24,47 @@
     <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar">
         <ul class="navbar-nav ml-auto flex-nowrap">
             <li class="nav-item">
-                <a class="nav-link m-2 menu-item nav-active" href="{{ path('home') }}">Accueil</a>
+                <a class="nav-link m-2 menu-item" href="{{ path('home') }}">
+                    <span class="text_nav">Accueil</span>
+                </a>
             </li>
             {% if app.user %}
             <li class="nav-item">
-                <a class="nav-link m-2 menu-item" href="{{ path('profilModif') }}">Mon Profil</a>
+                <div >
+                    <a class="nav-link m-2 menu-item" href="{{ path('profilModif') }}">
+                        <span class="text_nav">Mon Profil</span>
+                    </a>
+                </div>
             </li>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
-                <a href="#" class="nav-link m-2 menu-item">Villes</a>
+                <a href="#" class="nav-link m-2 menu-item">
+                    <span class="text_nav">Villes</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link m-2 menu-item">Sites</a>
+                <a href="#" class="nav-link m-2 menu-item">
+                    <span class="text_nav">Sites</span>
+                </a>
             </li>
                 <li class="nav-item">
-                    <a class="nav-link m-2 menu-item" href="{{ path('register') }}">Inscription</a>
+                    <a class="nav-link m-2 menu-item" href="{{ path('register') }}">
+                        <span class="text_nav">Inscription</span>
+                    </a>
                 </li>
             {% endif %}
             {% if app.user %}
             <li class="nav-item">
-                <a class="nav-link m-2 menu-item" href="{{ path('logout') }}">Se déconnecter</a>
+                <a class="nav-link m-2 menu-item" href="{{ path('logout') }}">
+                    <span class="text_nav">Se déconnecter</span>
+                </a>
             </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link m-2 menu-item" href="{{ path('login') }}">Se connecter</a>
+                    <a class="nav-link m-2 menu-item" href="{{ path('login') }}">
+                        <span class="text_nav">Se connecter</span>
+                    </a>
                 </li>
             {% endif %}
         </ul>

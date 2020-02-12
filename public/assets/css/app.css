@@ -13,20 +13,25 @@ h1{
     color: #235784;
 }
 /* Navigation */
-.nav-item .nav-link:active, .nav-item .nav-link:focus{
+.nav-link:active .text_nav{
     color: white;
+}
+.nav-link:active{
     background-color: #f7aa00;
 }
 nav, small{
     color: #235784;
     margin-bottom: 2em;
 }
-.nav-item{
-    color: #235784;
-}
+
 .nav-item a{
     position: relative;
+    font-size: x-large;
 }
+.text_nav{
+    color: #235784;
+}
+
 .nav-item a:before{
     content: "";
     position: absolute;
@@ -34,7 +39,7 @@ nav, small{
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #235784;
+    background-color: #f7aa00;
     visibility: hidden;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
@@ -45,6 +50,9 @@ nav, small{
     visibility: visible;
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
+}
+#catch{
+    font-weight: bold;
 }
 
 /* Boutons */
@@ -73,14 +81,17 @@ form{
     padding: 2em;
 }
 #form_format{
-    background-color: rgba(35,87,132,0.5);
+    background-color: rgba(35,87,132,0.3);
     margin-bottom: 2em;
+    color: #FFFFFF;
 }
 #form_format h3{
-    background-color: rgba(35,87,132,0.2);
+/*    background-color: rgba(35,87,132,0.2);*/
     text-transform: uppercase;
     text-align: center;
     color: #FFFFFF;
+    font-family: 'Abel', sans-serif;
+    margin-top: 1em;
 }
 #form_format .error{
     color: #FFFFFF;
@@ -99,15 +110,22 @@ form{
 @media only screen and (min-width: 992px){
     #login{
         min-height:100vh;
-        background-image: url(../../img/welcome.jpg);
+        background-image: url(../../img/typo_welcome.png);
         background-repeat: no-repeat;
-        background-position: center top;
+        background-position: center bottom;
         background-attachment: fixed;
-        background-size: cover;
+        background-size: contain;
     }
 }
-@media only screen and (max-width: 600px){
-
+@media only screen and (max-width: 992px){
+    #login{
+        min-height:100vh;
+        background-image: url(../../img/typo_mob.png);
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        background-attachment: fixed;
+        background-size: contain;
+    }
 }
 
 /* Image accueil*/
@@ -138,10 +156,12 @@ form{
 .img_hov:hover .overlay {
     opacity: 0.7;
 }
-.img_hov:hover .city_text {
+.img_hov:hover .city_text a{
     opacity: 1;
+    text-decoration: none;
 }
-.city_text {
+.city_text a{
+    text-decoration: none;
     color: white;
     font-size: x-large;
     font-weight: bold;
@@ -154,6 +174,7 @@ form{
     transform: translate(-50%, -50%);
     text-align: center;
 }
+
 @media only screen and (min-width: 992px) {
     #img_decal {
         margin-left: 5em;
