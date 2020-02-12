@@ -3,20 +3,23 @@
 {% block title %}
     Login
 {% endblock %}
-
-{% block body %}
+{% block test %}
     <div id="login">
+    {{ parent() }}
+    </div>
+{% endblock %}
+{% block body %}
+
     <div class="row">
         <div class="col-xs-2 col-md-3">
         </div>
-        <div class="col-xs-8 col-md-6" id="test">
+        <div class="col-xs-8 col-md-6" id="form_login">
 
             {% if error %}
                 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-            <fieldset class="border p-2">
-                <legend  class="w-auto">Connexion</legend>
+            <h3>Connexion</h3>
             <form action="{{ path('login') }}" method="post">
 
                 <div class="form-group">
@@ -46,10 +49,10 @@
                 </button>
 
             </form>
-            </fieldset>
+
         </div>
         <div class="col-xs-2 col-md-3">
         </div>
     </div>
-    </div>
+
 {% endblock %}

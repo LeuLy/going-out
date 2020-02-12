@@ -27,7 +27,7 @@
 <body>
 
 <div class="container-fluid" id="body">
-
+{% block test %}
     {% include 'includes/nav.html.twig' %}
 
     {% for label, messages in app.flashes %}
@@ -51,7 +51,7 @@
 
     {% block body %}{% endblock %}
     {% block javascripts %}{% endblock %}
-
+{% endblock %}
 
 </div>
 {% include 'includes/footer.html.twig' %}

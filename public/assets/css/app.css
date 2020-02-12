@@ -67,12 +67,16 @@ nav, small{
 form{
     padding: 2em;
 }
-fieldset{
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fffdfb;
-    background: transparent;
+#form_login{
+    background-color: rgba(35,87,132,0.5);
 }
-[data-type="control_head"]{background-color:#FFCC66;}
+#form_login h3{
+    background-color: rgba(35,87,132,0.2);
+    text-transform: uppercase;
+    text-align: center;
+    color: #FFFFFF;
+}
+
 /* Logo */
 
 #logo{
@@ -80,13 +84,20 @@ fieldset{
     display: block;
     height: auto;
 }
-#login{
-    min-height:100vh;
-    background-image: url(../../img/welcome.jpg);
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-attachment: fixed;
-    background-size: cover;
+
+/* Fond Login */
+@media only screen and (min-width: 992px){
+    #login{
+        min-height:100vh;
+        background-image: url(../../img/welcome.jpg);
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+}
+@media only screen and (max-width: 600px){
+
 }
 
 /* Image accueil*/
