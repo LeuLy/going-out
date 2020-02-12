@@ -64,7 +64,6 @@ nav, small{
     font-weight: bold;
     color: white;
     background-color: rgba(35,87,132,0.8);
-/*    background: #fffdfb;*/
     box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
     border: none;
     margin-top: 1em;
@@ -72,7 +71,7 @@ nav, small{
 .btnValid:hover{
     color: white;
     background-color: rgba(35,87,132,1);
-/*    background: #bcdbdf;*/
+
 }
 
 /* Formulaire */

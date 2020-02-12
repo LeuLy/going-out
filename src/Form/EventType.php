@@ -112,6 +112,9 @@ class EventType extends AbstractType
                     SubmitType::class,
                     [
                             'label' => 'Envoyer',
+                        'attr'=>[
+                            'class'=>'btn btn-light',
+                        ]
                     ]
             )
         ;
