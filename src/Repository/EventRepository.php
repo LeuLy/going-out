@@ -30,6 +30,12 @@ class EventRepository extends ServiceEntityRepository
         $qb
                 ->andWhere('e.site = :site')
                 ->setParameter(':site', $site);
+        if ($var != null) {
+            $qb
+                    ->andWhere('e.label LIKE :var')
+                    ->orWhere('e.description LIKE :var')
+                    ->setParameter(':var', "%".$var."%");
+        }
         if ($beginDate != null) {
             $qb
                     ->andWhere('e.dateStart >= :beginDate')
@@ -39,12 +45,6 @@ class EventRepository extends ServiceEntityRepository
             $qb
                     ->andWhere('e.dateStart <= :endDate')
                     ->setParameter(':endDate', $endDate);
-        }
-        if ($var != null) {
-            $qb
-                    ->andWhere('e.label LIKE :var')
-                    ->orWhere('e.description LIKE :var')
-                    ->setParameter(':var', "%".$var."%");
         }
 
         $query = $qb->getQuery();
