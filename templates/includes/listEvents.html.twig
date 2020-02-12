@@ -1,0 +1,15 @@
+{% for event in event %}
+
+    <p>
+        Site label: {{ event.label }} <br>
+        Site id: {{ event.id }} <br>
+        Site description: {{ event.description }} <br>
+        Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+        Site dateStart: {{ event.dateStart |date('d-m-Y H:i:s') }} <br>
+        Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+        Site duration: {{ event.duration |date('H:i:s') }} <br>
+        Site maxMembers: {{ event.maxMembers }} <br>
+
+    </p>
+
+{% endfor %}

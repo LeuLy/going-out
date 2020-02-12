@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Site;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,29 @@ class MainController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function home(EntityManagerInterface $entityManager)
+    public function home(Request $request, EntityManagerInterface $entityManager)
     {
 
-        return $this->render('main/home.html.twig');
+
+        $siteRepository = $entityManager->getRepository(Site::class);
+
+
+        $eventRepository = $entityManager->getRepository(Event::class);
+
+
+        $siteLabel = $request->query->get("label");
+        $site      = $siteRepository->findByLabel($siteLabel);
+        $event     = $eventRepository->findEventBySite($site);
+
+
+
+
+
+
+
+
+
+        return $this->render('main/home.html.twig', compact('event',  'site', 'siteLabel'));
     }
 }
 

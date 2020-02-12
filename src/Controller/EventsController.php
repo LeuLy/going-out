@@ -125,10 +125,20 @@ class EventsController extends Controller
         $siteLabel = $request->query->get("label");
         $site      = $siteRepository->findByLabel($siteLabel);
         $event     = $eventRepository->findEventBySite($site, $page, $limit);
+//
+//        $eventByDescription = [];
+//
+//        if(!is_array($site)){
+//            $eventByDescription[$event]= $eventRepository->findEventByDescription($site);
+//        }
 
         $nbTotalPictures = count($event);
 
         $nbPage = ceil($nbTotalPictures / $limit);
+
+
+
+
 
 
         return $this->render('events/event.html.twig', compact('event', 'page', 'nbPage', 'site', 'siteLabel'));
