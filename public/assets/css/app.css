@@ -2,56 +2,31 @@
     background-color: #fffdfb;
     min-height:100vh;
     color: #235784;
+    font-family: 'Ubuntu', sans-serif;
 }
 #header{
     background-color: #FFFFFF;
     padding: 1em;
     margin-bottom: 2em;
-/*    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);*/
 }
 h1{
     color: #235784;
-    font-family: 'Abril Fatface', cursive;
 }
-/* Couleur des titres affichés dans la barre */
+/* Navigation */
 .nav-item .nav-link:active, .nav-item .nav-link:focus{
     color: white;
     background-color: #f7aa00;
 }
-.nav-link, small{
+nav, small{
     color: #235784;
 }
-.nav-link:hover{
-    color: #235784;
-    display: flex;
-    text-align: right;
-}
-.btnValid{
-    border-radius: 4px;
-    padding: 0.5em;
-    font-size: 1rem; /* si le texte devient piti, mettre la valeur 1.6rem */
-    color: white; /* blanc sur rouge foncé */
-    background: #235784;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
-}
-.btnValid:hover{
-    color: #235784;
-    background: #fffdfb;
-}
-form{
-    padding: 2em;
-}
-fieldset{
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    background-color: #fffdfb;
-}
-nav{
+.nav-item{
     color: #235784;
 }
-nav a{
+.nav-item a{
     position: relative;
 }
-nav a:before{
+.nav-item a:before{
     content: "";
     position: absolute;
     width: 100%;
@@ -65,8 +40,80 @@ nav a:before{
     -webkit-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
 }
-nav a:hover:before{
+.nav-item a:hover:before{
     visibility: visible;
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
+}
+
+/* Boutons */
+.btnValid{
+    border-radius: 4px;
+    padding: 0.5em;
+    font-size: 1rem; /* si le texte devient piti, mettre la valeur 1.6rem */
+    color: white; /* blanc sur rouge foncé */
+    background: #235784;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+}
+.btnValid:hover{
+    color: #235784;
+    background: #fffdfb;
+}
+
+/* Formulaire */
+form{
+    padding: 2em;
+}
+fieldset{
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fffdfb;
+}
+
+#logo{
+    width: 10em;
+}
+
+/* Image accueil*/
+
+.img_home{
+    width: 100%;
+    display: block;
+    height: auto;
+    margin-bottom: 3em;
+    box-shadow: 10px 10px 30px -24px rgba(0,0,0,0.86);
+}
+.img_hov{
+    position: relative;
+    width: 100%;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #f7aa00;
+}
+.img_hov:hover .overlay {
+    opacity: 0.5;
+}
+.img_hov:hover .city_text {
+    opacity: 1;
+}
+.city_text {
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
 }

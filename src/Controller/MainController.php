@@ -12,7 +12,7 @@ class MainController extends Controller
 {
 
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function home(EntityManagerInterface $entityManager)
     {
