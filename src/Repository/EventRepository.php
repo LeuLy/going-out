@@ -22,6 +22,42 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    public function findEventByFilters($beginDate, $endDate, $var, $site, $page = 0, $limit = 100)
+    {
+//        $entityManager = $this->getEntityManager();
+
+        $qb = $this->createQueryBuilder('e');
+        $qb
+                ->andWhere('e.site = :site')
+                ->setParameter(':site', $site);
+        if ($beginDate != null) {
+            $qb
+                    ->andWhere('e.dateStart >= :beginDate')
+                    ->setParameter(':beginDate', $beginDate);
+        }
+        if ($endDate != null) {
+            $qb
+                    ->andWhere('e.dateStart <= :endDate')
+                    ->setParameter(':endDate', $endDate);
+        }
+        if ($var != null) {
+            $qb
+                    ->andWhere('e.label LIKE :var')
+                    ->orWhere('e.description LIKE :var')
+                    ->setParameter(':var', "%".$var."%");
+        }
+
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return ($result);
+    }
+
+
+
+
+
+
 
     public function findEventBySite($site, $page = 0, $limit = 10)
     {

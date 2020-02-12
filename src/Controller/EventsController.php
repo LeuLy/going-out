@@ -138,7 +138,7 @@ class EventsController extends Controller
         $nbPage = ceil($nbTotalEvents / $limit);
 
         dump($site);
-        $eventByDescription = $eventRepository->findEventByDescription($var, $siteKeep, $page, $limit);
+        $eventByDescription = $eventRepository->findEventByFilters($beginDate, $endDate, $var, $site, $page, $limit);
         dump($siteKeep);
         dump($eventByDescription);
         $nbTotalEventsByDescription = count($eventByDescription);
