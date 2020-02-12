@@ -41,6 +41,15 @@ class UserController extends Controller
 
     }
     /**
+     * @Route("/register", name="register")
+     */
+    public function register()
+    {
+        return $this->render('user/register.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
+    }
+    /**
      * @Route("/profilModif", name="profilModif")
      */
     public function profilModif()

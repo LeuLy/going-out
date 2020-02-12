@@ -54,7 +54,8 @@ nav, small{
     font-size: 1rem; /* si le texte devient piti, mettre la valeur 1.6rem */
     color: white; /* blanc sur rouge foncé */
     background: #235784;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
+/*    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);*/
 }
 .btnValid:hover{
     color: #235784;
@@ -62,19 +63,30 @@ nav, small{
 }
 
 /* Formulaire */
+
 form{
     padding: 2em;
 }
 fieldset{
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     background-color: #fffdfb;
+    background: transparent;
 }
+[data-type="control_head"]{background-color:#FFCC66;}
 /* Logo */
 
 #logo{
     width: 10em;
     display: block;
     height: auto;
+}
+#login{
+    min-height:100vh;
+    background-image: url(../../img/welcome.jpg);
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 /* Image accueil*/
@@ -103,7 +115,7 @@ fieldset{
     background-color: #f7aa00;
 }
 .img_hov:hover .overlay {
-    opacity: 0.5;
+    opacity: 0.7;
 }
 .img_hov:hover .city_text {
     opacity: 1;

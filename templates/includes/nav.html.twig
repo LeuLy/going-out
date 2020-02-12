@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="d-flex flex-grow-1">
         <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
-        <a class="navbar-brand d-none d-lg-inline-block" href="#">
+        <a class="navbar-brand d-none d-lg-inline-block" href="{{ path('home') }}">
             <img id="logo" src="{{ asset('img/logo_HW.png') }}" alt="logo">
             <small>la plateforme qui organise vos sorties !</small>
         </a>
@@ -21,15 +21,22 @@
             <li class="nav-item">
                 <a class="nav-link m-2 menu-item nav-active" href="{{ path('home') }}">Accueil</a>
             </li>
+            {% if app.user %}
             <li class="nav-item">
-                <a href="#" class="nav-link m-2 menu-item">Mon Profil</a>
+                <a class="nav-link m-2 menu-item" href="{{ path('profilModif') }}">Mon Profil</a>
             </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a href="#" class="nav-link m-2 menu-item">Villes</a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link m-2 menu-item">Sites</a>
             </li>
+                <li class="nav-item">
+                    <a class="nav-link m-2 menu-item" href="{{ path('register') }}">Inscription</a>
+                </li>
+            {% endif %}
             {% if app.user %}
             <li class="nav-item">
                 <a class="nav-link m-2 menu-item" href="{{ path('logout') }}">Se déconnecter</a>
