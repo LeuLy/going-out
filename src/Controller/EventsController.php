@@ -115,6 +115,9 @@ class EventsController extends Controller
         $eventRepository = $entityManager->getRepository(Event::class);
 
         $var = $request->query->get("var");
+        $beginDate = $request->query->get("beginDate");
+        $endDate = $request->query->get("endDate");
+
         dump($var);
 
         $siteLabel = $request->query->get('label');

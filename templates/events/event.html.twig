@@ -11,24 +11,24 @@
                 <div>
 
 
-                        <form role="search" action="{{ path('listEvent') }}">
-                            <div>
-                                <input type="search" class="form-control" id="site-search" name="var"
-                                       placeholder="Votre recherche ..."
-                                       aria-label="Search through site content">
-                                <br>
-                                <input type="hidden" name="label" value="{{ siteLabel }}">
-                                <button class="btn btn-outline-info" type="submit">Rechercher</button>
-                            </div>
-                        </form>
+                    <form role="search" action="{{ path('listEvent') }}">
+                        <div>
+                            <input type="search" class="form-control" id="site-search" name="var"
+                                   placeholder="Votre recherche ..."
+                                   aria-label="Search through site content">
+                            <br>
+
+                            Entre:<input type="datetime-local" name="beginDate"> <br>
+                            et:<input type="datetime-local" name="endDate"><br>
 
 
+                            <input type="hidden" name="label" value="{{ siteLabel }}">
+                            <button class="btn btn-outline-info" type="submit">Rechercher</button>
+                        </div>
+                    </form>
 
 
                 </div>
-
-
-
 
 
                 {% include 'includes/listEvents.html.twig' %}
