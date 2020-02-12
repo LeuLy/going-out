@@ -1,10 +1,10 @@
 {% if nbPage > 0 %}
     {% for i in range(1, nbPage) %}
         {% if page == i - 1 %}
-            <b> <a href="{{ path('listEvent',{'page': i - 1}) }}?label={{ siteLabel }}"
+            <b> <a href="{{ path('listEvent',{'page': i - 1, 'label':siteLabel, 'var':var}) }}"
                    style="color:#242326;">{{ i }}</a></b>
         {% else %}
-            <a href="{{ path('listEvent',{'page': i - 1}) }}?label={{ siteLabel }}"
+            <a href="{{ path('listEvent',{'page': i - 1, 'label':siteLabel, 'var':var})  }}"
                style="color:#242326;">{{ i }}</a>
 
         {% endif %}
@@ -12,6 +12,5 @@
             &nbsp;-&nbsp;
         {% endif %}
     {% endfor %}
-{% else %}
-    <h4>Aucun resultat pour cette recherche.</h4>
+
 {% endif %}

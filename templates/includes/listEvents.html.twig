@@ -1,14 +1,14 @@
-{% for event in event %}
+{% for eventByDescription in eventByDescription %}
 
     <p>
-        Site label: {{ event.label }} <br>
-        Site id: {{ event.id }} <br>
-        Site description: {{ event.description }} <br>
-        Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-        Site dateStart: {{ event.dateStart |date('d-m-Y H:i:s') }} <br>
-        Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-        Site duration: {{ event.duration |date('H:i:s') }} <br>
-        Site maxMembers: {{ event.maxMembers }} <br>
+        Site label: {{ eventByDescription.label }} <br>
+        Site id: {{ eventByDescription.id }} <br>
+        Site description: {{ eventByDescription.description }} <br>
+        Site dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+        Site dateStart: {{ eventByDescription.dateStart |date('d-m-Y H:i:s') }} <br>
+        Site dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+        Site duration: {{ eventByDescription.duration |date('H:i:s') }} <br>
+        Site maxMembers: {{ eventByDescription.maxMembers }} <br>
 
     </p>
 

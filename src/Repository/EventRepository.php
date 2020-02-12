@@ -42,30 +42,32 @@ DQL;
         $paginator = new Paginator($query, true);
 
 
-
-
-        return $paginator;
+//        return $query->getResult();
+        return ($paginator);
     }
 
 
-    public function findEventByDescription($var)
+    public function findEventByDescription($var, $site, $page = 0, $limit = 100)
     {
         $entityManager = $this->getEntityManager();
         $dql           = <<<DQL
- SELECT e
+SELECT e
 FROM APP\ENTITY\Event e
-WHERE e.label       LIKE :var
-or e.description    LIKE :var
+WHERE e.site          = :site
+AND (e.label           LIKE :var
+OR e.description     LIKE :var)
 DQL;
 
         $query = $entityManager
             ->createQuery($dql)
-            ->setParameter(':var', "%".$var."%");
+            ->setParameter(':site', $site)
+            ->setParameter(':var', "%".$var."%")
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
 
+        $paginator = new Paginator($query, true);
 
-
-
-        return $query->getResult();
+        return $paginator;
 
     }
 

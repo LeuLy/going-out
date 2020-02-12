@@ -28,8 +28,6 @@ class EventsController extends Controller
     }
 
 
-
-
     /**
      * @Route("/create-events", name="create-events")
      */
@@ -44,9 +42,8 @@ class EventsController extends Controller
         if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $formData = $request->request->all();
+            $formData      = $request->request->all();
             dump($formData);
-
 
 
             if (empty($formData['event']['place'])) {
@@ -117,128 +114,137 @@ class EventsController extends Controller
 
         $eventRepository = $entityManager->getRepository(Event::class);
 
-//        $var                = $request->query->get("var");
-//        $eventByDescription = $eventRepository->findEventByDescription($var, $page, $limit);
+        $var = $request->query->get("var");
+        dump($var);
 
+        $siteLabel = $request->query->get('label');
+        dump($siteLabel);
+        $site = $siteRepository->findByLabel($siteLabel);
+        $siteKeep = $site;
+        dump($site);
 
-
-        $siteLabel = $request->query->get("label");
-        $site      = $siteRepository->findByLabel($siteLabel);
-        $event     = $eventRepository->findEventBySite($site, $page, $limit);
-//
-//        $eventByDescription = [];
-//
-//        if(!is_array($site)){
-//            $eventByDescription[$event]= $eventRepository->findEventByDescription($site);
+//        $event = [];
+//        $sites = [$site];
+//        foreach ($sites as $eventBySite) {
+//            $event[$eventBySite] = $eventRepository->findEventBySite($eventBySite, $page, $limit);
 //        }
+        $event = $eventRepository->findEventBySite($site, $page, $limit);
+        dump($event);
+        $nbTotalEvents = count($event);
 
-        $nbTotalPictures = count($event);
+        $nbPage = ceil($nbTotalEvents / $limit);
 
-        $nbPage = ceil($nbTotalPictures / $limit);
+        dump($site);
+        $eventByDescription = $eventRepository->findEventByDescription($var, $siteKeep, $page, $limit);
+        dump($siteKeep);
+        dump($eventByDescription);
+        $nbTotalEventsByDescription = count($eventByDescription);
+
+        $nbPageByDescription = ceil($nbTotalEventsByDescription / $limit);
 
 
-
-
-
-
-        return $this->render('events/event.html.twig', compact('event', 'page', 'nbPage', 'site', 'siteLabel'));
+        return $this->render(
+            'events/event.html.twig',
+            compact('eventByDescription', 'page', 'nbPageByDescription', 'nbPage', 'siteLabel', 'event', 'limit','var')
+        );
     }
 
 
 
 
 
+
+
+//
+//
+//
+//
+//
 //    /**
-//     * @Route("/create-events", name="create-events")
+//     * @Route("/event/{page}", name="listEvent", requirements={"page": "\d+"})
 //     */
-//    public function createEvent(Request $request)
+//    public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
 //    {
+//        $limit          = 1;
+//        $siteRepository = $entityManager->getRepository(Site::class);
 //
-//        $eventPlace     = new Place();
-//        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
-//        $event     = new Event();
-//        $eventForm = $this->createForm(EventType::class, $event);
-//        $eventPlaceForm->handleRequest($request);
-//        $eventForm->handleRequest($request);
-//        $event->setCreator($this->getUser());
 //
-//        if ($eventForm->isSubmitted() & $eventForm->isValid()
-//            & $eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
+//        $eventRepository = $entityManager->getRepository(Event::class);
 //
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($eventPlace);
-////            $entityManager->flush();
-//            $entityManager->persist($event);
-//            $entityManager->flush();
+//        $var = $request->query->get("var");
+//        dump($var);
 //
-//            return $this->redirectToRoute('create-events');
-//        }
+//        $siteLabel = $request->query->get('label');
+//        dump($siteLabel);
 //
+//        $site = $siteRepository->findByLabel($siteLabel);
+//        dump($site);
+//
+//
+//        $event = $eventRepository->findEventBySite($site, $page, $limit);
+//        dump($event);
+//
+//        $eventByDescription = $eventRepository->findEventByDescription($var, $page, $limit);
+//        dump($eventByDescription);
+//        $nbTotalEvents = count($event);
+//
+//        $nbPage = ceil($nbTotalEvents / $limit);
 //
 //
 //        return $this->render(
-//            'events/createEvent.html.twig',
-//            [
-//                'eventForm' => $eventForm->createView(),
-//            ]
+//            'events/event.html.twig',
+//            compact('eventByDescription', 'page', 'nbPage', 'siteLabel', 'event', 'limit')
 //        );
-//
 //    }
+//
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//
 //    /**
-//     * @Route("/create-events", name="create-events")
+//     * @Route("/event/{page}", name="listEvent", requirements={"page": "\d+"})
 //     */
-//    public function createEvent(Request $request)
+//    public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
 //    {
-//
-//        $eventPlace     = new Place();
-//        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
-//        $event     = new Event();
-//        $eventForm = $this->createForm(EventType::class, $event);
-//        $eventPlaceForm->handleRequest($request);
-//        $event->setCreator($this->getUser());
-//
-//        if ($eventForm->isSubmitted() & $eventForm->isValid()
-//                & $eventPlaceForm->isSubmitted() & $eventPlaceForm->isValid()) {
-//
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($eventPlace);
-//            $entityManager->flush();
-//            $entityManager->persist($event);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('create-events');
-//        }
+//        $limit          = 1;
+//        $siteRepository = $entityManager->getRepository(Site::class);
 //
 //
+//        $eventRepository = $entityManager->getRepository(Event::class);
 //
-//        return $this->render(
-//            'events/createEvent.html.twig',
-//            [
-//                'eventForm' => $eventForm->createView(),
-//            ]
-//        );
+////        $var                = $request->query->get("var");
+////        $eventByDescription = $eventRepository->findEventByDescription($var, $page, $limit);
 //
+//
+//        $siteLabel = $request->query->get("label");
+//        $site      = $siteRepository->findByLabel($siteLabel);
+//        $event     = $eventRepository->findEventBySite($site, $page, $limit);
+////
+////        $eventByDescription = [];
+////
+////        if(!is_array($site)){
+////            $eventByDescription[$event]= $eventRepository->findEventByDescription($site);
+////        }
+//
+//        $nbTotalPictures = count($event);
+//
+//        $nbPage = ceil($nbTotalPictures / $limit);
+//
+//
+//        return $this->render('events/event.html.twig', compact('event', 'page', 'nbPage', 'site', 'siteLabel'));
 //    }
+//
+//
+//}
+//
+
 
 }
+
+
+
+
+
+
+
+
+
 

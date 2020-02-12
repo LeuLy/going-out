@@ -30,14 +30,7 @@ class MainController extends Controller
         $event     = $eventRepository->findEventBySite($site);
 
 
-
-
-
-
-
-
-
-        return $this->render('main/home.html.twig', compact('event',  'site', 'siteLabel'));
+        return $this->render('main/home.html.twig', compact('event', 'site', 'siteLabel'));
     }
 }
 
