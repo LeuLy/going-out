@@ -152,6 +152,11 @@ form{
     transform: translate(-50%, -50%);
     text-align: center;
 }
+@media only screen and (min-width: 992px) {
+    #img_decal {
+        margin-left: 5em;
+    }
+}
 footer{
     background-color: #235784;
     color: #FFFFFF;
