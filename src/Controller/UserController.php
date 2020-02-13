@@ -69,14 +69,15 @@ class UserController extends Controller
         $userForm->handleRequest($request);
 
 
-        $file = new File();
-        $fileForm = $this->createForm(FileType::class, $file);
-        $fileForm->handleRequest($request);
-      /*  $file->getPath() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile;*/
-        $uploadableManager->markEntityToUpload($file, $file->getPath());
+
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
 
+            $file = new File();
+            $fileForm = $this->createForm(FileType::class, $file);
+            $fileForm->handleRequest($request);
+            /*  $file->getPath() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile;*/
+            $uploadableManager->markEntityToUpload($file, $file->getPath());
 
             $entityManager->persist($user);
             $entityManager->flush();

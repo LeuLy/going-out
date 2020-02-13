@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FileRepository")
@@ -18,25 +19,25 @@ class File
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *@Gedmo\UploadableFilePath
+     * @Gedmo\Mapping\Annotation\UploadableFilePath
      */
     private $path;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\UploadableFileName
+     * @Gedmo\Mapping\Annotation\UploadableFileName
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\UploadableFileMimeType
+     * @Gedmo\Mapping\Annotation\UploadableFileMimeType
      */
     private $mimeType;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
-     * @Gedmo\UploadableFileSize
+     * @Gedmo\Mapping\Annotation\UploadableFileSize
      */
     private $size;
 
