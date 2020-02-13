@@ -1,14 +1,14 @@
 {% for eventByDescription in eventByDescription %}
 
     <p>
-        Site label: {{ eventByDescription.label }} <br>
-        Site id: {{ eventByDescription.id }} <br>
-        Site description: {{ eventByDescription.description }} <br>
-        Site dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-        Site dateStart: {{ eventByDescription.dateStart |date('d-m-Y H:i:s') }} <br>
-        Site dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-        Site duration: {{ eventByDescription.duration |date('H:i:s') }} <br>
-        Site maxMembers: {{ eventByDescription.maxMembers }} <br>
+        Event label: {{ eventByDescription.label }} <br>
+        Event id: {{ eventByDescription.id }} <br>
+        Event description: {{ eventByDescription.description }} <br>
+        Event dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+        Event dateStart: {{ eventByDescription.dateStart |date('d-m-Y H:i:s') }} <br>
+        Event dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+        Event duration: {{ eventByDescription.duration |date('H:i:s') }} <br>
+        Event maxMembers: {{ eventByDescription.maxMembers }} <br>
         {% include 'includes/actions.html.twig' %}
     </p>
 

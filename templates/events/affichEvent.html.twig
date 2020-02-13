@@ -1,8 +1,26 @@
-Site label: {{ event.label }} <br>
-Site id: {{ event.id }} <br>
-Site description: {{ event.description }} <br>
-Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-Site dateStart: {{ event.dateStart |date('d-m-Y H:i:s') }} <br>
-Site dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-Site duration: {{ event.duration |date('H:i:s') }} <br>
-Site maxMembers: {{ event.maxMembers }} <br>
+{% extends 'layout.html.twig' %}
+
+{% block title %}Liste des events{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-2 col-md-3"></div>
+        <div class="col-xs-8 col-md-6" id="form_format">
+
+<h1>{{ event.label }}</h1>
+Event label: {{ event.label }} <br>
+Event id: {{ event.id }} <br>
+Event description: {{ event.description }} <br>
+Event dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+Event dateStart: {{ event.dateStart |date('d-m-Y H:i:s') }} <br>
+Event dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
+Event duration: {{ event.duration |date('H:i:s') }} <br>
+Event maxMembers: {{ event.maxMembers }} <br>
+
+
+
+    </div>
+    <div class="col-xs-2 col-md-3">
+    </div>
+</div>
+{% endblock %}
