@@ -79,6 +79,8 @@ class UserController extends Controller
             dump($userForm);
             dump($fileData);
 
+            $uploadableManager->markEntityToUpload($userForm['fileForm']['file'], pathinfo($userForm['fileForm']['file']->getClientOriginalName(), PATHINFO_FILENAME));
+
 /*            $fileForm = $this->createForm(FileType::class, $file);
             $fileForm->handleRequest($request);
             $uploadableManager->markEntityToUpload($file, $file->getPath());*/
