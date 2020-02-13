@@ -127,10 +127,10 @@ class File
         return $this;
     }
 
-/*    public function setPublicPath(string $publicPath): self
+    public function setPublicPath(string $publicPath): self
     {
         $this->publicPath = $publicPath;
 
         return $this;
-    }*/
+    }
 }
