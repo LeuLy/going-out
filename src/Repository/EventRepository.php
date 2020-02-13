@@ -22,8 +22,17 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findEventByFilters($beginDate, $endDate, $eventOwner, $userId, $var, $site, $page = 0, $limit = 100)
-    {
+    public function findEventByFilters(
+        $beginDate,
+        $endDate,
+        $eventOwner,
+        $userId,
+        $passedEvent,
+        $var,
+        $site,
+        $page = 0,
+        $limit = 100
+    ) {
 
         $qb = $this->createQueryBuilder('e');
         $qb
@@ -46,15 +55,28 @@ class EventRepository extends ServiceEntityRepository
                 ->setParameter(':endDate', $endDate);
         }
 
+
+        if ($passedEvent == 'on') {
+            $qb
+                ->andWhere('e.dateStart <= :now')
+                ->setParameter('now', new \DateTime());
+
+        }
+
+
         if ($eventOwner == 'on') {
             $qb
                 ->andWhere('e.creator = :userId')
                 ->setParameter(':userId', $userId);
 
         }
+        dump($passedEvent);
 
 
-        $query  = $qb->getQuery();
+        $query = $qb->getQuery();
+
+
+        dump($query->getSQL());
         $result = $query->getResult();
 
         return ($result);
@@ -72,7 +94,7 @@ WHERE e.site = :site
 DQL;
 
 
-        $query     = $entityManager
+        $query = $entityManager
             ->createQuery($dql)
             ->setParameter(':site', $site)
             ->setFirstResult($page * $limit)

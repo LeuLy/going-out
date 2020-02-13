@@ -110,7 +110,7 @@ class EventsController extends Controller
     {
         $limit          = 1;
         $siteRepository = $entityManager->getRepository(Site::class);
-//        $userRepository = $entityManager->getRepository(Event::class);
+
 
         $eventRepository = $entityManager->getRepository(Event::class);
 
@@ -119,11 +119,14 @@ class EventsController extends Controller
         $endDate   = $request->query->get("endDate");
 
 
+        $passedEvent = $request->query->get("passedEvent");
+        dump($passedEvent);
+
+        $time = localtime();
+        dump($time);
         $eventOwner = $request->query->get("eventOwner");
+        $userId     = $this->getUser()->getId();
         dump($eventOwner);
-
-        $userId = $this->getUser()->getId();
-
 
         dump($userId);
 
@@ -152,6 +155,7 @@ class EventsController extends Controller
             $endDate,
             $eventOwner,
             $userId,
+            $passedEvent,
             $var,
             $site,
             $page,
