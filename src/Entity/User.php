@@ -77,6 +77,11 @@ class User implements UserInterface
      */
     private $eventsMember;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\File", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $file;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -270,6 +275,18 @@ class User implements UserInterface
             $this->eventsMember->removeElement($eventsMember);
             $eventsMember->removeMember($this);
         }
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }

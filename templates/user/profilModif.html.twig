@@ -9,46 +9,46 @@
         <div class="col-xs-5 col-sm-3">
             <img alt="Bootstrap Image Preview" src="{{ asset('img/icon_HW.png') }}" class="img-thumbnail" />
         </div>
-        <div class="col-sm-8 col-md-6"  id="form_format">
+        <div class="col-sm-8 col-md-6" id="form_format">
 
 
                 <h3>Mon Profil</h3>
 
-            <form role="form">
+{#            <form method="post" action="{{ path('profilModif') }}">
                 <div class="form-group">
 
                     <label for="username">
                         Pseudo
                     </label>
-                    <input type="email" class="form-control" id="username" />
+                    <input type="email" class="form-control" id="username" placeholder="{{ app.user.username }}"/>
                 </div>
                 <div class="form-group">
 
                     <label for="firstName">
                         Prénom
                     </label>
-                    <input type="text" class="form-control" id="firstName" />
+                    <input type="text" class="form-control" id="firstName" placeholder="{{ app.user.firstname }}" />
                 </div>
                 <div class="form-group">
 
                     <label for="name">
                         Nom
                     </label>
-                    <input type="text" class="form-control" id="name" />
+                    <input type="text" class="form-control" id="name" value="{{ app.user.name }}"/>
                 </div>
                 <div class="form-group">
 
                     <label for="phone">
                         Téléphone
                     </label>
-                    <input type="tel" class="form-control" id="phone" />
+                    <input type="tel" class="form-control" id="phone" value="{{ app.user.phone }}"/>
                 </div>
                 <div class="form-group">
 
                     <label for="email">
                         Email
                     </label>
-                    <input type="email" class="form-control" id="email" />
+                    <input type="email" class="form-control" id="email" value="{{ app.user.email }}"/>
                 </div>
                 <div class="form-group">
 
@@ -79,6 +79,8 @@
                     <option value="city2">city2</option>
                     <option value="city3">city3</option>
                 </select>
+
+
                 <div class="row d-flex justify-content-around">
 
 
@@ -96,7 +98,32 @@
 
                 </div>
 
-            </form>
+            </form>#}
+
+            {{ form_start(userFormView) }}
+            {{ form_row(userFormView.username) }}
+            {{ form_row(userFormView.firstname) }}
+            {{ form_row(userFormView.name) }}
+            {{ form_row(userFormView.phone) }}
+            {{ form_row(userFormView.email) }}
+            {{ form_row(userFormView.password.first) }}
+            {{ form_row(userFormView.password.second) }}
+
+
+            <div class="row d-flex justify-content-around">
+
+                <button type="submit" class="btnValid">
+                    Enregistrer
+                </button>
+
+
+                <button type="reset" class="btnValid">
+                    Annuler
+                </button>
+
+            </div>
+
+            {{ form_end(userFormView) }}
 
         </div>
         <div class="col-sm-1 col-md-3">
