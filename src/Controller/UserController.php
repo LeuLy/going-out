@@ -71,6 +71,11 @@ class UserController extends Controller
         if($userForm->isSubmitted() && $userForm->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Modification enregistrée'
+            );
         }
 
 
