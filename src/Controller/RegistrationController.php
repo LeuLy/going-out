@@ -23,10 +23,10 @@ class RegistrationController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setUsername($user->getName() .".". $user->getFirstname());
-            $user->setPassword($user->getFirstname() .".". $user->getName());
+            $user->setUsername($user->getName().".".$user->getFirstname());
+            $user->setPassword($user->getFirstname().".".$user->getName());
             $user->setActive(true);
-            $user->setEmail($user->getFirstname() .".". $user->getName() . $user->getInscriptionYear() . '@campus-eni.fr');
+            $user->setEmail($user->getFirstname().".".$user->getName().$user->getInscriptionYear().'@campus-eni.fr');
 
             // encode the plain password
             $user->setPassword(
@@ -41,17 +41,19 @@ class RegistrationController extends Controller
 //                  (($user->getName() == 'Laz') && ($user->getFirstname() == 'Baptiste')) ||
 //                  (($user->getName() == 'Lecomte') && ($user->getFirstname() == 'Anne-Laure')) ||
 //                  (($user->getName() == 'Cornu') && ($user->getFirstname() == 'Lydia'))
-                    ((strcasecmp($user->getName(), 'Laz') == 0) && (strcasecmp($user->getFirstname(), 'Baptiste') == 0)) ||
-                    ((strcasecmp($user->getName(), 'Lecomte') == 0) && (strcasecmp($user->getFirstname(), 'Anne-Laure') == 0)) ||
-                    ((strcasecmp($user->getName(), 'Cornu') == 0) && (strcasecmp($user->getFirstname(), 'Lydia') == 0))
-            )
-            {
+                ((strcasecmp($user->getName(), 'Laz') == 0) && (strcasecmp($user->getFirstname(), 'Baptiste') == 0)) ||
+                ((strcasecmp($user->getName(), 'Lecomte') == 0) && (strcasecmp(
+                            $user->getFirstname(),
+                            'Anne-Laure'
+                        ) == 0)) ||
+                ((strcasecmp($user->getName(), 'Cornu') == 0) && (strcasecmp($user->getFirstname(), 'Lydia') == 0))
+            ) {
                 $user->setRoles(['ROLE_ADMIN']);
             }
 
             $this->addFlash(
-                    'success',
-                    'Nouvel utilisateur enregistré'
+                'success',
+                'Nouvel utilisateur enregistré'
             );
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -63,8 +65,11 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('app_register');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
+        return $this->render(
+            'registration/register.html.twig',
+            [
+                'registrationForm' => $form->createView(),
+            ]
+        );
     }
 }

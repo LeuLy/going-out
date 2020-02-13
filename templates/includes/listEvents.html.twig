@@ -13,3 +13,22 @@
     </p>
 
 {% endfor %}
+
+<script>
+
+    $(".inscription-event").on("click", makeAjaxRequest);
+
+    function makeAjaxRequest(){
+        $idvar=($(this).attr("value"));
+        $.ajax({
+
+            url: "http://localhost/going-out/public/api/inscriptionEvent/"+$idvar
+        })
+            //lorsque la requête sera terminée, cette fct se déclenchera
+            .done(function(response){
+
+
+                console.log(response);
+            });
+    }
+</script>
