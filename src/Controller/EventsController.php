@@ -110,19 +110,28 @@ class EventsController extends Controller
     {
         $limit          = 1;
         $siteRepository = $entityManager->getRepository(Site::class);
-
+//        $userRepository = $entityManager->getRepository(Event::class);
 
         $eventRepository = $entityManager->getRepository(Event::class);
 
-        $var = $request->query->get("var");
+        $var       = $request->query->get("var");
         $beginDate = $request->query->get("beginDate");
-        $endDate = $request->query->get("endDate");
+        $endDate   = $request->query->get("endDate");
+
+
+        $eventOwner = $request->query->get("eventOwner");
+        dump($eventOwner);
+
+        $userId = $this->getUser()->getId();
+
+
+        dump($userId);
 
         dump($var);
 
         $siteLabel = $request->query->get('label');
         dump($siteLabel);
-        $site = $siteRepository->findByLabel($siteLabel);
+        $site     = $siteRepository->findByLabel($siteLabel);
         $siteKeep = $site;
         dump($site);
 
@@ -138,7 +147,16 @@ class EventsController extends Controller
         $nbPage = ceil($nbTotalEvents / $limit);
 
         dump($site);
-        $eventByDescription = $eventRepository->findEventByFilters($beginDate, $endDate, $var, $site, $page, $limit);
+        $eventByDescription = $eventRepository->findEventByFilters(
+            $beginDate,
+            $endDate,
+            $eventOwner,
+            $userId,
+            $var,
+            $site,
+            $page,
+            $limit
+        );
         dump($siteKeep);
         dump($eventByDescription);
         $nbTotalEventsByDescription = count($eventByDescription);
@@ -148,7 +166,7 @@ class EventsController extends Controller
 
         return $this->render(
             'events/event.html.twig',
-            compact('eventByDescription', 'page', 'nbPageByDescription', 'nbPage', 'siteLabel', 'event', 'limit','var')
+            compact('eventByDescription', 'page', 'nbPageByDescription', 'nbPage', 'siteLabel', 'event', 'limit', 'var')
         );
     }
 

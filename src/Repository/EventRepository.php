@@ -22,40 +22,43 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findEventByFilters($beginDate, $endDate, $var, $site, $page = 0, $limit = 100)
+    public function findEventByFilters($beginDate, $endDate, $eventOwner, $userId, $var, $site, $page = 0, $limit = 100)
     {
 
         $qb = $this->createQueryBuilder('e');
         $qb
-                ->andWhere('e.site = :site')
-                ->setParameter(':site', $site);
+            ->andWhere('e.site = :site')
+            ->setParameter(':site', $site);
         if ($var != null) {
             $qb
-                    ->andWhere('e.label LIKE :var')
-                    ->orWhere('e.description LIKE :var')
-                    ->setParameter(':var', "%".$var."%");
+                ->andWhere('e.label LIKE :var')
+                ->orWhere('e.description LIKE :var')
+                ->setParameter(':var', "%".$var."%");
         }
         if ($beginDate != null) {
             $qb
-                    ->andWhere('e.dateStart >= :beginDate')
-                    ->setParameter(':beginDate', $beginDate);
+                ->andWhere('e.dateStart >= :beginDate')
+                ->setParameter(':beginDate', $beginDate);
         }
         if ($endDate != null) {
             $qb
-                    ->andWhere('e.dateStart <= :endDate')
-                    ->setParameter(':endDate', $endDate);
+                ->andWhere('e.dateStart <= :endDate')
+                ->setParameter(':endDate', $endDate);
         }
 
-        $query = $qb->getQuery();
+        if ($eventOwner == 'on') {
+            $qb
+                ->andWhere('e.creator = :userId')
+                ->setParameter(':userId', $userId);
+
+        }
+
+
+        $query  = $qb->getQuery();
         $result = $query->getResult();
 
         return ($result);
     }
-
-
-
-
-
 
 
     public function findEventBySite($site, $page = 0, $limit = 10)
@@ -138,7 +141,6 @@ DQL;
 //    }
 
 
-
 //    public function findEventByDescription($var, $site, $page = 0, $limit = 100)
 //    {
 //        $entityManager = $this->getEntityManager();
@@ -162,8 +164,6 @@ DQL;
 //        return $paginator;
 //
 //    }
-
-
 
 
 }
