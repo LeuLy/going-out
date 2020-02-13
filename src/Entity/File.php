@@ -18,21 +18,25 @@ class File
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *@Gedmo\UploadableFilePath
      */
     private $path;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\UploadableFileName
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\UploadableFileMimeType
      */
     private $mimeType;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0, nullable=true)
+     * @Gedmo\UploadableFileSize
      */
     private $size;
 

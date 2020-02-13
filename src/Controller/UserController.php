@@ -68,18 +68,32 @@ class UserController extends Controller
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
+
+        $file = new File();
+        $fileForm = $this->createForm(FileType::class, $file);
+        $fileForm->handleRequest($request);
+      /*  $file->getPath() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile;*/
+        $uploadableManager->markEntityToUpload($file, $file->getPath());
+
         if($userForm->isSubmitted() && $userForm->isValid()) {
+
+
             $entityManager->persist($user);
             $entityManager->flush();
+
+/*            if ($user->getFile()->getPath() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+                $uploadManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                $uploadManager->markEntityToUpload($user->getFile(), $user->getFile()->getPath());
+            }*/
+
+            $this->addFlash(
+                'success',
+                'Modification enregistrée'
+            );
         }
 
 
- /*       if($userForm->isSubmitted() && $userForm->isValid()) {
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-        }*/
 
 
 
