@@ -63,14 +63,13 @@ class EventRepository extends ServiceEntityRepository
 
         }
 
-
         if ($eventOwner == 'on') {
             $qb
                 ->andWhere('e.creator = :userId')
                 ->setParameter(':userId', $userId);
 
         }
-        dump($passedEvent);
+
 
 
         $query = $qb->getQuery();

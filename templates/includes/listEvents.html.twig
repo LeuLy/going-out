@@ -9,7 +9,7 @@
         Site dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
         Site duration: {{ eventByDescription.duration |date('H:i:s') }} <br>
         Site maxMembers: {{ eventByDescription.maxMembers }} <br>
-
+        {% include 'includes/actions.html.twig' %}
     </p>
 
 {% endfor %}
