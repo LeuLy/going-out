@@ -13,19 +13,27 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('path')
+            /*->add('path')
             ->add('name')
             ->add('mimeType')
             ->add('size')
             ->add('publicPath')
-            ->add('user')
+            ->add('user')*/
+            ->add(
+                'file',
+                \Symfony\Component\Form\Extension\Core\Type\FileType::class,
+                [
+                    'label' => 'Photo',
+                    'attr' => ['class' => 'form-control']
+                    ]
+            )
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => File::class,
         ]);
     }
 }

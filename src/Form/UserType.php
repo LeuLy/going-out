@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\File;
+use App\Entity\Site;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -69,6 +72,24 @@ class UserType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation'],
             ])
+            ->add(
+                'site',
+                EntityType::class,
+                [
+                    'label' => 'Site',
+                    'attr' => ['class' => 'form-control'],
+                    'class' => Site::class,
+                    'choice_label' => 'label',
+                ]
+            )
+            ->add (
+                'fileForm',
+                FileType::class,
+                [
+                    'mapped' => false,
+                    'required' => false,
+                ]
+            )
         ;
     }
 

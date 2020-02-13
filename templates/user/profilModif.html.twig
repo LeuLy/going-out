@@ -108,7 +108,9 @@
             {{ form_row(userFormView.email) }}
             {{ form_row(userFormView.password.first) }}
             {{ form_row(userFormView.password.second) }}
+            {{ form_row(userFormView.site) }}
 
+            {% include 'includes/uploadPhoto.html.twig' %}
 
             <div class="row d-flex justify-content-around">
 
