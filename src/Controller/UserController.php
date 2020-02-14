@@ -88,7 +88,6 @@ class UserController extends Controller
 
             if ($filedata instanceof UploadedFile) {
                dump('ok');
-               $info = $filedata->getFileInfo();
                dump($filedata->getClientOriginalName());
                dump($filedata->getClientSize());
                dump($filedata->getClientMimeType());
@@ -101,6 +100,7 @@ class UserController extends Controller
                 );
                 dump($pathF);
 
+
                $inf = new UploadedFileInfo($filedata);
                 dump($inf);
 
@@ -111,7 +111,7 @@ class UserController extends Controller
                 $file->setUser($user);
                 $file->setPublicPath('');
 
-                $uploadableManager->markEntityToUpload($file, $pathF );
+                $uploadableManager->markEntityToUpload($file, $inf, $pathF );
                 dump('nom '.$file->getName());
                 dump($user);
 
