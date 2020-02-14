@@ -33,7 +33,7 @@ class AjaxController extends AbstractController
 
 
         $userRepository = $entityManager->getRepository(User::class);
-        $user          = $userRepository->find($this->getUser());
+        $user           = $userRepository->find($this->getUser());
 
         $eventUser->setUser($user);
 //        dump($eventUser);
@@ -52,24 +52,40 @@ class AjaxController extends AbstractController
     }
 
 
-
-
     /**
      * @Route("/api/withdrawEvent/{event_id}", name="ajax_route_withdrawEvent")
      */
     public function withdrawEvent($event_id = 0, EntityManagerInterface $entityManager)
     {
-//        $entityManager = $this->getDoctrine()->getManager();
-        $eventUser = $entityManager->getRepository(Inscription::class)->find($event_id);
 
+       $entityManager = $this->getDoctrine()->getManager();
+        $eventUser = $entityManager->getRepository(Event::class);
+        $event      = $eventUser->find($event_id);
+
+//        dump($event);
 //        if (!$eventUser) {
 //            throw $this->createNotFoundException(
 //                'No user found for id '.$id
 //            );
 //        }
 
-        $entityManager->remove($eventUser);
+        $userRepository = $entityManager->getRepository(User::class);
+        $user           = $userRepository->find($this->getUser());
+
+//        dump($user);
+
+
+        $InscriptionRepository = $entityManager->getRepository(Inscription::class);
+        $inscription = $InscriptionRepository ->findOneBy(['user' => $this->getUser(),'event'=>$event]);
+        dump($inscription);
+
+
+
+
+
+        $entityManager->remove($inscription);
         $entityManager->flush();
+
 
         return new JsonResponse(
             [
@@ -79,11 +95,7 @@ class AjaxController extends AbstractController
         );
 
 
-
     }
-
-
-
 
 //                              SUPPRIMER UN EVENEMENT
 //    /**
@@ -91,8 +103,14 @@ class AjaxController extends AbstractController
 //     */
 //    public function withdrawEvent($event_id = 0, EntityManagerInterface $entityManager)
 //    {
-////        $entityManager = $this->getDoctrine()->getManager();
-//        $eventUser = $entityManager->getRepository(Event::class)->find($event_id);
+//
+//        $entityManager = $this->getDoctrine()->getManager();
+//        $eventRepository = $entityManager->getRepository(Event::class);
+//        $event           = $eventRepository->find($event_id);
+//        dump($event);
+//
+//
+////        $eventUser = $entityManager->getRepository(Inscription::class)->find($event);
 //
 ////        if (!$eventUser) {
 ////            throw $this->createNotFoundException(
@@ -100,8 +118,8 @@ class AjaxController extends AbstractController
 ////            );
 ////        }
 //
-//        $entityManager->remove($eventUser);
-//        $entityManager->flush();
+////        $entityManager->remove($eventUser);
+////        $entityManager->flush();
 //
 //        return new JsonResponse(
 //            [
@@ -113,9 +131,6 @@ class AjaxController extends AbstractController
 //
 //
 //    }
-
-
-
 
 
 }
