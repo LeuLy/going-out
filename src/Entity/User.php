@@ -88,10 +88,16 @@ class User implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="user")
+     */
+    private $inscriptions;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->eventsMember = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -305,6 +311,37 @@ class User implements UserInterface
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->contains($inscription)) {
+            $this->inscriptions->removeElement($inscription);
+            // set the owning side to null (unless already changed)
+            if ($inscription->getUser() === $this) {
+                $inscription->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -77,9 +77,15 @@ class Event
      */
     private $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="event")
+     */
+    private $inscriptions;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId()
@@ -216,6 +222,37 @@ class Event
     public function setStatus(?Status $status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->contains($inscription)) {
+            $this->inscriptions->removeElement($inscription);
+            // set the owning side to null (unless already changed)
+            if ($inscription->getEvent() === $this) {
+                $inscription->setEvent(null);
+            }
+        }
 
         return $this;
     }

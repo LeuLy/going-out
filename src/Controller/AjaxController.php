@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\EventUser;
+use App\Entity\Inscription;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,25 +19,25 @@ class AjaxController extends AbstractController
     /**
      * @Route("/api/inscriptionEvent/{id}", name="ajax_route_inscriptionEvent")
      */
-    public function inscriptionEvent($id=0, Request $request, EntityManagerInterface $entityManager)
+    public function inscriptionEvent($id = 0, Request $request, EntityManagerInterface $entityManager)
     {
         $eventRepository = $entityManager->getRepository(Event::class);
         $event           = $eventRepository->find($id);
-        dump($event);
+
 
         $entityManager = $this->getDoctrine()->getManager();
-        $eventUser     = new EventUser();
-        dump($eventUser);
+        $eventUser     = new Inscription();
 
 
-
-        $eventUser->setUserId($this->getUser()->getId());
-        dump($eventUser);
-
-        $eventUser->setEventId($event->getId());
+        $eventUser->setEvent($event);
 
 
-        dump($eventUser);
+        $userRepository = $entityManager->getRepository(User::class);
+        $user          = $userRepository->find($this->getUser());
+
+        $eventUser->setUser($user);
+//        dump($eventUser);
+
 
         $entityManager->persist($eventUser);
         $entityManager->flush();
@@ -43,9 +45,79 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                "UserId"  => $eventUser->getUserId(),
-                "EventId" => $eventUser->getEventId(),
+                "UserId"  => $eventUser->getUser(),
+                "EventId" => $eventUser->getEvent(),
             ]
         );
     }
+
+
+
+
+    /**
+     * @Route("/api/withdrawEvent/{event_id}", name="ajax_route_withdrawEvent")
+     */
+    public function withdrawEvent($event_id = 0, EntityManagerInterface $entityManager)
+    {
+//        $entityManager = $this->getDoctrine()->getManager();
+        $eventUser = $entityManager->getRepository(Inscription::class)->find($event_id);
+
+//        if (!$eventUser) {
+//            throw $this->createNotFoundException(
+//                'No user found for id '.$id
+//            );
+//        }
+
+        $entityManager->remove($eventUser);
+        $entityManager->flush();
+
+        return new JsonResponse(
+            [
+
+//                "EventId" => $eventUser->getEventId(),
+            ]
+        );
+
+
+
+    }
+
+
+
+
+//                              SUPPRIMER UN EVENEMENT
+//    /**
+//     * @Route("/api/withdrawEvent/{event_id}", name="ajax_route_withdrawEvent")
+//     */
+//    public function withdrawEvent($event_id = 0, EntityManagerInterface $entityManager)
+//    {
+////        $entityManager = $this->getDoctrine()->getManager();
+//        $eventUser = $entityManager->getRepository(Event::class)->find($event_id);
+//
+////        if (!$eventUser) {
+////            throw $this->createNotFoundException(
+////                'No user found for id '.$id
+////            );
+////        }
+//
+//        $entityManager->remove($eventUser);
+//        $entityManager->flush();
+//
+//        return new JsonResponse(
+//            [
+//
+////                "EventId" => $eventUser->getEventId(),
+//            ]
+//        );
+//
+//
+//
+//    }
+
+
+
+
+
 }
+
+
