@@ -28,6 +28,75 @@ class EventsController extends Controller
     }
 
 
+
+    /**
+     * @Route("/update-event/{event_id}", name="update-event")
+     */
+    public function updateEvent($event_id=0, Request $request, EntityManagerInterface $entityManager)
+    {
+
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $eventUser     = $entityManager->getRepository(Event::class);
+        $event         = $eventUser->find($event_id);
+        dump($event);
+
+        $eventForm = $this->createForm(EventType::class, $event);
+        $eventForm->handleRequest($request);
+//        $event->setCreator($this->getUser());
+
+        if ($eventForm->isSubmitted() & $eventForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $formData      = $request->request->all();
+            dump($formData);
+
+
+            if (empty($formData['event']['place'])) {
+
+                $place = new Place();
+
+                $placeData = $formData['event']['placeForm'];
+                dump($formData);
+                dump($placeData);
+
+                $place->setLabel($formData['event']['placeForm']['label']);
+                $place->setAddress($formData['event']['placeForm']['address']);
+                $place->setLatitude($formData['event']['placeForm']['latitude']);
+                $place->setLongitude($formData['event']['placeForm']['longitude']);
+                dump($place);
+                $entityManager->persist($place);
+                $entityManager->flush();
+                $event->setPlace($place);
+            }
+
+
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Sortie modifiée'
+            );
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render(
+            'events/updateEvent.html.twig',
+            [
+                'eventForm' => $eventForm->createView()
+            ]
+        );
+
+    }
+
+
+
+
+
     /**
      * @Route("/create-events", name="create-events")
      */
