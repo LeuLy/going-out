@@ -83,8 +83,8 @@ class UserType extends AbstractType
                 ]
             )
             ->add (
-                'fileForm',
-                FileType::class,
+                'file',
+                \Symfony\Component\Form\Extension\Core\Type\FileType::class,
                 [
                     'mapped' => false,
                     'required' => false,

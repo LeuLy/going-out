@@ -100,7 +100,7 @@
 
             </form>#}
 
-            {{ form_start(userFormView) }}
+            {{ form_start(userFormView, {'enctype': 'multipart/form-data'} ) }}
             {{ form_row(userFormView.username) }}
             {{ form_row(userFormView.firstname) }}
             {{ form_row(userFormView.name) }}
@@ -109,8 +109,9 @@
             {{ form_row(userFormView.password.first) }}
             {{ form_row(userFormView.password.second) }}
             {{ form_row(userFormView.site) }}
+            {{ form_row(userFormView.file) }}
 
-            {% include 'includes/uploadPhoto.html.twig' %}
+            {#{% include 'includes/uploadPhoto.html.twig' %}#}
 
             <div class="row d-flex justify-content-around">
 

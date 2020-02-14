@@ -129,8 +129,9 @@ class File
 
     public function setPublicPath(string $publicPath): self
     {
-        $this->publicPath = $publicPath;
+        $this->publicPath = '/uploads/'.$this->name;;
 
         return $this;
     }
+
 }

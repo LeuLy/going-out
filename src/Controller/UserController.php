@@ -6,9 +6,14 @@ use App\Entity\File;
 use App\Form\FileType;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Uploadable\FileInfo\FileInfoArray;
+use Gedmo\Uploadable\FileInfo\FileInfoInterface;
 use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -73,24 +78,51 @@ class UserController extends Controller
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
 
-            $entityManager = $this->getDoctrine()->getManager();
+            $filedata = $userForm->get('file')->getData();
 
-/*            $file = new File();
+            dump($filedata);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $formData      = $request->request->all();
-            dump($formData);
-            $fileData = $formData['user']['fileForm'];
-            dump($userForm);
-            dump($fileData);*/
+            $file = new File();
 
+            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
+            if ($filedata instanceof UploadedFile) {
+               dump('ok');
+               $info = $filedata->getFileInfo();
+               dump($filedata->getClientOriginalName());
+               dump($filedata->getClientSize());
+               dump($filedata->getClientMimeType());
+               dump($filedata->getRealPath());
+               dump($filedata->getClientOriginalExtension());
 
-/*            $uploadableManager->markEntityToUpload($formData['user']['fileForm']['file'], $formData['user']['fileForm']['file']->getPath());*/
+                $pathF = $filedata->move(
+                    'public/uploads',
+                    $filedata->getClientOriginalName()
+                );
+                dump($pathF);
 
-/*            $fileForm = $this->createForm(FileType::class, $file);
-            $fileForm->handleRequest($request);
-            $uploadableManager->markEntityToUpload($file, $file->getPath());*/
+               $inf = new UploadedFileInfo($filedata);
+                dump($inf);
+
+                $file->setMimeType($filedata->getClientMimeType());
+                $file->setName($filedata->getClientOriginalName());
+                $file->setSize($filedata->getClientSize());
+                $file->setPath($filedata->getRealPath());
+                $file->setUser($user);
+                $file->setPublicPath('');
+
+                $uploadableManager->markEntityToUpload($file, $pathF );
+                dump('nom '.$file->getName());
+                dump($user);
+
+            }else{
+                dump('not ok');
+            }
+
+            /*if ($filedata) {
+                $fileload = $fileUploader->upload($filedata);
+                $user->setFile->setName($fileload);
+            }*/
 
 
 
@@ -99,10 +131,6 @@ class UserController extends Controller
             $entityManager->persist($user);
             $entityManager->flush();
 
-/*            if ($user->getFile()->getPath() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
-                $uploadManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $uploadManager->markEntityToUpload($user->getFile(), $user->getFile()->getPath());
-            }*/
 
             $this->addFlash(
                 'success',

@@ -22,14 +22,7 @@ class FileController  extends Controller
         $fileForm->handleRequest($request);
 
         if($fileForm->isSubmitted() & $fileForm->isValid()){
-            $entityManager = $this->getDoctrine()->getManager();
 
-            if ($file->getPath() instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
-                $uploadManager = $this->get('stof_doctrine_extensions.uploadable.manager');
-                $uploadManager->markEntityToUpload($file, $file->getPath());
-            }
-
-            $user->setFile($file);
 
             /*$entityManager->persist($user);*/
             /*$entityManager->flush();*/
