@@ -69,6 +69,11 @@ class EventsController extends Controller
             $entityManager->persist($event);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Sortie créée'
+            );
+
             return $this->redirectToRoute('create-events');
         }
 

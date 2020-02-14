@@ -73,17 +73,28 @@ class UserController extends Controller
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
 
-            $file = new File();
+            $entityManager = $this->getDoctrine()->getManager();
 
-            $fileData = $userForm['fileForm'];
+/*            $file = new File();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $formData      = $request->request->all();
+            dump($formData);
+            $fileData = $formData['user']['fileForm'];
             dump($userForm);
-            dump($fileData);
+            dump($fileData);*/
 
-            $uploadableManager->markEntityToUpload($userForm['fileForm']['file'], pathinfo($userForm['fileForm']['file']->getClientOriginalName(), PATHINFO_FILENAME));
+
+
+/*            $uploadableManager->markEntityToUpload($formData['user']['fileForm']['file'], $formData['user']['fileForm']['file']->getPath());*/
 
 /*            $fileForm = $this->createForm(FileType::class, $file);
             $fileForm->handleRequest($request);
             $uploadableManager->markEntityToUpload($file, $file->getPath());*/
+
+
+
+
 
             $entityManager->persist($user);
             $entityManager->flush();

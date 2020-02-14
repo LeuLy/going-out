@@ -24,6 +24,8 @@ class FileType extends AbstractType
                 \Symfony\Component\Form\Extension\Core\Type\FileType::class,
                 [
                     'label' => 'Photo',
+                    'data_class' => null,
+                    'required' => false,
                     'attr' => ['class' => 'form-control']
                     ]
             )
@@ -33,7 +35,7 @@ class FileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => File::class,
+            'data_class' => User::class,
         ]);
     }
 }
