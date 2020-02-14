@@ -7,7 +7,10 @@
 {% block body %}
     <div class="row">
         <div class="col-xs-5 col-sm-3">
-            <img alt="Bootstrap Image Preview" src="{{ asset('img/icon_HW.png') }}" class="img-thumbnail" />
+            {% if app.user.file is not null %}
+
+            <img alt="avatar" src="{{ asset('public/') }}" class="img-thumbnail" />
+            {% endif %}
         </div>
         <div class="col-sm-8 col-md-6" id="form_format">
 

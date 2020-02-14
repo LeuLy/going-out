@@ -119,15 +119,6 @@ class UserController extends Controller
                 dump('not ok');
             }
 
-            /*if ($filedata) {
-                $fileload = $fileUploader->upload($filedata);
-                $user->setFile->setName($fileload);
-            }*/
-
-
-
-
-
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -136,6 +127,7 @@ class UserController extends Controller
                 'success',
                 'Modification enregistrée'
             );
+            return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView(), compact('file')]);
         }
 
 
