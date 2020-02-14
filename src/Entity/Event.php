@@ -78,7 +78,7 @@ class Event
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="event", cascade={"persist", "remove"})
      */
     private $inscriptions;
 

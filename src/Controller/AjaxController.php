@@ -58,9 +58,9 @@ class AjaxController extends AbstractController
     public function withdrawEvent($event_id = 0, EntityManagerInterface $entityManager)
     {
 
-       $entityManager = $this->getDoctrine()->getManager();
-        $eventUser = $entityManager->getRepository(Event::class);
-        $event      = $eventUser->find($event_id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $eventUser     = $entityManager->getRepository(Event::class);
+        $event         = $eventUser->find($event_id);
 
 //        dump($event);
 //        if (!$eventUser) {
@@ -76,11 +76,8 @@ class AjaxController extends AbstractController
 
 
         $InscriptionRepository = $entityManager->getRepository(Inscription::class);
-        $inscription = $InscriptionRepository ->findOneBy(['user' => $this->getUser(),'event'=>$event]);
+        $inscription           = $InscriptionRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
         dump($inscription);
-
-
-
 
 
         $entityManager->remove($inscription);
@@ -97,41 +94,31 @@ class AjaxController extends AbstractController
 
     }
 
-//                              SUPPRIMER UN EVENEMENT
-//    /**
-//     * @Route("/api/withdrawEvent/{event_id}", name="ajax_route_withdrawEvent")
-//     */
-//    public function withdrawEvent($event_id = 0, EntityManagerInterface $entityManager)
-//    {
-//
-//        $entityManager = $this->getDoctrine()->getManager();
-//        $eventRepository = $entityManager->getRepository(Event::class);
-//        $event           = $eventRepository->find($event_id);
-//        dump($event);
-//
-//
-////        $eventUser = $entityManager->getRepository(Inscription::class)->find($event);
-//
-////        if (!$eventUser) {
-////            throw $this->createNotFoundException(
-////                'No user found for id '.$id
-////            );
-////        }
-//
-////        $entityManager->remove($eventUser);
-////        $entityManager->flush();
-//
-//        return new JsonResponse(
-//            [
-//
-////                "EventId" => $eventUser->getEventId(),
-//            ]
-//        );
-//
-//
-//
-//    }
+    /**
+     * @Route("/api/deleteEvent/{event_id}", name="ajax_route_deleteEvent")
+     */
+    public function deleteEvent($event_id = 0, EntityManagerInterface $entityManager)
+    {
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $eventUser     = $entityManager->getRepository(Event::class);
+        $event         = $eventUser->find($event_id);
+
+
+
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+
+        return new JsonResponse(
+            [
+
+
+            ]
+        );
+
+
+    }
 
 }
 
