@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\Place;
 use App\Entity\Site;
+use App\Entity\User;
 use App\Form\EventType;
 use App\Form\PlaceType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,13 +29,11 @@ class EventsController extends Controller
     }
 
 
-
     /**
      * @Route("/update-event/{event_id}", name="update-event")
      */
-    public function updateEvent($event_id=0, Request $request, EntityManagerInterface $entityManager)
+    public function updateEvent($event_id = 0, Request $request, EntityManagerInterface $entityManager)
     {
-
 
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -72,7 +71,6 @@ class EventsController extends Controller
             }
 
 
-
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -87,15 +85,11 @@ class EventsController extends Controller
         return $this->render(
             'events/updateEvent.html.twig',
             [
-                'eventForm' => $eventForm->createView()
+                'eventForm' => $eventForm->createView(),
             ]
         );
 
     }
-
-
-
-
 
     /**
      * @Route("/create-events", name="create-events")
@@ -134,7 +128,6 @@ class EventsController extends Controller
             }
 
 
-
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -167,17 +160,22 @@ class EventsController extends Controller
 
         $eventRepository = $entityManager->getRepository(Event::class);
 
-        $var       = $request->query->get("var");
-        $beginDate = $request->query->get("beginDate");
-        $endDate   = $request->query->get("endDate");
-
-
+        $var         = $request->query->get("var");
+        $beginDate   = $request->query->get("beginDate");
+        $endDate     = $request->query->get("endDate");
         $passedEvent = $request->query->get("passedEvent");
-        dump($passedEvent);
+        $subscribed  = $request->query->get("subscribed");
+        $eventOwner  = $request->query->get("eventOwner");
+        $userId = $this->getUser()->getId();
 
 
-        $eventOwner = $request->query->get("eventOwner");
-        $userId     = $this->getUser()->getId();
+
+        $userRepository = $entityManager->getRepository(User::class);
+        $user           = $userRepository->find($this->getUser());
+
+
+
+
         dump($eventOwner);
 
         dump($userId);
@@ -207,7 +205,9 @@ class EventsController extends Controller
             $endDate,
             $eventOwner,
             $userId,
+            $user,
             $passedEvent,
+            $subscribed,
             $var,
             $site,
             $page,
@@ -227,21 +227,17 @@ class EventsController extends Controller
     }
 
 
-
-
     /**
      * @Route("/affichEvent/{id}", name="affichEvent")
      */
-    public function affichEvent($id, Request $request,EntityManagerInterface $entityManager)
+    public function affichEvent($id, Request $request, EntityManagerInterface $entityManager)
     {
         $eventRepository = $entityManager->getRepository(Event::class);
-        $event = $eventRepository->find($id);
+        $event           = $eventRepository->find($id);
 
 
         return $this->render('events/affichEvent.html.twig', compact('event'));
     }
-
-
 
 
 }

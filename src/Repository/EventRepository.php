@@ -27,7 +27,9 @@ class EventRepository extends ServiceEntityRepository
         $endDate,
         $eventOwner,
         $userId,
+        $user,
         $passedEvent,
+        $subscribed,
         $var,
         $site,
         $page = 0,
@@ -67,6 +69,16 @@ class EventRepository extends ServiceEntityRepository
             $qb
                 ->andWhere('e.creator = :userId')
                 ->setParameter(':userId', $userId);
+
+        }
+                                    //EN COURS
+        if ($subscribed == 'on') {
+            $qb
+                ->addselect('i')
+                ->innerJoin('e.inscriptions', 'i')
+                ->andWhere('i.user = :user')
+                ->setParameter(':user', $user);
+                dump($user);
 
         }
 

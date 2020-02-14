@@ -68,7 +68,6 @@ class AjaxController extends AbstractController
 //                'No user found for id '.$id
 //            );
 //        }
-
         $userRepository = $entityManager->getRepository(User::class);
         $user           = $userRepository->find($this->getUser());
 
