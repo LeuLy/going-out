@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends Controller
@@ -67,7 +68,8 @@ class UserController extends Controller
      * @param UploadableManager $uploadableManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function profilModif(UploadableManager $uploadableManager, Request $request, EntityManagerInterface $entityManager)
+    public function profilModif(UploadableManager $uploadableManager, Request $request,
+                                EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = $this->getUser();
         $userForm = $this->createForm(UserType::class, $user);
@@ -78,6 +80,13 @@ class UserController extends Controller
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
 
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $userForm->get('password')->getData()
+                )
+            );
+
             $filedata = $userForm->get('file')->getData();
 
             dump($filedata);
@@ -87,36 +96,41 @@ class UserController extends Controller
             $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
             if ($filedata instanceof UploadedFile) {
-               dump('ok');
-               dump($filedata->getClientOriginalName());
-               dump($filedata->getClientSize());
-               dump($filedata->getClientMimeType());
-               dump($filedata->getRealPath());
-               dump($filedata->getClientOriginalExtension());
 
-                $pathF = $filedata->move(
-                    'public/uploads',
-                    $filedata->getClientOriginalName()
-                );
-                dump($pathF);
+                if(!empty($user->getFile())){
+                    $fileExists = new File();
+                    dump(' not empty !!!');
+                    $fileRep = $entityManager->getRepository(File::class);
+                    $fileExists = $fileRep->findOneBy(['user'=>$user->getId()]);
+                    $entityManager->remove($fileExists);
+                    $entityManager->flush();
+                }
+                
+                    $pathF = $filedata->move(
+                        'public/uploads',
+                        $filedata->getClientOriginalName()
+                    );
+                    dump($pathF);
 
 
-               $inf = new UploadedFileInfo($filedata);
-                dump($inf);
+                    $inf = new UploadedFileInfo($filedata);
+                    dump($inf);
 
-                $file->setMimeType($filedata->getClientMimeType());
-                $file->setName($filedata->getClientOriginalName());
-                $file->setSize($filedata->getClientSize());
-                $file->setPath($filedata->getRealPath());
-                $file->setUser($user);
-                $file->setPublicPath('');
+                    $file->setMimeType($filedata->getClientMimeType());
+                    $file->setName($filedata->getClientOriginalName());
+                    $file->setSize($filedata->getClientSize());
+                    $file->setPath($filedata->getRealPath());
+                    $file->setUser($user);
+                    $file->setPublicPath('');
 
-                $uploadableManager->markEntityToUpload($file, $inf, $pathF );
-                dump('nom '.$file->getName());
-                dump($user);
+                    $uploadableManager->markEntityToUpload($file, $inf, $pathF );
+                    dump('nom '.$file->getName());
+                    dump($user);
 
-            }else{
-                dump('not ok');
+
+
+
+
             }
 
             $entityManager->persist($user);
