@@ -1,9 +1,14 @@
-Actions: <br>
-<a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
-<button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se désister</button>
-<button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
-<a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}">modifier</a>
-<button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
+{#Actions: <br>#}
+<div class="row align-items-center">
+
+    <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
+    <button class="btn btn-light" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
+    <button class="btn btn-light" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+    <a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}" class="card-link">Modifier</a>
+    <button class="btn btn-light" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
+
+</div>
+
 
 
 

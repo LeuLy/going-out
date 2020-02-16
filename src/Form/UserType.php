@@ -86,6 +86,8 @@ class UserType extends AbstractType
                 'file',
                 \Symfony\Component\Form\Extension\Core\Type\FileType::class,
                 [
+                    'label' => 'Photo',
+                    'attr' => ['class' => 'form-control'],
                     'mapped' => false,
                     'required' => false,
                 ]

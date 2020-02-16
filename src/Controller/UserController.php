@@ -105,7 +105,7 @@ class UserController extends Controller
                     $entityManager->remove($fileExists);
                     $entityManager->flush();
                 }
-                
+
                     $pathF = $filedata->move(
                         'public/uploads',
                         $filedata->getClientOriginalName()
@@ -156,8 +156,9 @@ class UserController extends Controller
      */
     public function affichProfil()
     {
-        return $this->render('user/affichProfil.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
+
+        $user = $this->getUser();
+
+        return $this->render('user/affichProfil.html.twig', compact('user'));
     }
 }

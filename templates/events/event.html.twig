@@ -5,57 +5,72 @@
 {% block body %}
     <div class="row">
         <div class="col-xs-2 col-md-3"></div>
-        <div class="col-xs-8 col-md-6" id="form_format">
-            <h3>Rechercher</h3>
-            <form role="search" action="{{ path('listEvent') }}">
-                <div>
+        <div class="col-xs-8 col-md-6">
+            <div id="form_format">
+
+                <form role="search" action="{{ path('listEvent') }}">
+                    <div>
+                        <h3>Rechercher</h3>
+
+                        <form role="search" action="{{ path('listEvent') }}">
+                            <div>
+                                <input type="search" class="form-control" id="site-search" name="var"
+                                       placeholder="Votre recherche ..."
+                                       aria-label="Search through site content">
+                                <br>
+
+                                Entre : <input type="datetime-local" name="beginDate">
+                                et : <input type="datetime-local" name="endDate"><br> <br/>
 
 
-                    <form role="search" action="{{ path('listEvent') }}">
-                        <div>
-                            <input type="search" class="form-control" id="site-search" name="var"
-                                   placeholder="Votre recherche ..."
-                                   aria-label="Search through site content">
-                            <br>
+                                <input type="checkbox" id="eventOwner" name="eventOwner">
+                                <label for="eventOwner">Sorties dont je suis l'organisateur/trice</label>
+                                <br>
 
-                            Entre:<input type="datetime-local" name="beginDate"> <br>
-                            et:<input type="datetime-local" name="endDate"><br>
+                                <input type="checkbox" id="subscribed" name="subscribed">
+                                <label for="subscribed">Sorties auxquelles je suis inscrit/e</label>
+                                <br>
 
+                                <input type="checkbox" id="notSubscribed" name="notSubscribed">
+                                <label for="notSubscribed">Sorties auxquelles je ne suis pas inscrit/e</label>
+                                <br>
 
-                            <input type="checkbox" id="eventOwner" name="eventOwner">
-                            <label for="eventOwner">Sorties dont je suis l'organisateur/trice</label>
-                            <br>
+                                <input type="checkbox" id="passedEvent" name="passedEvent">
+                                <label for="passedEvent">Sorties passées</label>
+                                <br>
 
-                            <input type="checkbox" id="subscribed" name="subscribed">
-                            <label for="subscribed">Sorties auxquelles je suis inscrit/e</label>
-                            <br>
-
-                            <input type="checkbox" id="notSubscribed" name="notSubscribed">
-                            <label for="notSubscribed">Sorties auxquelles je ne suis pas inscrit/e</label>
-                            <br>
-
-                            <input type="checkbox" id="passedEvent" name="passedEvent">
-                            <label for="passedEvent">Sorties passées</label>
-                            <br>
-
-                            <input type="hidden" name="label" value="{{ siteLabel }}">
-                            <button class="btn btn-outline-info" type="submit">Rechercher</button>
-                        </div>
-                    </form>
+                                <input type="hidden" name="label" value="{{ siteLabel }}">
+                                <button class="btnValid" type="submit">Rechercher</button>
+                            </div>
+                        </form>
 
 
-                </div>
+                    </div>
 
 
-                {% include 'includes/listEvents.html.twig' %}
 
 
-            </form>
 
-            {% include 'includes/pagination.html.twig' %}
+                </form>
+            </div>
+
+
+
+
 
         </div>
         <div class="col-xs-2 col-md-3">
         </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xs-2 col-md-1"></div>
+        <div class="col-xs-8 col-md-10">
+            {% include 'includes/listEvents.html.twig' %}
+<div class="d-flex justify-content-center">
+    {% include 'includes/pagination.html.twig' %}
+</div>
+        </div>
+        <div class="col-xs-2 col-md-1"></div>
     </div>
 {% endblock %}

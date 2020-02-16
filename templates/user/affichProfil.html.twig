@@ -7,17 +7,22 @@
 {% block body %}
     <div class="row">
         <div class="col-xs-5 col-sm-3">
-            <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" class="img-thumbnail" />
         </div>
         <div class="col-sm-8 col-md-6">
-            <h3>
-                Pseudo
-            </h3>
 
 
+                <div class="card-body">
+                    {% if app.user.file is not null %}
+                    <img class="card-img-top" src="{{ asset('public/') }}" alt="Card image cap">
+                    {% endif %}
+                    <h5 class="card-title d-flex justify-content-center">{{ app.user.username }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ app.user.firstname }} {{ app.user.name }}</h6>
+                    <p class="card-text">{{ app.user.phone }}</p>
+                </div>
 
-            <button type="button" class="btn btn-primary">
-                Enregistrer
+
+            <button type="button" class="btnValid">
+                Retour
             </button>
         </div>
         <div class="col-sm-1 col-md-3"></div>

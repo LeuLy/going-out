@@ -1,6 +1,8 @@
+<div class="row d-flex justify-content-center">
+
 {% for eventByDescription in eventByDescription %}
 
-    <p>
+{#    <p>
         Event label: {{ eventByDescription.label }} <br>
         Event id: {{ eventByDescription.id }} <br>
         Event description: {{ eventByDescription.description }} <br>
@@ -10,9 +12,25 @@
         Event duration: {{ eventByDescription.duration |date('H:i:s') }} <br>
         Event maxMembers: {{ eventByDescription.maxMembers }} <br>
         {% include 'includes/actions.html.twig' %}
-    </p>
+    </p>#}
+
+
+    <div class="card col-sm-6 col-md-4" style="width: 18rem;" id="event_card">
+        <div class="card-body">
+            <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted"></h6>
+            <p class="card-text">{{ eventByDescription.label }}</p>
+            <div class="d-flex justify-content-center">
+                {% include 'includes/actions.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+
 
 {% endfor %}
+</div>
+
 
 <script>
 
