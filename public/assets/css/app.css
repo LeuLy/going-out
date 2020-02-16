@@ -13,12 +13,7 @@ h1{
     color: #235784;
 }
 /* Navigation */
-.nav-link:active .text_nav{
-    color: white;
-}
-.nav-link:active{
-    background-color: #f7aa00;
-}
+
 nav, small{
     color: #235784;
     margin-bottom: 2em;
@@ -32,6 +27,13 @@ nav, small{
     color: #235784;
 }
 
+.test-color{
+    color: white;
+    background-color: #f7aa00;
+
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
 .nav-item a:before{
     content: "";
     position: absolute;

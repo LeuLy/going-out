@@ -55,4 +55,23 @@
     </div>
 
 
+    <script>
+        $('.img_hov').mouseenter(function () {
+            $(this).animate({
+                width : '30em'
+            }, {
+                duration : 1000,
+                queue : false
+            })
+        })
+        $('.img_hov').mouseleave(function () {
+            $(this).animate({
+                width : '100%'
+            }, {
+                duration : 1000,
+                queue : false
+            })
+        })
+    </script>
+
 {% endblock %}

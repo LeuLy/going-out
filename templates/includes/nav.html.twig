@@ -2,6 +2,7 @@
     <script type="text/javascript">
 
 
+
     </script>
 {% endblock %}
 
@@ -25,21 +26,21 @@
         <ul class="navbar-nav ml-auto flex-nowrap">
             <li class="nav-item">
                 <a class="nav-link m-2 menu-item" href="{{ path('home') }}">
-                    <span class="text_nav">Accueil</span>
+                    <span><div class="nav_elt text_nav">Accueil</div></span>
                 </a>
             </li>
             {% if app.user %}
             <li class="nav-item">
-                <div >
+                <div id="profil">
                     <a class="nav-link m-2 menu-item" href="{{ path('profilModif') }}">
-                        <span class="text_nav">Mon Profil</span>
+                        <span><div class="nav_elt text_nav">Mon Profil</div></span>
                     </a>
                 </div>
             </li>
                 <li class="nav-item">
                     <div >
                         <a class="nav-link m-2 menu-item" href="{{ path('create-events') }}">
-                            <span class="text_nav">Créer une sortie</span>
+                            <span><div class="nav_elt text_nav">Créer une sortie</div></span>
                         </a>
                     </div>
                 </li>
@@ -47,33 +48,84 @@
             {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a href="#" class="nav-link m-2 menu-item">
-                    <span class="text_nav">Villes</span>
+                    <span><div class="nav_elt text_nav">Villes</div></span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link m-2 menu-item">
-                    <span class="text_nav">Sites</span>
+                    <span><div class="nav_elt text_nav">Sites</div></span>
                 </a>
             </li>
                 <li class="nav-item">
                     <a class="nav-link m-2 menu-item" href="{{ path('register') }}">
-                        <span class="text_nav">Inscription</span>
+                        <span><div class="nav_elt text_nav">Inscription</div></span>
                     </a>
                 </li>
             {% endif %}
             {% if app.user %}
             <li class="nav-item">
                 <a class="nav-link m-2 menu-item" href="{{ path('logout') }}">
-                    <span class="text_nav">Se déconnecter</span>
+                    <span><div class="nav_elt text_nav">Se déconnecter</div></span>
                 </a>
             </li>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link m-2 menu-item" href="{{ path('login') }}">
-                        <span class="text_nav">Se connecter</span>
+                        <span><div class="nav_elt text_nav">Se connecter</div></span>
                     </a>
                 </li>
             {% endif %}
         </ul>
     </div>
 </nav>
+
+<script>
+    $(window).bind("load", function() {
+        $('span').click(function () {
+
+
+            $('.nav_elt').removeClass('test-color');
+            $('.nav_elt').addClass('text_nav');
+
+            $(this).children().removeClass('text_nav');
+            $(this).children().addClass('test-color');
+        })
+    });
+
+
+
+    /*$(document).load(function(){
+        $('span').click(function (e) {
+
+
+            $('.nav_elt').removeClass('test-color');
+            $('.nav_elt').addClass('text_nav');
+
+            $(this).children().removeClass('text_nav');
+            $(this).children().addClass('test-color');
+            return false;
+        })
+
+    })*/
+
+  /*  $("span").on("click", makeAjaxRequest);
+
+    function makeAjaxRequest(){
+        $.ajax({
+
+            url: 'url',
+            type: 'GET',
+
+            complete: function() {
+                $('.nav_elt').removeClass('test-color');
+                $('.nav_elt').addClass('text_nav');
+
+                $(this).children().removeClass('text_nav');
+                $(this).children().addClass('test-color');
+            }
+    })}*/
+
+
+
+
+</script>
