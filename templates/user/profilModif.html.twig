@@ -9,7 +9,7 @@
         <div class="col-xs-5 col-sm-3">
             {% if app.user.file is not null %}
 
-            <img alt="avatar" src="{{ asset('public/uploads/avatar.png') }}" class="img-thumbnail" />
+            <img alt="avatar" src="{{ asset('public/uploads/' ~ photo.name) }}" class="img-thumbnail" />
             {% endif %}
         </div>
         <div class="col-sm-8 col-md-6" id="form_format">

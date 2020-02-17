@@ -13,7 +13,7 @@
 
                 <div class="card-body">
                     {% if app.user.file is not null %}
-                    <img class="card-img-top" src="{{ asset('public/') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('public/uploads/' ~ photo.name) }}" alt="Card image cap">
                     {% endif %}
                     <h5 class="card-title d-flex justify-content-center">{{ app.user.username }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ app.user.firstname }} {{ app.user.name }}</h6>
