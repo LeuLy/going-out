@@ -12,7 +12,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                {{ form_row(eventForm.placeForm) }}
+                {{ form_row(eventForm.placeForm.label) }}
+                {{ form_row(eventForm.placeForm.address) }}
+                {{ form_row(eventForm.placeForm.latitude) }}
+                {{ form_row(eventForm.placeForm.longitude) }}
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btnValid" data-dismiss="modal">Enregistrer</button>
