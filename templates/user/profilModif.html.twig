@@ -9,13 +9,13 @@
         <div class="col-xs-5 col-sm-3">
             {% if app.user.file is not null %}
 
-            <img alt="avatar" src="{{ asset('public/') }}" class="img-thumbnail" />
+            <img alt="avatar" src="{{ asset('public/uploads/avatar.png') }}" class="img-thumbnail" />
             {% endif %}
         </div>
         <div class="col-sm-8 col-md-6" id="form_format">
 
 
-                <h3>Mon Profil</h3>
+                <h3>Mon Profil {{ app.user.username }}</h3>
 
             {{ form_start(userFormView, {'enctype': 'multipart/form-data'} ) }}
             {{ form_row(userFormView.username) }}
@@ -28,7 +28,6 @@
             {{ form_row(userFormView.site) }}
             {{ form_row(userFormView.file) }}
 
-            {#{% include 'includes/uploadPhoto.html.twig' %}#}
 
             <div class="row d-flex justify-content-around">
 
@@ -49,4 +48,15 @@
         <div class="col-sm-1 col-md-3">
         </div>
     </div>
+
+
+    <script>
+
+        $(window).on("load", function(){
+            alert('test');
+            $("img").attr("src")=         })
+
+    </script>
+
 {% endblock %}
+

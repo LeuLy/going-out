@@ -75,7 +75,11 @@ class UserController extends Controller
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
-
+        $photoOrigin = new File();
+        $photoOrigin = $user->getFile();
+        $photoPath = $photoOrigin->getPublicPath();
+        dump($photoPath);
+        dump($user);
 
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
@@ -126,10 +130,9 @@ class UserController extends Controller
                     $uploadableManager->markEntityToUpload($file, $inf, $pathF );
                     dump('nom '.$file->getName());
                     dump($user);
-
-
-
-
+                    dump($file);
+                    $path = $file ->getPublicPath();
+                    dump($path);
 
             }
 
@@ -141,7 +144,7 @@ class UserController extends Controller
                 'success',
                 'Modification enregistrée'
             );
-            return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView(), compact('file')]);
+            return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
         }
 
 
@@ -149,7 +152,7 @@ class UserController extends Controller
 
 
 
-        return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
+        return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView(), compact('user')]);
     }
     /**
      * @Route("/affichProfil", name="affichProfil")
@@ -158,7 +161,9 @@ class UserController extends Controller
     {
 
         $user = $this->getUser();
+        $photo = $user -> getFile();
+        dump($photo);
 
-        return $this->render('user/affichProfil.html.twig', compact('user'));
+        return $this->render('user/affichProfil.html.twig', compact('photo'));
     }
 }

@@ -135,12 +135,12 @@ form{
     width: 100%;
     display: block;
     height: auto;
-    margin-bottom: 3em;
     box-shadow: 10px 10px 30px -24px rgba(0,0,0,0.86);
 }
 .img_hov{
     position: relative;
     width: 100%;
+    margin-bottom: 3em;
 }
 .overlay {
     position: absolute;
@@ -193,4 +193,8 @@ footer{
 }
 .btn-light{
     margin-right: 1em;
+}
+#team{
+    text-decoration: none;
+    color: #FFFFFF;
 }
