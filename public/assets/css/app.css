@@ -148,6 +148,18 @@ form{
     }
 }
 
+/* Fond Register */
+@media only screen and (min-width: 992px){
+    #register{
+        min-height:100vh;
+        background-image: url(../../img/typo_inscription.png);
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        background-attachment: fixed;
+        background-size: contain;
+    }
+}
+
 /* Image accueil*/
 
 .img_home{
@@ -193,6 +205,10 @@ form{
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     text-align: center;
+}
+.city_text a:hover {
+    text-decoration: none;
+    color: white;
 }
 
 @media only screen and (min-width: 992px) {
