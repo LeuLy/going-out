@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Inscription;
 use App\Entity\Place;
 use App\Entity\Site;
 use App\Entity\User;
@@ -150,15 +151,16 @@ class EventsController extends Controller
 
 
     /**
+     *
      * @Route("/event/{page}", name="listEvent", requirements={"page": "\d+"})
      */
     public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
     {
-        $limit          = 1;
-        $siteRepository = $entityManager->getRepository(Site::class);
-
-
-        $eventRepository = $entityManager->getRepository(Event::class);
+        $limit                 = 1;
+        $siteRepository        = $entityManager->getRepository(Site::class);
+        $inscriptionRepository = $entityManager->getRepository(Inscription::class);
+        $eventRepository       = $entityManager->getRepository(Event::class);
+        $userRepository        = $entityManager->getRepository(User::class);
 
         $var           = $request->query->get("var");
         $beginDate     = $request->query->get("beginDate");
@@ -170,14 +172,13 @@ class EventsController extends Controller
         $userId        = $this->getUser()->getId();
 
 
-        $userRepository = $entityManager->getRepository(User::class);
-        $user           = $userRepository->find($this->getUser());
+        $user        = $userRepository->find($this->getUser());
+        $inscription = $inscriptionRepository->findAll();
+        $events      = $eventRepository->findAll();
 
-
+        dump($inscription);
         dump($eventOwner);
-
         dump($userId);
-
         dump($var);
 
         $siteLabel = $request->query->get('label');
@@ -212,16 +213,33 @@ class EventsController extends Controller
             $page,
             $limit
         );
-        dump($siteKeep);
-        dump($eventByDescription);
-        $nbTotalEventsByDescription = count($eventByDescription);
 
+        //eventByCreator -> les evenements créés par l'utilisateur courant.
+        $eventByCreator = $eventRepository->findEventByCreator($userId);
+        dump($eventByCreator);
+        dump($eventByDescription);
+        dump($events);
+
+        $nbTotalEventsByDescription = count($eventByDescription);
         $nbPageByDescription = ceil($nbTotalEventsByDescription / $limit);
 
 
         return $this->render(
             'events/event.html.twig',
-            compact('eventByDescription', 'page', 'nbPageByDescription', 'nbPage', 'siteLabel', 'event', 'limit', 'var')
+            compact(
+                'eventByDescription',
+                'eventByCreator',
+                'page',
+                'user',
+                'nbPageByDescription',
+                'nbPage',
+                'siteLabel',
+                'event',
+                'inscription',
+                'limit',
+                'var',
+                'userId'
+            ) // userId  rajouté
         );
     }
 
@@ -237,6 +255,13 @@ class EventsController extends Controller
 
         return $this->render('events/affichEvent.html.twig', compact('event'));
     }
+
+
+//    public function action($id, EntityManagerInterface $entityManager){
+//
+//        $eventRepository = $entityManager->getRepository(Event::class);
+//        $event           = $eventRepository->find($id);
+//    }
 
 
 }

@@ -82,12 +82,11 @@ class EventRepository extends ServiceEntityRepository
                 ->innerJoin('e.inscriptions', 'i')
                 ->andWhere('i.user = :user')
                 ->setParameter(':user', $user);
-                dump($user);
+            dump($user);
 
         }
         if ($notSubscribed == 'on') {
             $qb
-
                 ->addselect('i')
                 ->innerJoin('e.inscriptions', 'i')
                 ->andWhere('i.user != :user')
@@ -106,6 +105,22 @@ class EventRepository extends ServiceEntityRepository
         return ($result);
     }
 
+    public function findEventByCreator($userId)
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb
+            ->Where('e.creator = :userId')
+            ->setParameter(':userId', $userId);
+
+        $query = $qb->getQuery();
+
+
+        dump($query->getSQL());
+        $eventByCreator = $query->getResult();
+
+        return ($eventByCreator);
+    }
+
 
     public function findEventBySite($site, $page = 0, $limit = 10)
     {
@@ -118,7 +133,7 @@ WHERE e.site = :site
 DQL;
 
 
-        $query = $entityManager
+        $query     = $entityManager
             ->createQuery($dql)
             ->setParameter(':site', $site)
             ->setFirstResult($page * $limit)
@@ -129,8 +144,6 @@ DQL;
 //        return $query->getResult();
         return ($paginator);
     }
-
-
 
 
 }
