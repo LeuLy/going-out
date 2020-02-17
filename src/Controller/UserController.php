@@ -75,11 +75,6 @@ class UserController extends Controller
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
-/*        $photoOrigin = new File();
-        $photoOrigin = $user->getFile();
-        $photoPath = $photoOrigin->getPublicPath();
-        dump($photoPath);
-        dump($user);*/
 
 
         if($userForm->isSubmitted() && $userForm->isValid()) {

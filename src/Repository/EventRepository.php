@@ -57,15 +57,11 @@ class EventRepository extends ServiceEntityRepository
                 ->andWhere('e.dateStart <= :endDate')
                 ->setParameter(':endDate', $endDate);
         }
-
-
         if ($passedEvent == 'on') {
             $qb
                 ->andWhere('e.dateStart <= :now')
                 ->setParameter('now', new \DateTime());
-
         }
-
         if ($eventOwner == 'on') {
             $qb
                 ->andWhere('e.creator = :userId')
@@ -78,7 +74,7 @@ class EventRepository extends ServiceEntityRepository
 //
 //
 //
-//       
+//
 //
         if ($subscribed == 'on') {
             $qb
@@ -94,7 +90,7 @@ class EventRepository extends ServiceEntityRepository
 
                 ->addselect('i')
                 ->innerJoin('e.inscriptions', 'i')
-                ->andWhere('i.user not :user')
+                ->andWhere('i.user != :user')
                 ->setParameter(':user', $user);
             dump($user);
 

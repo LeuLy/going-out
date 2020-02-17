@@ -43,6 +43,12 @@ class Place
      */
     private $events;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="places")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $city;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -128,6 +134,18 @@ class Place
                 $event->setPlace(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
