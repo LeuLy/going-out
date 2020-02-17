@@ -78,7 +78,7 @@ class EventRepository extends ServiceEntityRepository
 //
 //
 //
-//       
+//
 //
         if ($subscribed == 'on') {
             $qb

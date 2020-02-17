@@ -2,12 +2,19 @@
 <div class="row align-items-center">
 
 
-{#    Ne pas changer les classes#}
+    {#    Ne pas changer les classes#}
 
     <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
+
+    {% if ({{ eventByDescription.user }} == 'user')%}
+        <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+    {% endif %}
+
+
     <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
-    <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+
     <a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}" class="card-link">Modifier</a>
+
     <button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
 
 </div>
