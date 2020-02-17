@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Gérer les sites
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-2 col-md-3"></div>
+        <div class="col-xs-8 col-md-6">
+
+            <div id="form_format">
+
+                <form role="search" action="{#{{ path('update_sites') }}#}">
+                    <div>
+                        <h3>Gérer les sites</h3>
+
+                        <form role="search" action="{#{{ path('update_sites') }}#}">
+                            <div>
+                                <input type="search" class="form-control" id="site-search" name="var_search"
+                                       placeholder="Le nom contient ..."
+                                       aria-label="Search through site content">
+                                <br>
+                                <button class="btnValid" type="submit">Rechercher</button>
+                            </div>
+                        </form>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+        <div class="col-xs-2 col-md-3"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-2 col-md-3"></div>
+        <div class="col-xs-8 col-md-6">
+            {% include 'includes/listSites.html.twig' %}
+        </div>
+        <div class="col-xs-2 col-md-3"></div>
+    </div>
+{% endblock %}

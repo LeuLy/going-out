@@ -56,6 +56,10 @@ class CityController extends Controller
             $city_delete = $cityRep ->find($city_id_delete);
             $entityManager -> remove($city_delete);
             $entityManager -> flush();
+            $this->addFlash(
+                'success',
+                'Ville supprimée'
+            );
         }
 
 
@@ -70,6 +74,10 @@ class CityController extends Controller
             $city_update -> setPostalCode($city_postcode);
             $entityManager -> persist($city_update);
             $entityManager -> flush();
+            $this->addFlash(
+                'success',
+                'Ville Modifiée'
+            );
         }
 
         return $this->render('city/update_cities.html.twig',compact('city_result'));

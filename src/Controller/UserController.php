@@ -153,7 +153,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/userProfile/{userId}/{page}", name="userProfile", requirements={"userId": "\d+", "page": "\d+"})
+     * @Route("/userProfile/{userId}", name="userProfile", requirements={"userId": "\d+"})
      */
     public function userProfile(EntityManagerInterface $entityManager, $userId)
     {
