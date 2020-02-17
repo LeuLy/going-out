@@ -1,6 +1,6 @@
 <div class="row d-flex justify-content-center">
 
-{% if city_result is not null %}
+
 
     <table class="table">
         <thead>
@@ -11,22 +11,50 @@
         </tr>
         </thead>
         <tbody>
+        <form role="add" action="{{ path('update_cities') }}">
+        <tr>
 
+            <td><input class="form-control" type="text" name="city"></td>
+            <td><input class="form-control" type="text" name="postcode"></td>
+            <td><button type="submit" class="btnForm">Ajouter</button></td>
+
+        </tr>
+        </form>
+        {% if city_result is not null %}
 {% for city in city_result %}
 
-
+        <form role="add" action="{{ path('update_cities') }}">
         <tr>
             <td>{{ city.name}}</td>
             <td>{{ city.postalCode}}</td>
-            <td></td>
+            <td><button type="button" class="btnForm" value="{{ city.id }}" id="{{ city.id }}">Modifier</button>
+                <button type="submit" class="btnForm" name="delete" value="{{ city.id }}">Supprimer</button></td>
         </tr>
+            <tr class="hide" id="id{{ city.id }}">
+                <td><input class="form-control" type="text" name="city_mod" value="{{ city.name }}"></td>
+                <td><input class="form-control" type="text" name="postcode_mod" value="{{ city.postalCode }}"></td>
+                <td><button type="submit" class="btnForm" value="{{ city.id }}" name="update">Enregister</button></td>
+            </tr>
+        </form>
 
 
     {% endfor %}
+        {% endif %}
 
     </tbody>
     </table>
 
-    {% endif %}
 
 </div>
+
+<script>
+
+    /* Faire apparaître les input modifiés */
+
+    $('.btnForm').click(function () {
+        let id = ($(this).attr("id"));
+        console.log(id);
+        $('#id'+id).toggle();
+    })
+
+</script>

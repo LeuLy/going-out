@@ -24,7 +24,7 @@ class CityRepository extends ServiceEntityRepository
         $qb = $this -> createQueryBuilder('c');
         $qb
             ->andWhere('c.name LIKE :search')
-            ->setParameter(':search', $regex) ;
+            ->setParameter(':search', $regex);
 
         $query = $qb->getQuery();
         $result = $query->getResult();
