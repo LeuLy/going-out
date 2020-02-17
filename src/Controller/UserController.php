@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\File;
+use App\Entity\User;
 use App\Form\FileType;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -149,6 +150,25 @@ class UserController extends Controller
 
         return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
     }
+
+
+    /**
+     * @Route("/userProfile/{userId}/{page}", name="userProfile", requirements={"userId": "\d+", "page": "\d+"})
+     */
+    public function userProfile(EntityManagerInterface $entityManager, $userId)
+    {
+        $userRepo = $entityManager->getRepository(User::class);
+        $user = $userRepo->find($userId);
+
+        return $this->render('user/affichProfil.html.twig',
+                compact('user')
+        );
+    }
+
+
+
+
+
     /**
      * @Route("/affichProfil", name="affichProfil")
      */

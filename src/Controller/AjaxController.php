@@ -122,23 +122,20 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/api/seekCity/{event_id}", name="ajax_route_seekCity")
+     * @Route("/api/seekCity/{var}", name="ajax_route_seekCity")
      */
     public function seekCity($var, Request $request, EntityManagerInterface $entityManager)
     {
 
-        $entityManager = $this->getDoctrine()->getManager();
         $cityRepo     = $entityManager->getRepository(City::class);
-        $var = $request->query->get('city');
+
         $list = $cityRepo->findCityByVar($var);
 
-
-        $entityManager->flush();
 
 
         return new JsonResponse(
                 [
-
+                        'list' => $list
 
                 ]
         );

@@ -16,6 +16,27 @@
                 {{ form_row(eventForm.placeForm.address) }}
                 {{ form_row(eventForm.placeForm.latitude) }}
                 {{ form_row(eventForm.placeForm.longitude) }}
+                <div class="seek-city">
+                    {{ form_row(eventForm.placeForm.city) }}
+                </div>
+                    <script>
+                        $(".seek-city input").on("keyup", makeAjaxRequest);
+
+                        function makeAjaxRequest(){
+                            $idvar=($(this).val());
+                            $.ajax({
+
+                                url: "http://localhost/going-out/public/api/seekCity/"+$idvar
+                            })
+                                //lorsque la requête sera terminée, cette fct se déclenchera
+                                .done(function(response){
+
+
+                                    console.log(response);
+                                });
+                        }
+                    </script>
+
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btnValid" data-dismiss="modal">Enregistrer</button>

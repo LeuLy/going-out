@@ -33,7 +33,6 @@ class PlaceType extends AbstractType
                     TextType::class,
                     [
                             'label' => 'Ville',
-                            'placeholder' => 'Choisissez la ville',
                             'mapped' => false,
                     ]
             )

@@ -23,7 +23,8 @@ Event maxMembers: {{ event.maxMembers }} <br>#}
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p class="card-text">
 
-{#                        Event creator: {{ event.creator }} <br>#}
+                        Event creator: {{ event.creator.username }} <br>
+                        <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a><br>
                         Event description: {{ event.description }} <br>
                         Event dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
                         Event dateStart: {{ event.dateStart |date('d-m-Y H:i:s') }} <br>
