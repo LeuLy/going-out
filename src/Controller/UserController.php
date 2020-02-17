@@ -152,7 +152,7 @@ class UserController extends Controller
 
 
 
-        return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView(), compact('photo')]);
+        return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
     }
     /**
      * @Route("/affichProfil", name="affichProfil")
