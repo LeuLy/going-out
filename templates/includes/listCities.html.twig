@@ -1,0 +1,32 @@
+<div class="row d-flex justify-content-center">
+
+{% if city_result is not null %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Ville</th>
+            <th scope="col">Code Postal</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+{% for city in city_result %}
+
+
+        <tr>
+            <td>{{ city.name}}</td>
+            <td>{{ city.postalCode}}</td>
+            <td></td>
+        </tr>
+
+
+    {% endfor %}
+
+    </tbody>
+    </table>
+
+    {% endif %}
+
+</div>
