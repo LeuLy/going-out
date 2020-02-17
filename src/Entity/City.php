@@ -103,6 +103,6 @@ class City implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return ['id' => $this->getId(), 'name' => $this->getName()];
+        return ['id' => $this->getId(), 'postalCode' => $this->getPostalCode(), 'name' => $this->getName()];
     }
 }

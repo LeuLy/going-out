@@ -107,16 +107,16 @@ class EventType extends AbstractType
                             'required' => false,
                     ]
             )
-            ->add(
-                    'save',
-                    SubmitType::class,
-                    [
-                            'label' => 'Envoyer',
-                        'attr'=>[
-                            'class'=>'btn btn-light',
-                        ]
-                    ]
-            )
+//            ->add(
+//                    'save',
+//                    SubmitType::class,
+//                    [
+//                            'label' => 'Envoyer',
+//                            'attr'=>[
+//                            'class'=>'btnValid',
+//                        ]
+//                    ]
+//            )
         ;
     }
 

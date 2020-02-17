@@ -18,24 +18,48 @@
                 {{ form_row(eventForm.placeForm.longitude) }}
                 <div class="seek-city">
                     {{ form_row(eventForm.placeForm.city) }}
+                    <select id="listCity" name="listCity">
+
+                    </select>
                 </div>
                     <script>
+                        $("#listCity").change(function () {
+                            selectedCity = $(this).children(':selected').val();
+                            $(".seek-city input").focus().val(selectedCity);
+
+                        });
+
                         $(".seek-city input").on("keyup", makeAjaxRequest);
+                        var request = null;
 
                         function makeAjaxRequest(){
                             $idvar=($(this).val());
-                            $.ajax({
+                            if (request){
+                                request.abort();
+                            }
+                            request = $.ajax({
 
                                 url: "http://localhost/going-out/public/api/seekCity/"+$idvar
                             })
                                 //lorsque la requête sera terminée, cette fct se déclenchera
                                 .done(function(response){
+                                    //vide le select
+                                    $("#listCity").empty();
+                                    response.list.forEach(function(result){
 
+                                        //créer une option
+                                        var opt = $("<option>");
+                                        opt.html(result.postalCode + " " + result.name);
+                                        opt.attr("value", result.id);
 
+                                        //injecter l'option dans le select
+                                        $("#listCity").append(opt);
+                                    })
                                     console.log(response);
                                 });
                         }
                     </script>
+
 
             </div>
             <div class="modal-footer">
