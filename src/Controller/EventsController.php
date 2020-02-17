@@ -160,20 +160,18 @@ class EventsController extends Controller
 
         $eventRepository = $entityManager->getRepository(Event::class);
 
-        $var         = $request->query->get("var");
-        $beginDate   = $request->query->get("beginDate");
-        $endDate     = $request->query->get("endDate");
-        $passedEvent = $request->query->get("passedEvent");
-        $subscribed  = $request->query->get("subscribed");
-        $eventOwner  = $request->query->get("eventOwner");
-        $userId = $this->getUser()->getId();
-
+        $var           = $request->query->get("var");
+        $beginDate     = $request->query->get("beginDate");
+        $endDate       = $request->query->get("endDate");
+        $passedEvent   = $request->query->get("passedEvent");
+        $subscribed    = $request->query->get("subscribed");
+        $notSubscribed = $request->query->get("notSubscribed");
+        $eventOwner    = $request->query->get("eventOwner");
+        $userId        = $this->getUser()->getId();
 
 
         $userRepository = $entityManager->getRepository(User::class);
         $user           = $userRepository->find($this->getUser());
-
-
 
 
         dump($eventOwner);
@@ -208,6 +206,7 @@ class EventsController extends Controller
             $user,
             $passedEvent,
             $subscribed,
+            $notSubscribed,
             $var,
             $site,
             $page,
