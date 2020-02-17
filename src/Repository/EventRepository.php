@@ -30,6 +30,7 @@ class EventRepository extends ServiceEntityRepository
         $user,
         $passedEvent,
         $subscribed,
+        $notSubscribed,
         $var,
         $site,
         $page = 0,
@@ -71,7 +72,14 @@ class EventRepository extends ServiceEntityRepository
                 ->setParameter(':userId', $userId);
 
         }
-                                    //EN COURS
+//    if  ($subscribed == 'on' && $notSubscribed == 'on' ){
+//
+//    }
+//
+//
+//
+//       
+//
         if ($subscribed == 'on') {
             $qb
                 ->addselect('i')
@@ -81,7 +89,16 @@ class EventRepository extends ServiceEntityRepository
                 dump($user);
 
         }
+        if ($notSubscribed == 'on') {
+            $qb
 
+                ->addselect('i')
+                ->innerJoin('e.inscriptions', 'i')
+                ->andWhere('i.user not :user')
+                ->setParameter(':user', $user);
+            dump($user);
+
+        }
 
 
         $query = $qb->getQuery();
