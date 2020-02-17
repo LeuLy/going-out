@@ -6,9 +6,9 @@
 
     <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
 
-    {% if ({{ eventByDescription.user }} == 'user')%}
+{#    {% if ({{ eventByDescription.user }} == 'user')%}#}
         <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
-    {% endif %}
+{#    {% endif %}#}
 
 
     <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
