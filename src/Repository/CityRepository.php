@@ -24,7 +24,7 @@ class CityRepository extends ServiceEntityRepository
     {
 
         $entityManager = $this->getEntityManager();
-        $dql           = <<<DQL
+        $dql = <<<DQL
 SELECT c
 FROM APP\ENTITY\City c
 WHERE c.name LIKE :var
@@ -34,7 +34,23 @@ DQL;
         $query = $entityManager
                 ->createQuery($dql)
                 ->setParameter(':var', "%".$var."%");
+
         return $query->getResult();
+
+    }
+
+    public function findBySearch($search)
+    {
+        $regex = '%'.$search.'%';
+        $qb = $this->createQueryBuilder('c');
+        $qb
+                ->andWhere('c.name LIKE :search')
+                ->setParameter(':search', $regex);
+
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return ($result);
     }
 
     // /**
