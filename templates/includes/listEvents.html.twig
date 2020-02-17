@@ -1,34 +1,30 @@
 <div class="row d-flex justify-content-center">
 
-{% for eventByDescription in eventByDescription %}
+    {% for eventByDescription in eventByDescription %}
 
-{#    <p>
-        Event label: {{ eventByDescription.label }} <br>
-        Event id: {{ eventByDescription.id }} <br>
-        Event description: {{ eventByDescription.description }} <br>
-        Event dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-        Event dateStart: {{ eventByDescription.dateStart |date('d-m-Y H:i:s') }} <br>
-        Event dateInscriptionEnd: {{ eventByDescription.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>
-        Event duration: {{ eventByDescription.duration |date('H:i:s') }} <br>
-        Event maxMembers: {{ eventByDescription.maxMembers }} <br>
-        {% include 'includes/actions.html.twig' %}
-    </p>#}
+        <div class="card col-sm-6 col-md-4" style="width: 18rem;" id="event_card">
+            <div class="card-body">
+                <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"></h6>
+                <p class="card-text">{{ eventByDescription.label }}</p>
+                <div class="d-flex justify-content-center">
 
 
-    <div class="card col-sm-6 col-md-4" style="width: 18rem;" id="event_card">
-        <div class="card-body">
-            <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted"></h6>
-            <p class="card-text">{{ eventByDescription.label }}</p>
-            <div class="d-flex justify-content-center">
-                {% include 'includes/actions.html.twig' %}
+
+
+
+
+
+                    {% include 'includes/actions.html.twig' %}
+
+                </div>
             </div>
+
         </div>
-    </div>
+
+    {% endfor %}
 
 
-
-{% endfor %}
 </div>
 
 
@@ -36,14 +32,14 @@
 
     $(".inscription-event").on("click", makeAjaxRequest);
 
-    function makeAjaxRequest(){
-        $idvar=($(this).attr("value"));
+    function makeAjaxRequest() {
+        $idvar = ($(this).attr("value"));
         $.ajax({
 
-            url: "http://localhost/going-out/public/api/inscriptionEvent/"+$idvar
+            url: "http://localhost/going-out/public/api/inscriptionEvent/" + $idvar
         })
             //lorsque la requête sera terminée, cette fct se déclenchera
-            .done(function(response){
+            .done(function (response) {
 
 
                 console.log(response);
@@ -56,14 +52,14 @@
 
     $(".withdraw-event").on("click", makeAjaxRequest);
 
-    function makeAjaxRequest(){
-        $idvar=($(this).attr("value"));
+    function makeAjaxRequest() {
+        $idvar = ($(this).attr("value"));
         $.ajax({
 
-            url: "http://localhost/going-out/public/api/withdrawEvent/"+$idvar
+            url: "http://localhost/going-out/public/api/withdrawEvent/" + $idvar
         })
             //lorsque la requête sera terminée, cette fct se déclenchera
-            .done(function(response){
+            .done(function (response) {
 
 
                 console.log(response);
@@ -76,14 +72,14 @@
 
     $(".delete-event").on("click", makeAjaxRequest);
 
-    function makeAjaxRequest(){
-        $idvar=($(this).attr("value"));
+    function makeAjaxRequest() {
+        $idvar = ($(this).attr("value"));
         $.ajax({
 
-            url: "http://localhost/going-out/public/api/deleteEvent/"+$idvar
+            url: "http://localhost/going-out/public/api/deleteEvent/" + $idvar
         })
             //lorsque la requête sera terminée, cette fct se déclenchera
-            .done(function(response){
+            .done(function (response) {
 
 
                 console.log(response);

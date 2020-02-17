@@ -23,6 +23,15 @@ Event maxMembers: {{ event.maxMembers }} <br>#}
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p class="card-text">
 
+
+{#                        Event creator: {{ event.creator.username }} <br>#}
+{#                        Event description: {{ event.description }} <br>#}
+{#                        Event dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>#}
+{#                        Event dateStart: {{ event.dateStart |date('d-m-Y H:i:s') }} <br>#}
+{#                        Event dateInscriptionEnd: {{ event.dateInscriptionEnd |date('d-m-Y H:i:s') }} <br>#}
+{#                        Event duration: {{ event.duration |date('H:i:s') }} <br>#}
+{#                        Event maxMembers: {{ event.maxMembers }}#}
+
                         <i class="fas fa-user-astronaut"></i> Organisateur :
                         <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a><br>
                         <i class="far fa-clipboard"></i> Description : {{ event.description }} <br>
@@ -30,6 +39,7 @@ Event maxMembers: {{ event.maxMembers }} <br>#}
                         <i class="far fa-calendar-times"></i> Fin des inscriptions : {{ event.dateInscriptionEnd |date('d-m-Y') }} à {{ event.dateInscriptionEnd |date('H:i') }}<br>
                         <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H:i') }} <br>
                         <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
+
 
                     </p>
             </div>

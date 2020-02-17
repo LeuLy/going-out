@@ -2,20 +2,40 @@
 <div class="row align-items-center">
 
 
-    {#    Ne pas changer les classes#}
+    {#    Ne pas changer les classes    #}
 
     <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
 
-{#    {% if ({{ eventByDescription.user }} == 'user')%}#}
+    {#    {% if (eventByDescription.inscriptions == inscription and userId == inscription.user.id) %}#}
+    {% set found = false %}
+    {% for listInscription in inscription %}
+
+
+        {% if (userId == listInscription.user.id ) %}
+            {#        {% if (userId == listInscription.user.id and listInscription == eventByDescription ) %}#}
+            {#        {% if ( userId in eventByDescription.inscriptions.user.id ) %}        #}
+            {% set found = true %}
+
+
+
+        {% endif %}
+    {% endfor %}
+    {% if found %}
+
+        <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
+
+    {% else %}
+
         <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
-{#    {% endif %}#}
 
+    {% endif %}
 
-    <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
+    {% if (eventByDescription.creator.id == userId) %}
 
-    <a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}" class="card-link">Modifier</a>
+        <a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}" class="card-link">Modifier</a>
+        <button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
 
-    <button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
+    {% endif %}
 
 </div>
 
