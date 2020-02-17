@@ -75,11 +75,11 @@ class UserController extends Controller
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
-        $photoOrigin = new File();
-        $photoOrigin = $user->getFile();
-        $photoPath = $photoOrigin->getPublicPath();
-        dump($photoPath);
-        dump($user);
+//        $photoOrigin = new File();
+//        $photoOrigin = $user->getFile();
+//        $photoPath = $photoOrigin->getPublicPath();
+//        dump($photoPath);
+//        dump($user);
 
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
@@ -152,7 +152,7 @@ class UserController extends Controller
 
 
 
-        return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView(), compact('photo')]);
+        return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
     }
     /**
      * @Route("/affichProfil", name="affichProfil")

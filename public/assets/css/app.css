@@ -198,6 +198,13 @@ footer{
     text-decoration: none;
     color: #FFFFFF;
 }
+/*Modal*/
+
 .modal-content{
     color: #235784;
+}
+/*Image Profil*/
+
+.card-img-top{
+    width: 10em;
 }

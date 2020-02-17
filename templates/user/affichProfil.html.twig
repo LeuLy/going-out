@@ -10,16 +10,20 @@
         </div>
         <div class="col-sm-8 col-md-6">
 
-
+            <div class="card" style="width: 18rem;">
+            {% if app.user.file is not null %}
+                <img class="card-img-top" src="{{ asset('public/uploads/' ~ photo.name) }}" alt="Card image cap">
+            {% endif %}
                 <div class="card-body">
-                    {% if app.user.file is not null %}
-                    <img class="card-img-top" src="{{ asset('public/uploads/' ~ photo.name) }}" alt="Card image cap">
-                    {% endif %}
                     <h5 class="card-title d-flex justify-content-center">{{ app.user.username }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ app.user.firstname }} {{ app.user.name }}</h6>
-                    <p class="card-text">{{ app.user.phone }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted justify-content-center">{{ app.user.firstname }} {{ app.user.name }}</h6>
+                    <p class="card-text">
+                        Téléphone : {{ app.user.phone }}<br/>
+                        Email : {{ app.user.email }}<br/>
+                        Site de rattachement : {{ app.user.site.label }}
+                    </p>
                 </div>
-
+            </div>
 
             <button type="button" class="btnValid">
                 Retour
