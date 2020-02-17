@@ -12,7 +12,9 @@
 
             <div class="card" style="width: 18rem;">
             {% if user.file is not null %}
-                <img class="card-img-top" src="{{ asset('public/uploads/' ~ user.file.name) }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('public/uploads/' ~ user.file.name) }}" alt="Card image cap"/>
+            {% else %}
+                <img class="card-img-top" src="{{ asset('public/img_default/avatar_default.png') }}" alt="Card image cap"/>
             {% endif %}
                 <div class="card-body">
                     <h5 class="card-title d-flex justify-content-center">{{ user.username }}</h5>
@@ -26,7 +28,7 @@
             </div>
 
             <button type="button" class="btnValid">
-                Retour
+                <a href="{{ asset('/going-out/public') }}">Retour</a>
             </button>
         </div>
         <div class="col-sm-1 col-md-3"></div>

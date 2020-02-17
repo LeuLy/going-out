@@ -75,6 +75,14 @@ nav, small{
     background-color: rgba(35,87,132,1);
 
 }
+.btnValid a{
+    text-decoration: none;
+    color: white;
+}
+.btnValid a:hover{
+    text-decoration: none;
+    color: white;
+}
 .btnForm{
     text-transform: uppercase;
     border-radius: 5px;
