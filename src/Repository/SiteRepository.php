@@ -20,6 +20,22 @@ class SiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Site::class);
     }
 
+    public function findBySearch($search)
+    {
+        $regex = '%'.$search.'%';
+        $qb = $this->createQueryBuilder('s');
+        $qb
+
+            ->andWhere('s.label LIKE :search')
+            ->setParameter(':search', $regex);
+
+
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+
+        return ($result);
+    }
+
     // /**
     //  * @return Site[] Returns an array of Site objects
     //  */

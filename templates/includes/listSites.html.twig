@@ -1,0 +1,56 @@
+<div class="row d-flex justify-content-center">
+
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Ville</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <form role="add" action="{{ path('update_sites') }}">
+            <tr>
+
+                <td><input class="form-control" type="text" name="label"></td>
+                <td><button type="submit" class="btnForm">Ajouter</button></td>
+
+            </tr>
+        </form>
+        {% if site_result is not null %}
+            {% for site in site_result %}
+
+                <form role="add" action="{{ path('update_sites') }}">
+                    <tr>
+                        <td>{{ site.label}}</td>
+                        <td><button type="button" class="btnForm" value="{{ site.id }}" id="{{ site.id }}">Modifier</button>
+                            <button type="submit" class="btnForm" name="delete" value="{{ site.id }}">Supprimer</button></td>
+                    </tr>
+                    <tr class="hide" id="id{{ site.id }}">
+                        <td><input class="form-control" type="text" name="site_mod" value="{{ site.label }}"></td>
+                        <td><button type="submit" class="btnForm" value="{{ site.id }}" name="update">Enregister</button></td>
+                    </tr>
+                </form>
+
+
+            {% endfor %}
+        {% endif %}
+
+        </tbody>
+    </table>
+
+
+</div>
+
+<script>
+
+    /* Faire apparaître les input modifiés */
+
+    $('.btnForm').click(function () {
+        let id = ($(this).attr("id"));
+        console.log(id);
+        $('#id'+id).toggle();
+    })
+
+</script>

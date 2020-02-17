@@ -75,6 +75,25 @@ nav, small{
     background-color: rgba(35,87,132,1);
 
 }
+.btnValid a{
+    text-decoration: none;
+    color: white;
+}
+.btnValid a:hover{
+    text-decoration: none;
+    color: white;
+}
+.btnForm{
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(35,87,132,0.8);
+    box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
+    border: none;
+}
 
 /* Formulaire */
 
@@ -129,6 +148,18 @@ form{
     }
 }
 
+/* Fond Register */
+@media only screen and (min-width: 992px){
+    #register{
+        min-height:100vh;
+        background-image: url(../../img/typo_inscription.png);
+        background-repeat: no-repeat;
+        background-position: center bottom;
+        background-attachment: fixed;
+        background-size: contain;
+    }
+}
+
 /* Image accueil*/
 
 .img_home{
@@ -175,6 +206,10 @@ form{
     transform: translate(-50%, -50%);
     text-align: center;
 }
+.city_text a:hover {
+    text-decoration: none;
+    color: white;
+}
 
 @media only screen and (min-width: 992px) {
     #img_decal {
@@ -207,4 +242,7 @@ footer{
 
 .card-img-top{
     width: 10em;
+}
+.hide{
+    display: none;
 }

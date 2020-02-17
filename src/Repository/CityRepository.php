@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @method City|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,12 +20,34 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
-    public function findBySearch($search){
+    public function findCityByVar($var)
+    {
+
+        $entityManager = $this->getEntityManager();
+        $dql = <<<DQL
+SELECT c
+FROM APP\ENTITY\City c
+WHERE c.name LIKE :var
+DQL;
+
+
+        $query = $entityManager
+                ->createQuery($dql)
+                ->setParameter(':var', "%".$var."%");
+
+        return $query->getResult();
+
+    }
+
+    public function findBySearch($search)
+    {
         $regex = '%'.$search.'%';
-        $qb = $this -> createQueryBuilder('c');
+        $qb = $this->createQueryBuilder('c');
         $qb
+
             ->andWhere('c.name LIKE :search')
-            ->setParameter(':search', $regex) ;
+            ->setParameter(':search', $regex);
+
 
         $query = $qb->getQuery();
         $result = $query->getResult();

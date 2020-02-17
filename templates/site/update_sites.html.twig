@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-    Gérer les villes
+    Gérer les sites
 {% endblock %}
 
 {% block body %}
@@ -12,11 +12,11 @@
 
             <div id="form_format">
 
-                <form role="search" action="{{ path('update_cities') }}">
+                <form role="search" action="{#{{ path('update_sites') }}#}">
                     <div>
-                        <h3>Gérer les villes</h3>
+                        <h3>Gérer les sites</h3>
 
-                        <form role="search" action="{{ path('update_cities') }}">
+                        <form role="search" action="{#{{ path('update_sites') }}#}">
                             <div>
                                 <input type="search" class="form-control" id="site-search" name="var_search"
                                        placeholder="Le nom contient ..."
@@ -38,7 +38,7 @@
     <div class="row">
         <div class="col-xs-2 col-md-3"></div>
         <div class="col-xs-8 col-md-6">
-            {% include 'includes/listCities.html.twig' %}
+            {% include 'includes/listSites.html.twig' %}
         </div>
         <div class="col-xs-2 col-md-3"></div>
     </div>

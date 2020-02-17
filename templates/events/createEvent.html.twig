@@ -12,17 +12,21 @@
             {{ form_start(eventForm) }}
 
             {{ form_row(eventForm.label) }}
+            {{ form_row(eventForm.site) }}
             {{ form_row(eventForm.dateStart) }}
             {{ form_row(eventForm.duration) }}
             {{ form_row(eventForm.dateInscriptionEnd) }}
             {{ form_row(eventForm.maxMembers) }}
             {{ form_row(eventForm.description) }}
             {{ form_row(eventForm.place) }}
+
 {#            {{ form_widget(eventForm.place, { 'disabled':'disabled' }) }}#}
             {% include 'includes/modalFormPlace.html.twig' %}<br/> <br/>
+            
+            {{ form_row(eventForm.status) }}
 
 
-{#            <button class="btn">Register</button>#}
+            <button type="submit" class="btnValid">Enregistrer</button>
             {{ form_end(eventForm) }}
         </div>
         <div class="col-xs-2 col-md-3">

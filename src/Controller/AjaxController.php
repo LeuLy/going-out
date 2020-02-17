@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Event;
 use App\Entity\EventUser;
 use App\Entity\Inscription;
@@ -111,10 +112,32 @@ class AjaxController extends AbstractController
 
 
         return new JsonResponse(
-            [
+                [
 
 
-            ]
+                ]
+        );
+
+
+    }
+
+    /**
+     * @Route("/api/seekCity/{var}", name="ajax_route_seekCity")
+     */
+    public function seekCity($var, Request $request, EntityManagerInterface $entityManager)
+    {
+
+        $cityRepo     = $entityManager->getRepository(City::class);
+
+        $list = $cityRepo->findCityByVar($var);
+
+
+
+        return new JsonResponse(
+                [
+                        'list' => $list
+
+                ]
         );
 
 

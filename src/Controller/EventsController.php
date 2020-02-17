@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\City;
 use App\Entity\Event;
 use App\Entity\Inscription;
 use App\Entity\Place;
@@ -95,8 +96,10 @@ class EventsController extends Controller
     /**
      * @Route("/create-events", name="create-events")
      */
-    public function createEvent(Request $request)
+    public function createEvent(Request $request, EntityManagerInterface $entityManager)
     {
+
+        $cityRepo = $entityManager->getRepository(City::class);
 
         $event     = new Event();
         $eventForm = $this->createForm(EventType::class, $event);
@@ -122,6 +125,7 @@ class EventsController extends Controller
                 $place->setAddress($formData['event']['placeForm']['address']);
                 $place->setLatitude($formData['event']['placeForm']['latitude']);
                 $place->setLongitude($formData['event']['placeForm']['longitude']);
+                $place->setCity($cityRepo->find($formData['event']['placeForm']['city']));
                 dump($place);
                 $entityManager->persist($place);
                 $entityManager->flush();
