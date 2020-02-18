@@ -55,19 +55,19 @@ class RegistrationFormType extends AbstractType
                             ]
                     ]
             )
-            ->add('phone',
-                    TextType::class,
-                    [
-                            'label' => 'Téléphone',
-                            'required' => false,
-                            'constraints' => [
-                                new Length([
-                                        'min' => 10,
-                                        'max' => 10,
-                                ])
-                            ]
-                    ]
-            )
+//            ->add('phone',
+//                    TextType::class,
+//                    [
+//                            'label' => 'Téléphone',
+//                            'required' => false,
+//                            'constraints' => [
+//                                new Length([
+//                                        'min' => 10,
+//                                        'max' => 10,
+//                                ])
+//                            ]
+//                    ]
+//            )
             ->add(
                 'site',
                 EntityType::class,

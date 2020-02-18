@@ -7,6 +7,7 @@ use App\Entity\Site;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -48,6 +49,7 @@ class UserType extends AbstractType
                 TextType::class,
                 [
                     'label' => 'Téléphone',
+                    'required' => false,
                     'attr' => ['class' => 'form-control'],
                     'constraints' => [
                         new Length([
@@ -56,6 +58,13 @@ class UserType extends AbstractType
                         ])
                     ]
                 ]
+            )
+            ->add('showPhone',
+                    CheckboxType::class,
+                    [
+                            'label' => 'Acceptez vous de montrer votre numéro de téléphone?',
+                            'required' => false,
+                    ]
             )
             ->add('email',
                     TextType::class,
