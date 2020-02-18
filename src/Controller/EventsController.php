@@ -184,8 +184,8 @@ class EventsController extends Controller
 //        dump($nbTotalSubscribed);
 
 
-//          $nbEvents= $eventRepository->findAll();
-//          dump($nbEvents);
+//        $nbInscription = $inscription->getInscriptions()->count();
+
         $siteLabel = $request->query->get('label');
 
         $site = $siteRepository->findByLabel($siteLabel);
@@ -193,6 +193,8 @@ class EventsController extends Controller
 
         $event = $eventRepository->findEventBySite($site, $page, $limit);
         $nbTotalEvents = count($event);
+
+
 
 
 //        $numberSubscribed = $inscriptionRepository->findSubscribedByEvent($nbEvents);
@@ -220,6 +222,8 @@ class EventsController extends Controller
             $limit
         );
 
+
+
         //eventByCreator -> les evenements créés par l'utilisateur courant.
         $eventByCreator = $eventRepository->findEventByCreator($userId);
 
@@ -236,7 +240,7 @@ class EventsController extends Controller
                 'page',
                 'user',
                 'nbPageByDescription',
-//                'nbTotalSubscribed',
+//                'placesRestantes',
                 'nbPage',
                 'siteLabel',
                 'event',

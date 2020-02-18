@@ -9,12 +9,21 @@
 
     {% if found %}
 
-
         <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
 
     {% else %}
 
-        <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+
+{#        $placesRestantes =($eventByDescription->getMaxMembers())-($eventByDescription->getInscriptions()->count());#}
+
+        {% if ( (eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers ) %}
+            <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire</button>
+        {% else %}
+            <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+
+        {% endif %}
+
+
 
     {% endif %}
 
@@ -27,9 +36,6 @@
     {% endif %}
 
 </div>
-
-
-
 
 
 

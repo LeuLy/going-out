@@ -3,13 +3,13 @@
     {% for eventByDescription in eventByDescription %}
 
         {% set found = false %}
-{#        {% set count = 0 %}#}
+        {#        {% set count = 0 %}#}
 
         {% for listInscription in inscription %}
 
-{#            {% for user in listInscription.id %}#}
-{#                {% set count = count + 1 %}#}
-{#            {% endfor %}#}
+            {#            {% for user in listInscription.id %}#}
+            {#                {% set count = count + 1 %}#}
+            {#            {% endfor %}#}
 
 
 
@@ -24,8 +24,13 @@
             <div class="card-body">
                 <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
-                <p class="card-text"><a href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a></p>
+                <p class="card-text"><a
+                            href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>
+                </p>
                 <p class="card-text">{{ eventByDescription.label }}</p>
+                <p class="card-text">Nombre inscrit(s): <span
+                            class="numberMember">{{ eventByDescription.inscriptions|length }}</span>
+                    / {{ eventByDescription.maxMembers }}</p>
 
                 {% if found == true %}
 
@@ -35,7 +40,7 @@
                 {% else %}
                     <p class="card-text"><br></p>
                 {% endif %}
-{#                <p>{{ count }} participant(s)</p>#}
+                {#                <p>{{ count }} participant(s)</p>#}
                 <div class="d-flex justify-content-center">
 
                     {% include 'includes/actions.html.twig' %}
@@ -57,12 +62,27 @@
 
     function makeAjaxRequest() {
         $idvar = ($(this).attr("value"));
+        $varThis = $(this);
+
+        $varCountMember = $varThis.parents(".card-body").find(".numberMember");
+
+
+        $varThis.off("click", makeAjaxRequest);
+
         $.ajax({
 
             url: "http://localhost/going-out/public/api/inscriptionEvent/" + $idvar
         })
             //lorsque la requête sera terminée, cette fct se déclenchera
             .done(function (response) {
+                $varThis.removeClass("inscription-event").addClass("withdraw-event");
+                $varThis.html("Se Désister");
+
+                $varIntCountMember = parseInt($varCountMember.html());
+                $varIntCountMember++;
+                $varCountMember.html($varIntCountMember);
+
+                $varThis.on("click", makeAjaxRequestWithdraw);
 
 
                 console.log(response);
@@ -73,16 +93,31 @@
 
 <script>
 
-    $(".withdraw-event").on("click", makeAjaxRequest);
+    $(".withdraw-event").on("click", makeAjaxRequestWithdraw);
 
-    function makeAjaxRequest() {
+    function makeAjaxRequestWithdraw() {
         $idvar = ($(this).attr("value"));
+        $varThis = $(this);
+
+        $varCountMember = $varThis.parents(".card-body").find(".numberMember");
+
+
+        $varThis.off("click", makeAjaxRequestWithdraw);
+
         $.ajax({
 
             url: "http://localhost/going-out/public/api/withdrawEvent/" + $idvar
         })
             //lorsque la requête sera terminée, cette fct se déclenchera
             .done(function (response) {
+                $varThis.removeClass("withdraw-event").addClass("inscription-event");
+                $varThis.html("S'inscrire");
+
+                $varIntCountMember = parseInt($varCountMember.html());
+                $varIntCountMember--;
+                $varCountMember.html($varIntCountMember);
+
+                $varThis.on("click", makeAjaxRequest);
 
 
                 console.log(response);
@@ -93,9 +128,9 @@
 
 <script>
 
-    $(".delete-event").on("click", makeAjaxRequest);
+    $(".delete-event").on("click", makeAjaxRequestdelete);
 
-    function makeAjaxRequest() {
+    function makeAjaxRequestdelete() {
         $idvar = ($(this).attr("value"));
         $.ajax({
 
