@@ -1,45 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.9.2
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 12 fév. 2020 à 11:23
--- Version du serveur :  10.4.10-MariaDB
--- Version de PHP :  7.3.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de données :  `db_sortir`
---
-
--- --------------------------------------------------------
-
---
--- Structure de la table `city`
---
-
-DROP TABLE IF EXISTS `city`;
-CREATE TABLE IF NOT EXISTS `city` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `postal_code` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35802 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `city`
---
-
 INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(1, 'L\'Abergement-Clémenciat', '01400');
 INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(2, 'L\'Abergement-de-Varey', '01640');
 INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(3, 'Ambérieu-en-Bugey', '01500');
@@ -35841,8 +35799,3 @@ INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(35798, 'Touho', '98831')
 INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(35799, 'Voh', '98833');
 INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(35800, 'Yaté', '98834');
 INSERT INTO `city` (`id`, `name`, `postal_code`) VALUES(35801, 'Kouaoua', '98818');
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -26,7 +26,8 @@ class RegistrationController extends Controller
             $user->setName(strtoupper($user->getName()));
             $user->setFirstname(ucwords($user->getFirstname()));
 
-            $user->setUsername(strtolower($user->getName()).".".strtolower($user->getFirstname()));
+//            $user->setUsername(strtolower($user->getName()).".".strtolower($user->getFirstname()));
+            $user->setUsername(strtolower($user->getFirstname()[0]).strtolower($user->getName()).$user->getInscriptionYear());
             $user->setUsername(str_replace(' ', '',$user->getUsername()));
             $user->setPassword(strtolower($user->getFirstname()).".".strtolower($user->getName()));
             $user->setPassword(str_replace(' ', '',$user->getPassword()));
