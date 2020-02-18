@@ -45,6 +45,7 @@
                                 .done(function(response){
                                     //vide le select
                                     $("#listCity").empty();
+                                    $("#listCity").html("<option>Choisissez la ville</option>")
                                     response.list.forEach(function(result){
 
                                         //créer une option
