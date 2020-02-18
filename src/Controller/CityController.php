@@ -6,9 +6,18 @@ namespace App\Controller;
 
 use App\Entity\City;
 use Doctrine\ORM\EntityManagerInterface;
+use Geocoder\Model\AdminLevelCollection;
+use Geocoder\Provider\GoogleMaps\GoogleMaps;
+use Geocoder\Provider\GoogleMaps\Model\GoogleAddress;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Geocoder\Query\GeocodeQuery;
+use Geocoder\Query\ReverseQuery;
+
+use GuzzleHttp\Client as GuzzleClient;
+use Http\Adapter\Guzzle6\Client;
+
 
 class CityController extends Controller
 {
@@ -81,6 +90,51 @@ class CityController extends Controller
         }
 
         return $this->render('city/update_cities.html.twig',compact('city_result'));
+    }
+
+    /**
+     * @Route("/geo", name="geo")
+     * @throws \Geocoder\Exception\Exception
+     */
+    public function test_geo(){
+
+
+
+
+/*        $httpClient = new \Http\Adapter\Guzzle6\Client();
+        $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
+        $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');*/
+
+
+/*        $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));
+
+        dump($result);*/
+
+        $config = [
+            'verify' => false,
+            'proxy'   => 'http://proxy-sh.ad.campus-eni.fr:8080',
+        ];
+
+        $guzzle = new GuzzleClient($config);
+
+        $adapter  = new Client($guzzle);
+        $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4' );
+        $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');
+
+        $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));
+
+$coordinates = $result->all();
+
+dump($coordinates);
+
+$test ='test';
+$a =new AdminLevelCollection();
+$maptest = new GoogleAddress($test, $a);
+$maptest = $result[0];
+
+        dump($result);
+
+        return $this->render('city/test_geo.html.twig');
     }
 
 }

@@ -1,0 +1,37 @@
+
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Test API Google Maps
+{% endblock %}
+
+{% block geo %}
+
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4&callback=initMap">
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div id="map" style="border: 1px solid black;
+               width: 400px; height: 400px;
+               margin-left: 30px; margin-top: 30px;">
+    </div>
+
+    <script type="text/javascript">
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: new google.maps.LatLng(-33.863276, 151.207977),
+                zoom: 12
+            });
+        }
+
+        var geocoder = new google.maps.ClientGeocoder();
+
+
+    </script>
+
+{% endblock %}
