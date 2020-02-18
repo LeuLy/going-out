@@ -24,7 +24,9 @@
                     <h5 class="card-title d-flex justify-content-center">{{ user.username }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted justify-content-center">{{ user.firstname }} {{ user.name }}</h6>
                     <p class="card-text">
+                        {% if user.showPhone %}
                         Téléphone : {{ user.phone }}<br/>
+                        {% endif %}
                         Email : {{ user.email }}<br/>
                         Site de rattachement : {{ user.site.label }}
                     </p>

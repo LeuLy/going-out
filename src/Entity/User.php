@@ -103,10 +103,15 @@ class User implements UserInterface
      */
     private $inscriptions;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $showPhone;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
-        $this->eventsMember = new ArrayCollection();
+//        $this->eventsMember = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
     }
 
@@ -325,6 +330,18 @@ class User implements UserInterface
                 $inscription->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShowPhone(): ?bool
+    {
+        return $this->showPhone;
+    }
+
+    public function setShowPhone(?bool $showPhone): self
+    {
+        $this->showPhone = $showPhone;
 
         return $this;
     }

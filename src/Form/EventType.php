@@ -32,7 +32,6 @@ class EventType extends AbstractType
             ->add(
                 'dateStart',
                 DateTimeType::class,
-//                datetime
                 [
                     'label' => 'Date de début',
                     'time_widget' => 'single_text',

@@ -49,10 +49,7 @@ class RegistrationController extends Controller
 //                  (($user->getName() == 'Lecomte') && ($user->getFirstname() == 'Anne-Laure')) ||
 //                  (($user->getName() == 'Cornu') && ($user->getFirstname() == 'Lydia'))
                 ((strcasecmp($user->getName(), 'Laz') == 0) && (strcasecmp($user->getFirstname(), 'Baptiste') == 0)) ||
-                ((strcasecmp($user->getName(), 'Lecomte') == 0) && (strcasecmp(
-                            $user->getFirstname(),
-                            'Anne-Laure'
-                        ) == 0)) ||
+                ((strcasecmp($user->getName(), 'Lecomte') == 0) && (strcasecmp($user->getFirstname(),'Anne-Laure') == 0)) ||
                 ((strcasecmp($user->getName(), 'Cornu') == 0) && (strcasecmp($user->getFirstname(), 'Lydia') == 0))
             ) {
                 $user->setRoles(['ROLE_ADMIN']);
