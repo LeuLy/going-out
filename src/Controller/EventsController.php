@@ -11,6 +11,10 @@ use App\Entity\User;
 use App\Form\EventType;
 use App\Form\PlaceType;
 use Doctrine\ORM\EntityManagerInterface;
+use Geocoder\Provider\GoogleMaps\GoogleMaps;
+use Geocoder\Query\GeocodeQuery;
+use GuzzleHttp\Client as GuzzleClient;
+use Http\Adapter\Guzzle6\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -64,6 +68,7 @@ class EventsController extends Controller
 
                 $place->setLabel($formData['event']['placeForm']['label']);
                 $place->setAddress($formData['event']['placeForm']['address']);
+
                 $place->setLatitude($formData['event']['placeForm']['latitude']);
                 $place->setLongitude($formData['event']['placeForm']['longitude']);
                 dump($place);
@@ -95,6 +100,7 @@ class EventsController extends Controller
 
     /**
      * @Route("/create-events", name="create-events")
+     * @throws \Geocoder\Exception\Exception
      */
     public function createEvent(Request $request, EntityManagerInterface $entityManager)
     {
@@ -122,9 +128,46 @@ class EventsController extends Controller
 
                 $place->setLabel($formData['event']['placeForm']['label']);
                 $place->setAddress($formData['event']['placeForm']['address']);
-                $place->setLatitude($formData['event']['placeForm']['latitude']);
-                $place->setLongitude($formData['event']['placeForm']['longitude']);
                 $place->setCity($cityRepo->find($formData['event']['placeForm']['city']));
+
+                $city = new City();
+                $city = $cityRepo->find($formData['event']['placeForm']['city']);
+                dump($city);
+                $city_name = $city -> getName();
+
+                /* Define latitude and longitude */
+
+                $config = [
+                    'verify' => false,
+                    'proxy'   => 'http://proxy-sh.ad.campus-eni.fr:8080',
+                ];
+
+                $guzzle = new GuzzleClient($config);
+
+                $adapter  = new Client($guzzle);
+                $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4' );
+                $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');
+
+                $adress = $formData['event']['placeForm']['address'].', '.$city_name;
+                    $result = $geocoder->geocodeQuery(GeocodeQuery::create($adress));
+
+                $coordinates = $result->all();
+
+                dump($coordinates);
+
+                $res = $result->first();
+                dump($res);
+
+                $location = $res->getCoordinates();
+                dump($location);
+                dump($location->getLatitude());
+                dump($location->getLongitude());
+                $lat = $location->getLatitude();
+                $long = $location->getLongitude();
+
+                $place->setLatitude($lat);
+                $place->setLongitude($long);
+
                 dump($place);
                 $entityManager->persist($place);
                 $entityManager->flush();
