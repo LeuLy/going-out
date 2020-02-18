@@ -28,6 +28,7 @@ class CityRepository extends ServiceEntityRepository
 SELECT c
 FROM APP\ENTITY\City c
 WHERE c.name LIKE :var
+OR c.postalCode LIKE :var
 DQL;
 
 
