@@ -6,9 +6,22 @@
         {{ parent() }}
     </div>
 {% endblock %}
+{% block geo %}
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4&callback=initMap">
+    </script>
+{% endblock %}
 {% block body %}
     <div class="row">
-        <div class="col-xs-2 col-md-4"></div>
+        <div class="col-xs-2 col-md-4">
+            <input type="hidden" value="{{ place.latitude }}" id="lat">
+            <input type="hidden" value="{{ place.longitude }}" id="long">
+            <div id="map" style="border: 1px solid black;
+               width: 400px; height: 400px;
+               margin-left: 30px; margin-top: 30px;">
+            </div>
+
+        </div>
         <div class="col-xs-8 col-md-4">
 
 
@@ -49,4 +62,30 @@
         <div class="col-xs-2 col-md-4">
         </div>
     </div>
+
+    <script type="text/javascript">
+
+
+        let lat = Number(($('#lat').attr("value")));
+        console.log(lat);
+
+        let long = Number(($('#long').attr("value")));
+        console.log(long);
+
+
+        function initMap() {
+
+
+            var location = {lat: lat, lng: long};
+            // The map, centered on location
+            var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 4, center: location});
+            // The marker, positioned on location
+            var marker = new google.maps.Marker({position: location, map: map});
+
+        }
+    </script>
+
+
+
 {% endblock %}
