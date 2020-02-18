@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -55,11 +54,6 @@ class Event
     private $creator;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="eventsMember")
-     */
-    private $members;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -81,17 +75,6 @@ class Event
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="event", cascade={"persist", "remove"})
      */
     private $inscriptions;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nbMember;
-
-    public function __construct()
-    {
-        $this->members = new ArrayCollection();
-        $this->inscriptions = new ArrayCollection();
-    }
 
     public function getId()
     {
@@ -168,33 +151,6 @@ class Event
         $this->creator = $creator;
     }
 
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getMembers(): Collection
-    {
-        return $this->members;
-    }
-
-    public function addMember(User $member)
-    {
-        if (!$this->members->contains($member)) {
-            $this->members[] = $member;
-        }
-
-        return $this;
-    }
-
-    public function removeMember(User $member)
-    {
-        if ($this->members->contains($member)) {
-            $this->members->removeElement($member);
-        }
-
-        return $this;
-    }
-
     public function getSite(): ?Site
     {
         return $this->site;
@@ -262,15 +218,64 @@ class Event
         return $this;
     }
 
-    public function getNbMember(): ?int
-    {
-        return $this->nbMember;
-    }
 
-    public function setNbMember(?int $nbMember): self
-    {
-        $this->nbMember = $nbMember;
 
-        return $this;
-    }
+
+// Attr not needed
+//    /**
+//     * @ORM\Column(type="integer", nullable=true)
+//     */
+//    private $nbMember;
+//
+//    public function __construct()
+//    {
+//        $this->members = new ArrayCollection();
+//        $this->inscriptions = new ArrayCollection();
+//    }
+//
+//    public function getNbMember(): ?int
+//    {
+//        return $this->nbMember;
+//    }
+//
+//    public function setNbMember(?int $nbMember): self
+//    {
+//        $this->nbMember = $nbMember;
+//
+//        return $this;
+//    }
+
+
+// Relation ManyToMany replaced by Inscription
+//    /**
+//     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="eventsMember")
+//     */
+//    private $members;
+//
+//
+//    /**
+//     * @return Collection|User[]
+//     */
+//    public function getMembers(): Collection
+//    {
+//        return $this->members;
+//    }
+//
+//    public function addMember(User $member)
+//    {
+//        if (!$this->members->contains($member)) {
+//            $this->members[] = $member;
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeMember(User $member)
+//    {
+//        if ($this->members->contains($member)) {
+//            $this->members->removeElement($member);
+//        }
+//
+//        return $this;
+//    }
 }

@@ -59,6 +59,7 @@ class RegistrationFormType extends AbstractType
                     TextType::class,
                     [
                             'label' => 'Téléphone',
+                            'required' => false,
                             'constraints' => [
                                 new Length([
                                         'min' => 10,

@@ -55,8 +55,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Assert\Regex(
-     *     pattern="/^[0-9]$/i",
-     *     htmlPattern="^[0-9]$",
+     *     pattern="/^[0-9]{10}$/i",
+     *     htmlPattern="^[0-9]{10}$",
      *     match=true,
      *     message="Votre numéro ne peut contenir que des chiffres")
      */
@@ -86,11 +86,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="creator")
      */
     private $events;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="members")
-     */
-    private $eventsMember;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\File", mappedBy="user", cascade={"persist", "remove"})
@@ -278,33 +273,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Event[]
-     */
-    public function getEventsMember(): Collection
-    {
-        return $this->eventsMember;
-    }
-
-    public function addEventsMember(Event $eventsMember): self
-    {
-        if (!$this->eventsMember->contains($eventsMember)) {
-            $this->eventsMember[] = $eventsMember;
-            $eventsMember->addMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEventsMember(Event $eventsMember): self
-    {
-        if ($this->eventsMember->contains($eventsMember)) {
-            $this->eventsMember->removeElement($eventsMember);
-            $eventsMember->removeMember($this);
-        }
-
-        return $this;
-    }
 
     public function getFile(): ?File
     {
@@ -360,4 +328,42 @@ class User implements UserInterface
 
         return $this;
     }
+
+
+// Relation ManyToMany replaced by Inscription
+//    /**
+//     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="members")
+//     */
+//    private $eventsMember;
+//
+//
+//    /**
+//     * @return Collection|Event[]
+//     */
+//    public function getEventsMember(): Collection
+//    {
+//        return $this->eventsMember;
+//    }
+//
+//    public function addEventsMember(Event $eventsMember): self
+//    {
+//        if (!$this->eventsMember->contains($eventsMember)) {
+//            $this->eventsMember[] = $eventsMember;
+//            $eventsMember->addMember($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeEventsMember(Event $eventsMember): self
+//    {
+//        if ($this->eventsMember->contains($eventsMember)) {
+//            $this->eventsMember->removeElement($eventsMember);
+//            $eventsMember->removeMember($this);
+//        }
+//
+//        return $this;
+//    }
 }
+
+
