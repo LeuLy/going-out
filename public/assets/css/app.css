@@ -216,7 +216,7 @@ form{
         background-repeat: no-repeat;
         background-position: right bottom;
         background-attachment: fixed;
-        background-size: 20%;
+        background-size: 25%;
     }
 }
 
@@ -278,7 +278,7 @@ form{
     transform: translate(-50%, -50%);
     text-align: center;
 }
-.city_text a:hover {
+.city_text a:hover{
     text-decoration: none;
     color: white;
 }
@@ -313,7 +313,13 @@ footer{
 /*Image Profil*/
 
 .card-img-top{
-    width: 10em;
+    max-width: 20em;
+    align-self: center;
+}
+@media only screen and (min-width: 992px) {
+    .img-thumbnail {
+        max-height: 40%;
+    }
 }
 .hide{
     display: none;

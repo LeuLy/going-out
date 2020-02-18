@@ -21,6 +21,11 @@
 
 
                 <h3>Mon Profil</h3>
+            {% if form_errors(userFormView)|length > 0 %}
+
+                <strong>{{ form_errors(userFormView) }}</strong>
+
+            {% endif %}
 
             {{ form_start(userFormView, {'enctype': 'multipart/form-data'} ) }}
             {{ form_row(userFormView.username) }}
