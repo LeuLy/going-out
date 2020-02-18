@@ -21,11 +21,30 @@ class InscriptionRepository extends ServiceEntityRepository
 
 
 
+//    public function findSubscribedByEvent($event)
+//    {
+//        $entityManager = $this->getEntityManager();
+//        $dql           = <<<DQL
+//SELECT i
+//FROM APP\ENTITY\Inscription i
+//WHERE i.event = :event
+//DQL;
+//        $query     = $entityManager
+//            ->createQuery($dql)
+//            ->setParameter(':event', $event);
+//
+//        dump($query->getSQL());
+//
+//
+//        return $query->getResult();
+//    }
+
     public function findSubscribedByEvent($event)
     {
         $entityManager = $this->getEntityManager();
         $dql           = <<<DQL
-SELECT i
+
+SELECT i 
 FROM APP\ENTITY\Inscription i
 WHERE i.event = :event
 DQL;
@@ -38,6 +57,8 @@ DQL;
 
         return $query->getResult();
     }
+
+
     // /**
     //  * @return Inscription[] Returns an array of Inscription objects
     //  */

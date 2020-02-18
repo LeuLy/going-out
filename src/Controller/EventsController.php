@@ -112,7 +112,6 @@ class EventsController extends Controller
             $formData      = $request->request->all();
 
 
-
             if (empty($formData['event']['place'])) {
 
                 $place = new Place();
@@ -175,7 +174,7 @@ class EventsController extends Controller
         $userId        = $this->getUser()->getId();
 
 
-        $user        = $userRepository->find($this->getUser());
+        $user = $userRepository->find($this->getUser());
 
         $inscription = $inscriptionRepository->findAll();
 
@@ -191,19 +190,9 @@ class EventsController extends Controller
         $site = $siteRepository->findByLabel($siteLabel);
 
 
-        $event = $eventRepository->findEventBySite($site, $page, $limit);
+        $event         = $eventRepository->findEventBySite($site, $page, $limit);
         $nbTotalEvents = count($event);
 
-
-
-
-//        $numberSubscribed = $inscriptionRepository->findSubscribedByEvent($nbEvents);
-//        $nbTotalSubscribed = count ($numberSubscribed);
-
-//        $numberSubscribed = $eventRepository->findSubscribedByEvent($inscription);
-//        $nbTotalSubscribed = count ($numberSubscribed);
-
-//        dump($nbTotalSubscribed);
 
         $nbPage = ceil($nbTotalEvents / $limit);
 
@@ -223,7 +212,6 @@ class EventsController extends Controller
         );
 
 
-
         //eventByCreator -> les evenements créés par l'utilisateur courant.
         $eventByCreator = $eventRepository->findEventByCreator($userId);
 
@@ -240,7 +228,6 @@ class EventsController extends Controller
                 'page',
                 'user',
                 'nbPageByDescription',
-//                'placesRestantes',
                 'nbPage',
                 'siteLabel',
                 'event',
@@ -261,16 +248,15 @@ class EventsController extends Controller
         $eventRepository = $entityManager->getRepository(Event::class);
         $event           = $eventRepository->find($id);
 
+        $inscriptionRepository = $entityManager->getRepository(Inscription::class);
+        $inscriptions          = $inscriptionRepository->findSubscribedByEvent($id);
 
-        return $this->render('events/affichEvent.html.twig', compact('event'));
+
+        dump($inscriptions);
+
+
+        return $this->render('events/affichEvent.html.twig', compact('event','inscriptions'));
     }
-
-
-//    public function action($id, EntityManagerInterface $entityManager){
-//
-//        $eventRepository = $entityManager->getRepository(Event::class);
-//        $event           = $eventRepository->find($id);
-//    }
 
 
 }

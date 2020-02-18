@@ -96,21 +96,17 @@ class EventRepository extends ServiceEntityRepository
             }
         }
 
-
-
-
-
-
-
-
         $query = $qb->getQuery();
-
 
         dump($query->getSQL());
         $result = $query->getResult();
 
         return ($result);
     }
+
+
+
+
 
     public function findEventByCreator($userId)
     {
@@ -151,6 +147,11 @@ DQL;
 //        return $query->getResult();
         return ($paginator);
     }
+
+
+
+
+
 
 //    public function findSubscribedByEvent($inscription)
 //    {
