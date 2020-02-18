@@ -201,7 +201,7 @@ class EventsController extends Controller
      */
     public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
     {
-        $limit                 = 1;
+        $limit                 = 4;
         $siteRepository        = $entityManager->getRepository(Site::class);
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $eventRepository       = $entityManager->getRepository(Event::class);
@@ -234,10 +234,7 @@ class EventsController extends Controller
 
 
         $event         = $eventRepository->findEventBySite($site, $page, $limit);
-        $nbTotalEvents = count($event);
 
-
-        $nbPage = ceil($nbTotalEvents / $limit);
 
         $eventByDescription = $eventRepository->findEventByFilters(
             $beginDate,
@@ -253,6 +250,9 @@ class EventsController extends Controller
             $page,
             $limit
         );
+
+        $nbTotalEvents = count($eventByDescription);
+        $nbPage = ceil($nbTotalEvents / $limit);
 
 
         //eventByCreator -> les evenements créés par l'utilisateur courant.
