@@ -99,16 +99,12 @@ class CityController extends Controller
     public function test_geo(){
 
 
-
-
 /*        $httpClient = new \Http\Adapter\Guzzle6\Client();
         $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
         $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');*/
 
 
-/*        $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));
-
-        dump($result);*/
+/*        $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));*/
 
         $config = [
             'verify' => false,
@@ -127,20 +123,17 @@ class CityController extends Controller
 
         dump($coordinates);
 
-        $a = $result->first();
-        dump($a);
+        $res = $result->first();
+        dump($res);
 
-        $coor = $a->getCoordinates();
-        dump($coor);
-        dump($coor->getLatitude());
-        dump($coor->getLongitude());
+        $location = $res->getCoordinates();
+        dump($location);
+        dump($location->getLatitude());
+        dump($location->getLongitude());
 
 
-/*$test ='test';
-$a =new AdminLevelCollection();
-$maptest = new GoogleAddress($test, $a);
 
-$maptest = $result;*/
+
 
 
 
