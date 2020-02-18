@@ -68,32 +68,39 @@ class EventRepository extends ServiceEntityRepository
                 ->setParameter(':userId', $userId);
 
         }
-//    if  ($subscribed == 'on' && $notSubscribed == 'on' ){
-//
-//    }
-//
-//
-//
-//
-//
-        if ($subscribed == 'on') {
-            $qb
-                ->addselect('i')
-                ->innerJoin('e.inscriptions', 'i')
-                ->andWhere('i.user = :user')
-                ->setParameter(':user', $user);
-            dump($user);
-
+        if  ($subscribed == 'on' && $notSubscribed == 'on' ){
+            // bbeeeeen on fait rien quoi!
         }
-        if ($notSubscribed == 'on') {
-            $qb
-                ->addselect('i')
-                ->innerJoin('e.inscriptions', 'i')
-                ->andWhere('i.user != :user')
-                ->setParameter(':user', $user);
-            dump($user);
+        else {
+            if ($subscribed == 'on') {
+                $qb
+                    ->addselect('i')
+                    ->innerJoin('e.inscriptions', 'i')
+                    ->andWhere('i.user = :user')
+                    ->setParameter(':user', $user);
+                dump($user);
 
+            }
+
+            if ($notSubscribed == 'on') {
+                $subQb = $this->createQueryBuilder('sq')
+                    ->innerJoin('sq.inscriptions', 'sqb')
+                    ->Where('sqb.user = :user');
+                $qb
+                    ->addselect('i')
+                    ->leftJoin('e.inscriptions', 'i')
+                    ->andWhere('e NOT IN ('. $subQb->getDQL().')')
+                    ->setParameter(':user', $user);
+                dump($user);
+
+            }
         }
+
+
+
+
+
+
 
 
         $query = $qb->getQuery();
@@ -144,6 +151,24 @@ DQL;
 //        return $query->getResult();
         return ($paginator);
     }
+
+//    public function findSubscribedByEvent($inscription)
+//    {
+//        $entityManager = $this->getEntityManager();
+//        $dql           = <<<DQL
+//SELECT i
+//FROM APP\ENTITY\Event i
+//WHERE i.id = :inscription
+//DQL;
+//        $query     = $entityManager
+//            ->createQuery($dql)
+//            ->setParameter(':inscription', $inscription);
+//
+//        dump($query->getSQL());
+//        $subscribedByEvent = $query->getResult();
+//
+//        return $query->getResult();
+//    }
 
 
 }

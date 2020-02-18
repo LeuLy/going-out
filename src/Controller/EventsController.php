@@ -110,7 +110,7 @@ class EventsController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
             $formData      = $request->request->all();
-            dump($formData);
+
 
 
             if (empty($formData['event']['place'])) {
@@ -118,8 +118,7 @@ class EventsController extends Controller
                 $place = new Place();
 
                 $placeData = $formData['event']['placeForm'];
-                dump($formData);
-                dump($placeData);
+
 
                 $place->setLabel($formData['event']['placeForm']['label']);
                 $place->setAddress($formData['event']['placeForm']['address']);
@@ -177,32 +176,35 @@ class EventsController extends Controller
 
 
         $user        = $userRepository->find($this->getUser());
+
         $inscription = $inscriptionRepository->findAll();
-        $events      = $eventRepository->findAll();
 
-        dump($inscription);
-        dump($eventOwner);
-        dump($userId);
-        dump($var);
+//        Nombre total d'inscriptions
+//        $nbTotalSubscribed = count ($inscription);
+//        dump($nbTotalSubscribed);
 
+
+//          $nbEvents= $eventRepository->findAll();
+//          dump($nbEvents);
         $siteLabel = $request->query->get('label');
-        dump($siteLabel);
-        $site     = $siteRepository->findByLabel($siteLabel);
-        $siteKeep = $site;
-        dump($site);
 
-//        $event = [];
-//        $sites = [$site];
-//        foreach ($sites as $eventBySite) {
-//            $event[$eventBySite] = $eventRepository->findEventBySite($eventBySite, $page, $limit);
-//        }
+        $site = $siteRepository->findByLabel($siteLabel);
+
+
         $event = $eventRepository->findEventBySite($site, $page, $limit);
-        dump($event);
         $nbTotalEvents = count($event);
+
+
+//        $numberSubscribed = $inscriptionRepository->findSubscribedByEvent($nbEvents);
+//        $nbTotalSubscribed = count ($numberSubscribed);
+
+//        $numberSubscribed = $eventRepository->findSubscribedByEvent($inscription);
+//        $nbTotalSubscribed = count ($numberSubscribed);
+
+//        dump($nbTotalSubscribed);
 
         $nbPage = ceil($nbTotalEvents / $limit);
 
-        dump($site);
         $eventByDescription = $eventRepository->findEventByFilters(
             $beginDate,
             $endDate,
@@ -220,12 +222,10 @@ class EventsController extends Controller
 
         //eventByCreator -> les evenements créés par l'utilisateur courant.
         $eventByCreator = $eventRepository->findEventByCreator($userId);
-        dump($eventByCreator);
-        dump($eventByDescription);
-        dump($events);
+
 
         $nbTotalEventsByDescription = count($eventByDescription);
-        $nbPageByDescription = ceil($nbTotalEventsByDescription / $limit);
+        $nbPageByDescription        = ceil($nbTotalEventsByDescription / $limit);
 
 
         return $this->render(
@@ -236,6 +236,7 @@ class EventsController extends Controller
                 'page',
                 'user',
                 'nbPageByDescription',
+//                'nbTotalSubscribed',
                 'nbPage',
                 'siteLabel',
                 'event',

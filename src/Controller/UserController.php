@@ -13,6 +13,7 @@ use Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle;
 use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
 use Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +46,12 @@ class UserController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        if(!is_null($error)){
+            $this->addFlash(
+                'danger',
+                'Erreur de connexion'
+            );
+        }
 
         return $this->render('user/login.html.twig', [
             'last_username' => $lastUsername,
@@ -80,6 +87,8 @@ class UserController extends Controller
 
         if($userForm->isSubmitted() && $userForm->isValid()) {
 
+            $userForm->addError(new FormError('Erreur'));
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -99,7 +108,6 @@ class UserController extends Controller
 
                 if(!empty($user->getFile())){
                     $fileExists = new File();
-                    dump(' not empty !!!');
                     $fileRep = $entityManager->getRepository(File::class);
                     $fileExists = $fileRep->findOneBy(['user'=>$user->getId()]);
                     $entityManager->remove($fileExists);

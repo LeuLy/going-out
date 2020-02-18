@@ -12,7 +12,12 @@
            <img class="img_home" src="{{ asset('img/nantes.png') }}" alt="nantes" >
                 <div class="overlay"></div>
                 <div class="city_text">
-                    <a name="label" value="ENI NANTES" href="{{ path('listEvent', {'label':'ENI NANTES'|raw}) }}">NANTES</a></div>
+                    {% if app.user %}
+                    <a name="label" value="ENI NANTES" href="{{ path('listEvent', {'label':'ENI NANTES'|raw}) }}">NANTES</a>
+                {% else %}
+                <a>NANTES</a>
+                {% endif %}
+                </div>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -21,7 +26,12 @@
             <img class="img_home" src="{{ asset('img/quimper.png') }}" alt="quimper">
             <div class="overlay"></div>
             <div class="city_text">
-                <a name="label" value="ENI QUIMPER" href="{{ path('listEvent', {'label':'ENI QUIMPER'}) }}">QUIMPER</a></div>
+                {% if app.user %}
+                <a name="label" value="ENI QUIMPER" href="{{ path('listEvent', {'label':'ENI QUIMPER'}) }}">QUIMPER</a>
+                {% else %}
+                    <a>QUIMPER</a>
+                {% endif %}
+            </div>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -30,7 +40,12 @@
             <img class="img_home" src="{{ asset('img/rennes.png') }}" alt="rennes" >
             <div class="overlay"></div>
                 <div class="city_text">
-                    <a name="label" value="ENI RENNES" href="{{ path('listEvent', {'label':'ENI RENNES'}) }}">RENNES</a></div>
+                    {% if app.user %}
+                    <a name="label" value="ENI RENNES" href="{{ path('listEvent', {'label':'ENI RENNES'}) }}">RENNES</a>
+                    {% else %}
+                        <a>RENNES</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
         <div class="col-md-2"></div>
@@ -40,7 +55,12 @@
             <img class="img_home" src="{{ asset('img/niort.png') }}" alt="niort" >
             <div class="overlay"></div>
             <div class="city_text">
-                <a name="label" value="ENI NIORT" href="{{ path('listEvent', {'label':'ENI NIORT'}) }}">NIORT</a></div>
+                {% if app.user %}
+                <a name="label" value="ENI NIORT" href="{{ path('listEvent', {'label':'ENI NIORT'}) }}">NIORT</a>
+                {% else %}
+                    <a>NIORT</a>
+                {% endif %}
+            </div>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -49,7 +69,11 @@
             <img class="img_home" src="{{ asset('img/france.png') }}" alt="france">
             <div class="overlay"></div>
             <div class="city_text">
+                {% if app.user %}
                 <a name="label" value="ENI NIORT" href="{{ path('listEvent', {'label':'ENI NIORT'}) }}">TOUS LES SITES</a>
+                {% else %}
+                    <a>TOUS LES SITES</a>
+                {% endif %}
             </div>
             </div>
         </div>

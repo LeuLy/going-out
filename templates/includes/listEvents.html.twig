@@ -2,12 +2,40 @@
 
     {% for eventByDescription in eventByDescription %}
 
+        {% set found = false %}
+{#        {% set count = 0 %}#}
+
+        {% for listInscription in inscription %}
+
+{#            {% for user in listInscription.id %}#}
+{#                {% set count = count + 1 %}#}
+{#            {% endfor %}#}
+
+
+
+            {% if (userId == listInscription.user.id and listInscription.event == eventByDescription ) %}
+
+                {% set found = true %}
+
+            {% endif %}
+        {% endfor %}
+
         <div class="card col-sm-6 col-md-4" style="width: 18rem;" id="event_card">
             <div class="card-body">
                 <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
                 <p class="card-text"><a href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a></p>
                 <p class="card-text">{{ eventByDescription.label }}</p>
+
+                {% if found == true %}
+
+                    <p class="card-text">Inscrit</p>
+
+
+                {% else %}
+                    <p class="card-text"><br></p>
+                {% endif %}
+                <p>{{ count }} participant(s)</p>
                 <div class="d-flex justify-content-center">
 
                     {% include 'includes/actions.html.twig' %}

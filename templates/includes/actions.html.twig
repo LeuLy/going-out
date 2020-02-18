@@ -4,23 +4,11 @@
 
     {#    Ne pas changer les classes    #}
 
-    <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
+    <button><a style="color: black" href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
+    </button>
 
-    {#    {% if (eventByDescription.inscriptions == inscription and userId == inscription.user.id) %}#}
-    {% set found = false %}
-    {% for listInscription in inscription %}
-
-
-        {% if (userId == listInscription.user.id and listInscription.event == eventByDescription ) %}
-            {#        {% if (userId == listInscription.user.id and listInscription == eventByDescription ) %}#}
-            {#        {% if ( userId in eventByDescription.inscriptions.user.id ) %}        #}
-            {% set found = true %}
-
-
-
-        {% endif %}
-    {% endfor %}
     {% if found %}
+
 
         <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
 
@@ -32,7 +20,8 @@
 
     {% if (eventByDescription.creator.id == userId) %}
 
-        <a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}" class="card-link">Modifier</a>
+        <button><a style="color: black" href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
+                   class="card-link">Modifier</a></button>
         <button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
 
     {% endif %}
