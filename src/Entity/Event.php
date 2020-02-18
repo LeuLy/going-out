@@ -82,6 +82,11 @@ class Event
      */
     private $inscriptions;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbMember;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -253,6 +258,18 @@ class Event
                 $inscription->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbMember(): ?int
+    {
+        return $this->nbMember;
+    }
+
+    public function setNbMember(?int $nbMember): self
+    {
+        $this->nbMember = $nbMember;
 
         return $this;
     }
