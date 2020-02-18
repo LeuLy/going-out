@@ -3,7 +3,11 @@
 {% block title %}
     Gérer les sites
 {% endblock %}
-
+{% block test %}
+    <div id="site_bgd">
+        {{ parent() }}
+    </div>
+{% endblock %}
 {% block body %}
 
     <div class="row">

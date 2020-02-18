@@ -160,6 +160,78 @@ form{
     }
 }
 
+/* Fond City */
+@media only screen and (min-width: 992px){
+    #city_bgd{
+        min-height:100vh;
+        background-image: url(../../img/illustration/navigation.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
+
+/* Fond Site */
+@media only screen and (min-width: 992px){
+    #site_bgd{
+        min-height:100vh;
+        background-image: url(../../img/illustration/city_buildings.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
+
+/* Fond Profil */
+@media only screen and (min-width: 992px){
+    #profil_bgd{
+        min-height:100vh;
+        background-image: url(../../img/illustration/personal_data_.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
+
+/* Fond Create Event */
+@media only screen and (min-width: 992px) {
+    #create_event_bgd {
+        min-height: 100vh;
+        background-image: url(../../img/illustration/fast_working.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
+
+/* Fond Show Profil */
+@media only screen and (min-width: 992px){
+    #show_profil_bgd{
+        min-height:100vh;
+        background-image: url(../../img/illustration/polaroid.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
+
+/* Fond Show Event */
+@media only screen and (min-width: 992px){
+    #show_event_bgd{
+        min-height:100vh;
+        background-image: url(../../img/illustration/world_connection_.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
+
 /* Image accueil*/
 
 .img_home{
