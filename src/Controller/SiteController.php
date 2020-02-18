@@ -21,6 +21,8 @@ class SiteController extends Controller
 
         $siteRep = $entityManager -> getRepository(Site::class);
 
+        /* Show all */
+        $site_result = $siteRep ->findAll();
 
         /* Searching cities */
         $var_search = $request->query->get("var_search");
@@ -74,8 +76,6 @@ class SiteController extends Controller
             );
         }
 
-        /* Show all */
-        $site_result = $siteRep ->findAll();
 
         return $this->render('site/update_sites.html.twig',compact('site_result'));
 

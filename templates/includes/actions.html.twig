@@ -11,7 +11,7 @@
     {% for listInscription in inscription %}
 
 
-        {% if (userId == listInscription.user.id ) %}
+        {% if (userId == listInscription.user.id and listInscription.event == eventByDescription ) %}
             {#        {% if (userId == listInscription.user.id and listInscription == eventByDescription ) %}#}
             {#        {% if ( userId in eventByDescription.inscriptions.user.id ) %}        #}
             {% set found = true %}

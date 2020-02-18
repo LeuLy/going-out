@@ -3,7 +3,11 @@
 {% block title %}
     {{ user.username }}
 {% endblock %}
-
+{% block test %}
+    <div id="show_profil_bgd">
+        {{ parent() }}
+    </div>
+{% endblock %}
 {% block body %}
     <div class="row">
         <div class="col-xs-5 col-sm-3">
