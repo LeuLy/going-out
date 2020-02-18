@@ -123,16 +123,26 @@ class CityController extends Controller
 
         $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));
 
-$coordinates = $result->all();
+        $coordinates = $result->all();
 
-dump($coordinates);
+        dump($coordinates);
 
-$test ='test';
+        $a = $result->first();
+        dump($a);
+
+        $coor = $a->getCoordinates();
+        dump($coor);
+        dump($coor->getLatitude());
+        dump($coor->getLongitude());
+
+
+/*$test ='test';
 $a =new AdminLevelCollection();
 $maptest = new GoogleAddress($test, $a);
-$maptest = $result[0];
 
-        dump($result);
+$maptest = $result;*/
+
+
 
         return $this->render('city/test_geo.html.twig');
     }
