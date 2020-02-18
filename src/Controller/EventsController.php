@@ -251,7 +251,7 @@ class EventsController extends Controller
             $limit
         );
 
-        $nbTotalEvents = count($eventByDescription);
+        $nbTotalEvents = count($event);
         $nbPage = ceil($nbTotalEvents / $limit);
 
 
@@ -276,7 +276,13 @@ class EventsController extends Controller
                 'event',
                 'inscription',
                 'limit',
-                'var',  
+                'var',
+                'beginDate',
+                'endDate',
+                'passedEvent',
+                'eventOwner',
+                'subscribed',
+                'notSubscribed',
                 'userId'
             ) // userId  rajouté
         );

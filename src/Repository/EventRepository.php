@@ -35,17 +35,20 @@ class EventRepository extends ServiceEntityRepository
         $site,
         $page = 0,
         $limit = 100
-    ) {
+    )
+    {
 
         $qb = $this->createQueryBuilder('e');
         $qb
             ->andWhere('e.site = :site')
-            ->setParameter(':site', $site);
+            ->setParameter(':site', $site)
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
         if ($var != null) {
             $qb
                 ->andWhere('e.label LIKE :var')
                 ->orWhere('e.description LIKE :var')
-                ->setParameter(':var', "%".$var."%");
+                ->setParameter(':var', "%" . $var . "%");
         }
         if ($beginDate != null) {
             $qb
@@ -68,10 +71,9 @@ class EventRepository extends ServiceEntityRepository
                 ->setParameter(':userId', $userId);
 
         }
-        if  ($subscribed == 'on' && $notSubscribed == 'on' ){
+        if ($subscribed == 'on' && $notSubscribed == 'on') {
             // bbeeeeen on fait rien quoi!
-        }
-        else {
+        } else {
             if ($subscribed == 'on') {
                 $qb
                     ->addselect('i')
@@ -89,23 +91,29 @@ class EventRepository extends ServiceEntityRepository
                 $qb
                     ->addselect('i')
                     ->leftJoin('e.inscriptions', 'i')
-                    ->andWhere('e NOT IN ('. $subQb->getDQL().')')
+                    ->andWhere('e NOT IN (' . $subQb->getDQL() . ')')
                     ->setParameter(':user', $user);
                 dump($user);
 
             }
+
         }
 
         $query = $qb->getQuery();
 
-        dump($query->getSQL());
-        $result = $query->getResult();
+//        dump($query->getSQL());
+//        $result = $query->getResult();
+//
+//        return ($result);
 
-        return ($result);
+        $paginator = new Paginator($query, true);
+
+
+//        return $query->getResult();
+        return ($paginator);
+
+
     }
-
-
-
 
 
     public function findEventByCreator($userId)
@@ -129,23 +137,23 @@ class EventRepository extends ServiceEntityRepository
     {
 
         $entityManager = $this->getEntityManager();
-        $dql           = <<<DQL
+        $dql = <<<DQL
 SELECT e
 FROM APP\ENTITY\Event e
 WHERE e.site = :site
 DQL;
 
 
-        $query     = $entityManager
+        $query = $entityManager
             ->createQuery($dql)
             ->setParameter(':site', $site)
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
-        $paginator = new Paginator($query, true);
+//        $paginator = new Paginator($query, true);
 
 
-//        return $query->getResult();
-        return ($paginator);
+        return $query->getResult();
+//        return ($paginator);
     }
 
 
