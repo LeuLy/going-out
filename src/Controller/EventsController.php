@@ -276,7 +276,7 @@ class EventsController extends Controller
                 'event',
                 'inscription',
                 'limit',
-                'var',
+                'var',  
                 'userId'
             ) // userId  rajouté
         );
