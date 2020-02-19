@@ -22,21 +22,20 @@
 
             {{ form_row(eventForm.label) }}
             {{ form_row(eventForm.site) }}
+            {{ form_row(eventForm.status) }}
             {{ form_row(eventForm.dateStart) }}
             {{ form_row(eventForm.duration) }}
             {{ form_row(eventForm.dateInscriptionEnd) }}
             {{ form_row(eventForm.maxMembers) }}
             {{ form_row(eventForm.description) }}
             {{ form_row(eventForm.place) }}
-            {{ form_row(eventForm.status) }}
+            <button type="button" class="btnPlace" data-dismiss="modal" name="submitEvent">Ajouter un lieu</button>
 {#            {{ form_widget(eventForm.place, { 'disabled':'disabled' }) }}#}
             {#{% include 'includes/modalFormPlaceTest.html.twig' %}<br/> <br/>#}
 
             <div>
             <button type="submit" class="btnValid ">Enregistrer</button>
             {{ form_end(eventForm) }}
-
-            <button type="button" class="btnPlace" data-dismiss="modal" name="submitEvent">Ajouter un lieu</button>
         </div>
             <div class="hide" id="inputHide">
 
@@ -161,10 +160,30 @@
         }
     }
 
-    google.maps.event.addDomListener(window, 'load', function() {
+    // google.maps.event.addDomListener(window, 'load', function() {
         initializeAutocomplete('user_input_autocomplete_address');
-    });
+    // });
 
+</script>
+
+<script>
+    $("#formPlace").on("submit", function(e){
+        e.preventDefault();
+        $.ajax({
+            //ne marche que parce que je ne suis pas dans un fichier js externe
+            "url": "{{ path('create-events-place') }}",
+            "data": $("#formPlace").serialize(),
+            "method": "get"
+        })
+            .done(function(response){
+                console.log(response);
+                var option = $("<option>").attr("value", response.placeId);
+                option.html(response.placeLabel);
+                option.prop('selected', true);
+                $("#event_place").prepend(option);
+                $('#inputHide').toggle('hide');
+            });
+    });
 </script>
 
 {% endblock %}

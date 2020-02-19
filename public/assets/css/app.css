@@ -385,3 +385,30 @@ footer{
 .pagination{
     color: #235784;
 }
+
+/* Error 404 */
+
+.title_game{
+    text-align:center
+}
+#space-invaders {
+    margin: 0 auto;
+    display: block;
+    background: white
+}
+.error404_lg{
+    max-height: 100vh;
+}
+@media only screen and (max-width: 992px){
+    .error404_lg{
+        display: none;
+    }
+}
+@media only screen and (min-width: 992px){
+    .error404_mob{
+        display: none;
+    }
+}
+
+/* Error 403 */
+
