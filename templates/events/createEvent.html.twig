@@ -160,9 +160,9 @@
         }
     }
 
-    google.maps.event.addDomListener(window, 'load', function() {
+    // google.maps.event.addDomListener(window, 'load', function() {
         initializeAutocomplete('user_input_autocomplete_address');
-    });
+    // });
 
 </script>
 
@@ -177,10 +177,10 @@
         })
             .done(function(response){
                 console.log(response);
-                // var option = $("<option>").attr("value", response.location.id);
-                // option.html(response.location.name);
-                // option.prop('selected', true);
-                // $("#event_location").prepend(option);
+                var option = $("<option>").attr("value", response.placeId);
+                option.html(response.placeLabel);
+                option.prop('selected', true);
+                $("#event_place").prepend(option);
                 $('#inputHide').toggle('hide');
             });
     });

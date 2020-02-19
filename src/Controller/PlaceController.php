@@ -34,7 +34,7 @@ class PlaceController extends Controller
 
             $formData = $request->query->all();
             $btName = $request-> query -> get( 'submitPlace' );
-            dump($btName);
+//            dump($btName);
 
 
 
@@ -110,28 +110,33 @@ class PlaceController extends Controller
                 $entityManager->persist($place);
                 $entityManager->flush();
                 /*$event->setPlace($place);*/
-                $this->addFlash(
-                        'success',
-                        'Lieu créé'
+//                $this->addFlash(
+//                        'success',
+//                        'Lieu créé'
+//                );
+                return new JsonResponse(
+                        [
+                                "placeId"  => $place->getId(),
+                                "placeLabel" => $place->getLabel(),
+                        ]
                 );
-
 //                return $this->redirectToRoute('create-events');
             }
-            else if(!is_null($btName)) {
-                $this->addFlash(
-                        'danger',
-                        'Lieu incorrect'
-                );
-            }
+//            else if(!is_null($btName)) {
+//                $this->addFlash(
+//                        'danger',
+//                        'Lieu incorrect'
+//                );
+//            }
 
         }
 
         return new JsonResponse(
                 [
-                        "placeId"  => $place->getId(),
-                        "placeLabel" => $place->getLabel(),
+                        "error" => 'erreur'
                 ]
         );
+
 
 //        $eventPlace     = new Place();
 //        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
