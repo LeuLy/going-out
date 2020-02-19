@@ -132,12 +132,14 @@ class CityController extends Controller
         dump($location->getLongitude());
 
 
-
-
-
-
-
         return $this->render('city/test_geo.html.twig');
+    }
+
+    /**
+     * @Route("/auto", name="auto")
+     */
+    public function test_auto(){
+        return $this -> render('city/autocomplete.html.twig');
     }
 
 }

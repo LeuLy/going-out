@@ -4,7 +4,7 @@
 
     {#    Ne pas changer les classes    #}
 
-    <button><a style="color: black" href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
+    <button class="btnAction"><a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
     </button>
 
     {% if found %}
@@ -28,7 +28,7 @@
 
     {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}
 
-        <button><a style="color: black" href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
+        <button class="btnAdmin"><a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
                    class="card-link">Modifier</a></button>
 
 

@@ -7,6 +7,11 @@
         {{ parent() }}
     </div>
 {% endblock %}
+{% block geo %}
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4">
+    </script>
+{% endblock %}
 {% block body %}
     <div class="row">
         <div class="col-xs-2 col-md-3"></div>
@@ -23,17 +28,143 @@
             {{ form_row(eventForm.maxMembers) }}
             {{ form_row(eventForm.description) }}
             {{ form_row(eventForm.place) }}
-
-{#            {{ form_widget(eventForm.place, { 'disabled':'disabled' }) }}#}
-            {% include 'includes/modalFormPlace.html.twig' %}<br/> <br/>
-
             {{ form_row(eventForm.status) }}
+{#            {{ form_widget(eventForm.place, { 'disabled':'disabled' }) }}#}
+            {#{% include 'includes/modalFormPlaceTest.html.twig' %}<br/> <br/>#}
 
-
-            <button type="submit" class="btnValid">Enregistrer</button>
+            <div>
+            <button type="submit" class="btnValid ">Enregistrer</button>
             {{ form_end(eventForm) }}
+
+            <button type="button" class="btnPlace" data-dismiss="modal" name="submitEvent">Ajouter un lieu</button>
+        </div>
+            <div class="hide" id="inputHide">
+
+                <form id="formPlace" role="form" class="form-horizontal" method="get">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Nom du lieu</label>
+                            <div class="col-sm-8">
+                                <input id="place_name" name="place_name"
+                                       class="form-control" placeholder="Entrez le nom du lieu">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Lieu</label>
+                            <div class="col-sm-8">
+                                <input id="user_input_autocomplete_address" name="user_input_autocomplete_address"
+                                       class="form-control" placeholder="Entrez une adresse ou un lieu">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="disabled">
+                        <div class="form-group">
+                            <label for="street_number">Numéro de la rue</label>
+                            <div class="hideInput">
+                                <label class="col-sm-4 control-label"><code>street_number</code></label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="street_number" name="street_number" {#disabled="true"#} class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="route">Rue</label>
+                            <div class="hideInput">
+                                <label class="col-sm-4 control-label"><code>route</code></label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="route" name="route" {#disabled="true"#} class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="locality">Ville</label>
+                            <div class="hideInput">
+                                <label class="col-sm-4 control-label"><code>locality</code></label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="locality" name="locality" {#disabled="true"#} class="form-control">
+                            </div>
+                        </div>
+                        <div class="hideInput">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><code>administrative_area_level_1</code></label>
+                                <div class="col-sm-8">
+                                    <input id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code">Code Postal</label>
+                            <div class="hideInput">
+                                <label class="col-sm-4 control-label"><code>postal_code</code></label>
+                            </div>
+                            <div class="col-sm-8">
+                                <input id="postal_code" name="postal_code" {#disabled="true"#} class="form-control">
+                            </div>
+                        </div>
+                        <div class="hideInput">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><code>country</code></label>
+                                <div class="col-sm-8">
+                                    <input id="country" name="country" disabled="true" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btnValid" name="submitPlace">Valider le lieu</button>
+                </form>
+
+            </div>
         </div>
         <div class="col-xs-2 col-md-3">
         </div>
     </div>
+
+<script>
+
+    /* Faire apparaître les input "ajouter un lieu" */
+
+    $('.btnPlace').click(function () {
+        let id = document.getElementById("inputHide");
+        /*let id = ($(this).attr("id"));*/
+        console.log(id);
+        $(id).toggle();
+    });
+
+
+    let id = 'user_input_autocomplete_address';
+
+    function initializeAutocomplete(id) {
+        var element = document.getElementById(id);
+        if (element) {
+            var autocomplete = new google.maps.places.Autocomplete(element, { types: ['establishment'] });
+            var autocomplete_ad = new google.maps.places.Autocomplete(element, { types: ['address'] });
+            google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+            google.maps.event.addListener(autocomplete_ad, 'place_changed', onPlaceChanged);
+        }
+    }
+
+    function onPlaceChanged() {
+        var place = this.getPlace();
+
+        // console.log(place);  // Uncomment this line to view the full object returned by Google API.
+
+        for (var i in place.address_components) {
+            var component = place.address_components[i];
+            for (var j in component.types) {  // Some types are ["country", "political"]
+                var type_element = document.getElementById(component.types[j]);
+                if (type_element) {
+                    type_element.value = component.long_name;
+                }
+            }
+        }
+    }
+
+    google.maps.event.addDomListener(window, 'load', function() {
+        initializeAutocomplete('user_input_autocomplete_address');
+    });
+
+</script>
+
 {% endblock %}

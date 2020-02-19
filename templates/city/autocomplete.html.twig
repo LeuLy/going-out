@@ -1,0 +1,107 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Test API Google Maps Autocomplete
+{% endblock %}
+
+{% block geo %}
+
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4">
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div>
+
+        <form role="form" class="form-horizontal">
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Address</label>
+                    <div class="col-sm-8">
+                        <input id="user_input_autocomplete_address" name="user_input_autocomplete_address"
+                               class="form-control" placeholder="Start typing your address...">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="disabled">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><code>street_number</code></label>
+                    <div class="col-sm-8">
+                        <input id="street_number" name="street_number" disabled="true" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><code>route</code></label>
+                    <div class="col-sm-8">
+                        <input id="route" name="route" disabled="true" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><code>locality</code></label>
+                    <div class="col-sm-8">
+                        <input id="locality" name="locality" disabled="true" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><code>administrative_area_level_1</code></label>
+                    <div class="col-sm-8">
+                        <input id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><code>postal_code</code></label>
+                    <div class="col-sm-8">
+                        <input id="postal_code" name="postal_code" disabled="true" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><code>country</code></label>
+                    <div class="col-sm-8">
+                        <input id="country" name="country" disabled="true" class="form-control">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+
+<script>
+
+    let id = 'user_input_autocomplete_address';
+
+    function initializeAutocomplete(id) {
+        var element = document.getElementById(id);
+        if (element) {
+            var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+            google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+        }
+    }
+
+    function onPlaceChanged() {
+        var place = this.getPlace();
+
+        // console.log(place);  // Uncomment this line to view the full object returned by Google API.
+
+        for (var i in place.address_components) {
+            var component = place.address_components[i];
+            for (var j in component.types) {  // Some types are ["country", "political"]
+                var type_element = document.getElementById(component.types[j]);
+                if (type_element) {
+                    type_element.value = component.long_name;
+                }
+            }
+        }
+    }
+
+    google.maps.event.addDomListener(window, 'load', function() {
+        initializeAutocomplete('user_input_autocomplete_address');
+    });
+
+</script>
+
+{% endblock %}
