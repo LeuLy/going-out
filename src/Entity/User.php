@@ -99,7 +99,7 @@ class User implements UserInterface
     private $site;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="user", orphanRemoval=false)
      */
     private $inscriptions;
 
@@ -125,7 +125,7 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(string $username)
     {
         $this->username = $username;
 
@@ -137,7 +137,7 @@ class User implements UserInterface
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -149,7 +149,7 @@ class User implements UserInterface
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstname(string $firstname)
     {
         $this->firstname = $firstname;
 
@@ -161,7 +161,7 @@ class User implements UserInterface
         return $this->inscriptionYear;
     }
 
-    public function setInscriptionYear(int $inscriptionYear): self
+    public function setInscriptionYear(int $inscriptionYear)
     {
         $this->inscriptionYear = $inscriptionYear;
 
@@ -174,7 +174,7 @@ class User implements UserInterface
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
+    public function setPhone(string $phone)
     {
         $this->phone = $phone;
 
@@ -186,7 +186,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email)
     {
         $this->email = $email;
 
@@ -197,7 +197,7 @@ class User implements UserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password)
     {
         $this->password = $password;
 
@@ -212,7 +212,7 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles)
     {
         $this->roles = $roles;
 
@@ -224,7 +224,7 @@ class User implements UserInterface
         return $this->active;
     }
 
-    public function setActive(bool $active): self
+    public function setActive(bool $active)
     {
         $this->active = $active;
 
@@ -255,7 +255,7 @@ class User implements UserInterface
         return $this->events;
     }
 
-    public function addEvent(Event $event): self
+    public function addEvent(Event $event)
     {
         if (!$this->events->contains($event)) {
             $this->events[] = $event;
@@ -265,7 +265,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeEvent(Event $event): self
+    public function removeEvent(Event $event)
     {
         if ($this->events->contains($event)) {
             $this->events->removeElement($event);
@@ -284,7 +284,7 @@ class User implements UserInterface
         return $this->file;
     }
 
-    public function setFile(?File $file): self
+    public function setFile(?File $file)
     {
         $this->file = $file;
 
@@ -296,7 +296,7 @@ class User implements UserInterface
         return $this->site;
     }
 
-    public function setSite(?Site $site): self
+    public function setSite(?Site $site)
     {
         $this->site = $site;
 
@@ -311,7 +311,7 @@ class User implements UserInterface
         return $this->inscriptions;
     }
 
-    public function addInscription(Inscription $inscription): self
+    public function addInscription(Inscription $inscription)
     {
         if (!$this->inscriptions->contains($inscription)) {
             $this->inscriptions[] = $inscription;
@@ -321,7 +321,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeInscription(Inscription $inscription): self
+    public function removeInscription(Inscription $inscription)
     {
         if ($this->inscriptions->contains($inscription)) {
             $this->inscriptions->removeElement($inscription);
@@ -339,7 +339,7 @@ class User implements UserInterface
         return $this->showPhone;
     }
 
-    public function setShowPhone(?bool $showPhone): self
+    public function setShowPhone(?bool $showPhone)
     {
         $this->showPhone = $showPhone;
 
@@ -362,7 +362,7 @@ class User implements UserInterface
 //        return $this->eventsMember;
 //    }
 //
-//    public function addEventsMember(Event $eventsMember): self
+//    public function addEventsMember(Event $eventsMember)
 //    {
 //        if (!$this->eventsMember->contains($eventsMember)) {
 //            $this->eventsMember[] = $eventsMember;
@@ -372,7 +372,7 @@ class User implements UserInterface
 //        return $this;
 //    }
 //
-//    public function removeEventsMember(Event $eventsMember): self
+//    public function removeEventsMember(Event $eventsMember)
 //    {
 //        if ($this->eventsMember->contains($eventsMember)) {
 //            $this->eventsMember->removeElement($eventsMember);

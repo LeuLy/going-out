@@ -26,14 +26,19 @@
 
     {% endif %}
 
-    {% if (eventByDescription.creator.id == userId) %}
+    {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}
 
         <button><a style="color: black" href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
                    class="card-link">Modifier</a></button>
-        <button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Annuler</button>
+
 
     {% endif %}
 
+    {% if (user.roles == ['ROLE_ADMIN']) %}
+
+        <button class="delete-event" name="event_id" value="{{ eventByDescription.id }}">Supprimer</button>
+
+    {% endif %}
 </div>
 
 
