@@ -47,7 +47,7 @@ class PlaceController extends Controller
 
             /*dump($city_num.' '.$city_street.' '.$city_name);*/
 
-            if (!empty($place_label) && !empty($city_street) && !empty($city_name) && !empty($city_postcode)) {
+            if (!empty($place_label) && !empty($city_street) && !empty($city_name)) {
 
 
 
@@ -64,7 +64,12 @@ class PlaceController extends Controller
                 if(!$check_city){
                     $city = new City();
                     $city -> setName($city_name);
-                    $city -> setPostalCode($city_postcode);
+                    if(!empty($city_postcode)){
+                        $city -> setPostalCode($city_postcode);
+                    }
+                    else{
+                        $city -> setPostalCode('none');
+                    }
                     $entityManager->persist($city);
                     $entityManager->flush();
                     $place->setCity($city);
