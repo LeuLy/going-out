@@ -24,8 +24,14 @@
             <div class="card-body">
                 <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
-                <p class="card-text"><a
-                            href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>
+                <p class="card-text">
+                    {% if ((eventByDescription.creator.active == true) and (eventByDescription.creator.erased == false)) %}
+                        <a href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a><br>
+                    {% else %}
+                        {{ eventByDescription.creator.username }}
+                    {% endif %}
+
+{#                    <a href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>#}
                 </p>
                 <p class="card-text">{{ eventByDescription.label }}</p>
                 <p class="card-text">Nombre inscrit(s): <span
