@@ -27,22 +27,26 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("now")
+     * @Assert\GreaterThan("now Europe/Paris")
      */
     private $dateStart;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual("30",
+     *      message = "La durée minimale doit être de 30 minutes")
      */
     private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("now Europe/Paris")
      */
     private $dateInscriptionEnd;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual("2")
      */
     private $maxMembers;
 
