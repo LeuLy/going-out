@@ -18,14 +18,14 @@ class MainController extends Controller
     public function home(Request $request, EntityManagerInterface $entityManager)
     {
 
-        $currentUser = $this->getUser();
-        if($currentUser->getErased() == true){
-            $this->addFlash(
-                    'danger',
-                    'Ce compte a été supprimé'
-            );
-            return $this->redirectToRoute('logout');
-        }
+//        $currentUser = $this->getUser();
+//        if($currentUser->getErased() == true){
+//            $this->addFlash(
+//                    'danger',
+//                    'Ce compte a été supprimé'
+//            );
+//            return $this->redirectToRoute('logout');
+//        }
 
 
         $siteRepository = $entityManager->getRepository(Site::class);

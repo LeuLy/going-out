@@ -33,7 +33,7 @@ class User implements UserInterface
      *     pattern="/^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$/i",
      *     htmlPattern="^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$",
      *     match=true,
-     *     message="Votre nom ne peut contenir que des lettres")
+     *     message="Le nom ne peut contenir que des lettres")
      */
     private $name;
 
@@ -43,7 +43,7 @@ class User implements UserInterface
      *     pattern="/^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$/i",
      *     htmlPattern="^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$",
      *     match=true,
-     *     message="Votre prénom ne peut contenir que des lettres")
+     *     message="Le prénom ne peut contenir que des lettres")
      */
     private $firstname;
 
