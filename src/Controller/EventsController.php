@@ -18,9 +18,22 @@ use Http\Adapter\Guzzle6\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Workflow\Registry;
 class EventsController extends Controller
 {
+
+
+    /**
+     * @var Registry
+     */
+    private $workflows;
+
+    public function __construct(Registry $workflows)
+    {
+        $this->workflows = $workflows;
+    }
+
+
     /**
      * @Route("/events", name="events")
      */
@@ -116,10 +129,8 @@ class EventsController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
 
-
-
-
-
+            $workflow = $this->workflows->get($event, 'eventStatus');
+            dump($workflow);
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -131,21 +142,20 @@ class EventsController extends Controller
             return $this->redirectToRoute('create-events');
         }
 
-        if($request->isMethod('get')){
+        if ($request->isMethod('get')) {
 
 
             $formData = $request->query->all();
-            $btName = $request-> query -> get( 'submitPlace' );
+            $btName   = $request->query->get('submitPlace');
             dump($btName);
 
 
-
-            $place_label = $request -> query -> get("place_name");
-            $city_num = $request -> query -> get("street_number");
-            $city_street = $request -> query -> get("route");
-            $city_name = $request -> query -> get("locality");
-            $city_postcode = $request -> query -> get("postal_code");
-            $city_address = $request -> query -> get("user_input_autocomplete_address");
+            $place_label   = $request->query->get("place_name");
+            $city_num      = $request->query->get("street_number");
+            $city_street   = $request->query->get("route");
+            $city_name     = $request->query->get("locality");
+            $city_postcode = $request->query->get("postal_code");
+            $city_address  = $request->query->get("user_input_autocomplete_address");
 
             /*dump($city_num.' '.$city_street.' '.$city_name);*/
 
@@ -163,14 +173,14 @@ class EventsController extends Controller
                 $check_city = new City();
                 $check_city = $cityRepo->findOneBy(array('name' => $city_name));
 
-                if(!$check_city){
+                if (!$check_city) {
                     $city = new City();
-                    $city -> setName($city_name);
-                    $city -> setPostalCode($city_postcode);
+                    $city->setName($city_name);
+                    $city->setPostalCode($city_postcode);
                     $entityManager->persist($city);
                     $entityManager->flush();
                     $place->setCity($city);
-                }else{
+                } else {
                     $place->setCity($check_city);
                 }
 
@@ -179,13 +189,13 @@ class EventsController extends Controller
 
                 $config = [
                     'verify' => false,
-                    'proxy'   => 'http://proxy-sh.ad.campus-eni.fr:8080',
+                    'proxy'  => 'http://proxy-sh.ad.campus-eni.fr:8080',
                 ];
 
                 $guzzle = new GuzzleClient($config);
 
                 $adapter  = new Client($guzzle);
-                $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4' );
+                $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
                 $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');
 
                 $adress = $city_address;
@@ -199,14 +209,15 @@ class EventsController extends Controller
                 /*dump($res);*/
 
                 $location = $res->getCoordinates();
-/*                dump($location);
-                dump($location->getLatitude());
-                dump($location->getLongitude());*/
-                $lat = $location->getLatitude();
+                /*                dump($location);
+                                dump($location->getLatitude());
+                                dump($location->getLongitude());*/
+                $lat  = $location->getLatitude();
                 $long = $location->getLongitude();
 
                 $place->setLatitude($lat);
                 $place->setLongitude($long);
+
 
                 /*dump($place);*/
                 $entityManager->persist($place);
@@ -218,8 +229,7 @@ class EventsController extends Controller
                 );
 
                 return $this->redirectToRoute('create-events');
-            }
-            else if(!is_null($btName)) {
+            } elseif (!is_null($btName)) {
                 $this->addFlash(
                     'danger',
                     'Lieu incorrect'
@@ -276,7 +286,7 @@ class EventsController extends Controller
         $site = $siteRepository->findByLabel($siteLabel);
 
 
-        $event         = $eventRepository->findEventBySite($site, $page, $limit);
+        $event = $eventRepository->findEventBySite($site, $page, $limit);
 
 
         $eventByDescription = $eventRepository->findEventByFilters(
@@ -294,8 +304,9 @@ class EventsController extends Controller
             $limit
         );
 
+
         $nbTotalEvents = count($event);
-        $nbPage = ceil($nbTotalEvents / $limit);
+        $nbPage        = ceil($nbTotalEvents / $limit);
 
 
         //eventByCreator -> les evenements créés par l'utilisateur courant.
@@ -314,6 +325,7 @@ class EventsController extends Controller
                 'page',
                 'user',
                 'nbPageByDescription',
+
                 'nbPage',
                 'siteLabel',
                 'event',
@@ -343,13 +355,26 @@ class EventsController extends Controller
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $inscriptions          = $inscriptionRepository->findSubscribedByEvent($id);
 
+// WORKFLOW EN CREATION:
+        $workflow = $this->workflows->get($event, 'eventStatus');
+//        $workflow->apply($event, 'eventPublish');
 
+        dump($workflow);
         dump($inscriptions);
 
-        $place = $event -> getPlace();
+//        if ($workflow->can($event, 'eventPublish')) {
+
+//            $eventWorkflow = new event();
+//            $workflow = $this->get('workflow.registry')->get($eventWorkflow);
+//            $workflow->getMarking($eventWorkflow);
+//
+//            $workflow->apply($eventWorkflow, 'eventPublish');
+//        }
+
+        $place = $event->getPlace();
 
 
-        return $this->render('events/affichEvent.html.twig', compact('event','inscriptions','place'));
+        return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }
 
 

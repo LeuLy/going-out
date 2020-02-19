@@ -30,7 +30,9 @@
                     <h5 class="card-title d-flex justify-content-center">{{ event.label }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p class="card-text">
-
+{#                        {% if 'EnCreation' in workflow_marked_places(eventStatus) %}#}
+{#                    <p>OKAYY</p>#}
+{#                    {% endif %}#}
 
                         <i class="fas fa-user-astronaut"></i> Organisateur :
                         {% if ((event.creator.active == true) and (event.creator.erased == false)) %}
