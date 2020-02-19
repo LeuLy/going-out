@@ -14,9 +14,8 @@
     {% else %}
 
 
-{#        $placesRestantes =($eventByDescription->getMaxMembers())-($eventByDescription->getInscriptions()->count());#}
+        {% if ( ((eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers) or (eventByDescription.dateInscriptionEnd <= date('now')) ) %}
 
-        {% if ( (eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers ) %}
             <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire</button>
         {% else %}
             <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
