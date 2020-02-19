@@ -48,8 +48,8 @@ class UserController extends Controller
 
         if(!is_null($error)){
             $this->addFlash(
-                'danger',
-                'Erreur de connexion'
+                    'danger',
+                    'Erreur de connexion'
             );
         }
 
@@ -168,6 +168,14 @@ class UserController extends Controller
         $userRepo = $entityManager->getRepository(User::class);
         $user = $userRepo->find($userId);
         $currentUser = $this->getUser();
+        if ($user->getErased()) {
+            $this->addFlash(
+                'danger',
+                'Utilisateur inexistant'
+            );
+//            throw $this->createNotFoundException('Utilisateur inexistant2');
+            return $this->redirectToRoute('home');
+        }
         return $this->render('user/affichProfil.html.twig',
                 compact('user', 'currentUser')
         );
@@ -182,7 +190,7 @@ class UserController extends Controller
         $userRepository     = $entityManager->getRepository(User::class);
         $user         = $userRepository->find($userId);
         $user->setActive(false);
-//        $user->setErased(true);
+        $user->setErased(true);
 
 
         $entityManager->persist($user);
