@@ -30,8 +30,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex(
-     *     pattern="/^[A-Za-zÀ-ÖØ-öø-ÿç]{1,245}$/i",
-     *     htmlPattern="^[A-Za-zÀ-ÖØ-öø-ÿç]{1,245}$",
+     *     pattern="/^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$/i",
+     *     htmlPattern="^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$",
      *     match=true,
      *     message="Votre nom ne peut contenir que des lettres")
      */
@@ -40,8 +40,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex(
-     *     pattern="/^[A-Za-zÀ-ÖØ-öø-ÿç]{1,245}$/i",
-     *     htmlPattern="^[A-Za-zÀ-ÖØ-öø-ÿç]{1,245}$",
+     *     pattern="/^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$/i",
+     *     htmlPattern="^[A-Za-zÀ-ÖØ-öø-ÿç-]{1,245}$",
      *     match=true,
      *     message="Votre prénom ne peut contenir que des lettres")
      */
