@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\File;
 use App\Entity\User;
 use App\Form\FileType;
+use App\Form\UserModifType;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Uploadable\FileInfo\FileInfoArray;
@@ -184,6 +185,52 @@ class UserController extends Controller
 
         );
     }
+
+    /**
+     * @Route("/userModif/{userId}", name="userModif", requirements={"userId": "\d+"})
+     * @param   UploadableManager  $uploadableManager
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function userModif(
+            UploadableManager $uploadableManager,
+            Request $request,
+            EntityManagerInterface $entityManager,
+            UserPasswordEncoderInterface $passwordEncoder,
+            $userId
+    ) {
+        $userRepo    = $entityManager->getRepository(User::class);
+        $user        = $userRepo->find($userId);
+        $currentUser = $this->getUser();
+
+        $userForm = $this->createForm(UserModifType::class, $user);
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+            $this->addFlash(
+                    'success',
+                    'Modification enregistrée'
+            );
+
+
+            return $this->redirectToRoute('userProfile', ['userId' => $userId]);
+        }
+
+//        return $this->render(
+//                'user/affichProfil.html.twig',
+//                compact('user', 'currentUser')
+
+//        );
+
+        return $this->render('user/userModif.html.twig', ['userFormView' => $userForm->createView()]);
+    }
+
+
 
     /**
      * @Route("/deleteUser/{userId}", name="deleteUser")

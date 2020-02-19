@@ -47,7 +47,10 @@
                     {% endif %}
 
                     <button class="btnValid">
-                        {#                    <button class="delete-event" name="event_id" value="{{user.id }}">#}
+                        <a href="{{ path('userModif',{'userId': user.id}) }}">Modifier</a>
+                    </button>
+
+                    <button class="btnValid">
                         <a href="{{ path('deleteUser',{'userId': user.id}) }}">Supprimer</a>
                     </button>
                 {% endif %}

@@ -1,0 +1,62 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Modifier Profil
+{% endblock %}
+{% block test %}
+    <div id="profil_bgd">
+        {{ parent() }}
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-xs-5 col-sm-3">
+            {% if app.user.file is not null %}
+            <img alt="avatar" src="{{ asset('public/uploads/' ~ app.user.file.name) }}" class="img-thumbnail" />
+                {% else %}
+                    <img alt="avatar" src="{{ asset('public/img_default/avatar_default.png') }}" class="img-thumbnail" />
+            {% endif %}
+        </div>
+        <div class="col-sm-8 col-md-6" id="form_format">
+
+
+                <h3>Modification du Profil</h3>
+            {% if form_errors(userFormView)|length > 0 %}
+
+                <strong>{{ form_errors(userFormView) }}</strong>
+
+            {% endif %}
+
+            {{ form_start(userFormView, {'enctype': 'multipart/form-data'} ) }}
+            {{ form_row(userFormView.username) }}
+            {{ form_row(userFormView.firstname) }}
+            {{ form_row(userFormView.name) }}
+            {{ form_row(userFormView.inscriptionYear) }}
+            {{ form_row(userFormView.phone) }}
+            {{ form_row(userFormView.showPhone) }}
+            {{ form_row(userFormView.email) }}
+            {{ form_row(userFormView.site) }}
+
+
+            <div class="row d-flex justify-content-around">
+
+                <button type="submit" class="btnValid">
+                    Enregistrer
+                </button>
+
+
+                <button type="reset" class="btnValid">
+                    Annuler
+                </button>
+
+            </div>
+
+            {{ form_end(userFormView) }}
+
+        </div>
+        <div class="col-sm-1 col-md-3">
+        </div>
+    </div>
+
+{% endblock %}
+
