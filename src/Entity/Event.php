@@ -27,7 +27,7 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today UTC")
+     * @Assert\GreaterThan("now")
      */
     private $dateStart;
 
@@ -235,7 +235,7 @@ class Event
         // check if the $dateInscriptionEnd is after the $dateStart
         if ($this->getDateInscriptionEnd() > $this->getDateStart()) {
             $context->buildViolation('La date de fin d\'inscription doit correpondre au jour de début au plus tard')
-                    ->atPath('inscriptionEnd')
+                    ->atPath('dateInscriptionEnd')
                     ->addViolation();
         }
     }
