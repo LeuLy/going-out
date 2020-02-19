@@ -1,0 +1,18 @@
+dans .env
+	mettre :
+	APP_ENV=prod
+	APP_DEBUG=0
+	a la place de :
+	APP_ENV=dev
+
+dans bin>console.php
+	mettre :
+	$kernel = new Kernel('prod', true);
+	a la place de :
+	$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+
+dans conf>packages>prod>monolog.yalm
+	commenter :
+	excluded_http_codes: [404, 405]
+
+VIDER LE CACHE

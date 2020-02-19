@@ -1,4 +1,23 @@
-{% extends 'layout.html.twig' %}
+{#{% extends 'layout.html.twig' %}#}
+
+{% block title %}
+    Erreur 403
+{% endblock %}
+
 {% block body %}
-<h1>ERROR 403</h1>
+
+    <div class="row">
+        <div class="col-xs-1 col-sm-2 col-md-1"></div>
+        <div class="col-xs-10 col-sm-8 col-md-10 justify-content-center">
+
+            <h3>Votre compte est inactif ou supprimé</h3>
+                <br/>
+            <div>Pour plus d'informations, écrivez-nous : contact@helloworld.com</div>
+
+            <button class="btnValid" id="restart"><a href="{{ asset('/going-out/public/login') }}">Retour</a></button></p>
+
+        </div>
+        <div class="col-xs-1 col-sm-2 col-md-1"></div>
+    </div>
+
 {% endblock %}

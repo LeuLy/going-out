@@ -138,7 +138,34 @@ nav, small{
     box-shadow: 9px 9px 24px -13px rgba(247, 170, 0,0.75);
     border: 1.4px solid rgba(247, 170, 0,0.6);
 }
-/* Formulaire */
+.btnActive , .btnDelete {
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #235784;
+    background-color: white;
+    box-shadow: 9px 9px 24px -13px rgba(35,87,132,0.75);
+    border: 1.4px solid rgba(35,87,132,0.6);
+    margin-bottom: 2em;
+}
+.btnActive a, .btnDelete a{
+    text-decoration: none;
+    color: #235784;
+}
+.btnActive:hover a, .btnDelete:hover a{
+    text-decoration: none;
+    color: #f7aa00;
+}
+.btnActive:hover , .btnDelete:hover {
+    text-decoration: none;
+    color: #f7aa00;
+    box-shadow: 9px 9px 24px -13px rgba(247, 170, 0,0.75);
+    border: 1.4px solid rgba(247, 170, 0,0.6);
+}
+
+    /* Formulaire */
 
 form{
     padding: 2em;
@@ -385,3 +412,30 @@ footer{
 .pagination{
     color: #235784;
 }
+
+/* Error 404 */
+
+.title_game{
+    text-align:center
+}
+#space-invaders {
+    margin: 0 auto;
+    display: block;
+    background: white
+}
+.error404_lg{
+    max-height: 100vh;
+}
+@media only screen and (max-width: 992px){
+    .error404_lg{
+        display: none;
+    }
+}
+@media only screen and (min-width: 992px){
+    .error404_mob{
+        display: none;
+    }
+}
+
+/* Error 403 */
+
