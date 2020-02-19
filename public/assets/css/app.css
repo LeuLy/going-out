@@ -94,6 +94,18 @@ nav, small{
     box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
     border: none;
 }
+.btnPlace{
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #235784;
+    background-color: white;
+    box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
+    border: none;
+    margin-left: 2em;
+}
 
 /* Formulaire */
 
@@ -322,5 +334,8 @@ footer{
     }
 }
 .hide{
+    display: none;
+}
+.hideInput{
     display: none;
 }

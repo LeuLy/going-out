@@ -115,24 +115,65 @@ class EventsController extends Controller
         if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $formData      = $request->request->all();
 
 
-            if (empty($formData['event']['place'])) {
+
+
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Sortie créée'
+            );
+
+            return $this->redirectToRoute('create-events');
+        }
+
+        if($request->isMethod('get')){
+
+
+            $formData = $request->query->all();
+            $btName = $request-> query -> get( 'submitPlace' );
+            dump($btName);
+
+
+
+            $place_label = $request -> query -> get("place_name");
+            $city_num = $request -> query -> get("street_number");
+            $city_street = $request -> query -> get("route");
+            $city_name = $request -> query -> get("locality");
+            $city_postcode = $request -> query -> get("postal_code");
+            $city_address = $request -> query -> get("user_input_autocomplete_address");
+
+            /*dump($city_num.' '.$city_street.' '.$city_name);*/
+
+            if (!empty($place_label) && !empty($city_street) && !empty($city_name) && !empty($city_postcode)) {
+
 
                 $place = new Place();
 
-                $placeData = $formData['event']['placeForm'];
+                $place->setLabel($place_label);
+                $place->setAddress($city_num.' '.$city_street);
 
 
-                $place->setLabel($formData['event']['placeForm']['label']);
-                $place->setAddress($formData['event']['placeForm']['address']);
-                $place->setCity($cityRepo->find($formData['event']['placeForm']['city']));
+                /* Check if the city is in database */
 
-                $city = new City();
-                $city = $cityRepo->find($formData['event']['placeForm']['city']);
-                dump($city);
-                $city_name = $city -> getName();
+                $check_city = new City();
+                $check_city = $cityRepo->findOneBy(array('name' => $city_name));
+
+                if(!$check_city){
+                    $city = new City();
+                    $city -> setName($city_name);
+                    $city -> setPostalCode($city_postcode);
+                    $entityManager->persist($city);
+                    $entityManager->flush();
+                    $place->setCity($city);
+                }else{
+                    $place->setCity($check_city);
+                }
+
 
                 /* Define latitude and longitude */
 
@@ -147,42 +188,44 @@ class EventsController extends Controller
                 $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4' );
                 $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');
 
-                $adress = $formData['event']['placeForm']['address'].', '.$city_name;
-                    $result = $geocoder->geocodeQuery(GeocodeQuery::create($adress));
+                $adress = $city_address;
+                $result = $geocoder->geocodeQuery(GeocodeQuery::create($adress));
 
                 $coordinates = $result->all();
 
-                dump($coordinates);
+                /*dump($coordinates);*/
 
                 $res = $result->first();
-                dump($res);
+                /*dump($res);*/
 
                 $location = $res->getCoordinates();
-                dump($location);
+/*                dump($location);
                 dump($location->getLatitude());
-                dump($location->getLongitude());
+                dump($location->getLongitude());*/
                 $lat = $location->getLatitude();
                 $long = $location->getLongitude();
 
                 $place->setLatitude($lat);
                 $place->setLongitude($long);
 
-                dump($place);
+                /*dump($place);*/
                 $entityManager->persist($place);
                 $entityManager->flush();
-                $event->setPlace($place);
+                /*$event->setPlace($place);*/
+                $this->addFlash(
+                    'success',
+                    'Lieu créé'
+                );
+
+                return $this->redirectToRoute('create-events');
+            }
+            else if(!is_null($btName)) {
+                $this->addFlash(
+                    'danger',
+                    'Lieu incorrect'
+                );
             }
 
-
-            $entityManager->persist($event);
-            $entityManager->flush();
-
-            $this->addFlash(
-                'success',
-                'Sortie créée'
-            );
-
-            return $this->redirectToRoute('create-events');
         }
 
         return $this->render(

@@ -98,14 +98,14 @@ class EventType extends AbstractType
                             'required' => false,
                     ]
             )
-            ->add (
+            /*->add (
                     'placeForm',
                     PlaceType::class,
                     [
                             'mapped' => false,
                             'required' => false,
                     ]
-            )
+            )*/
 //            ->add(
 //                    'save',
 //                    SubmitType::class,
