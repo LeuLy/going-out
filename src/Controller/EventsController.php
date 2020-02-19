@@ -18,9 +18,22 @@ use Http\Adapter\Guzzle6\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Workflow\Registry;
 class EventsController extends Controller
 {
+
+
+    /**
+     * @var Registry
+     */
+    private $workflows;
+
+    public function __construct(Registry $workflows)
+    {
+        $this->workflows = $workflows;
+    }
+
+
     /**
      * @Route("/events", name="events")
      */
@@ -116,10 +129,8 @@ class EventsController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
 
-
-
-
-
+            $workflow = $this->workflows->get($event, 'eventStatus');
+            dump($workflow);
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -132,7 +143,7 @@ class EventsController extends Controller
         }
 
 
-
+       
         return $this->render(
             'events/createEvent.html.twig',
             [
@@ -181,7 +192,7 @@ class EventsController extends Controller
         $site = $siteRepository->findByLabel($siteLabel);
 
 
-        $event         = $eventRepository->findEventBySite($site, $page, $limit);
+        $event = $eventRepository->findEventBySite($site, $page, $limit);
 
 
         $eventByDescription = $eventRepository->findEventByFilters(
@@ -199,8 +210,9 @@ class EventsController extends Controller
             $limit
         );
 
+
         $nbTotalEvents = count($event);
-        $nbPage = ceil($nbTotalEvents / $limit);
+        $nbPage        = ceil($nbTotalEvents / $limit);
 
 
         //eventByCreator -> les evenements créés par l'utilisateur courant.
@@ -219,6 +231,7 @@ class EventsController extends Controller
                 'page',
                 'user',
                 'nbPageByDescription',
+
                 'nbPage',
                 'siteLabel',
                 'event',
@@ -248,13 +261,26 @@ class EventsController extends Controller
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $inscriptions          = $inscriptionRepository->findSubscribedByEvent($id);
 
+// WORKFLOW EN CREATION:
+        $workflow = $this->workflows->get($event, 'eventStatus');
+//        $workflow->apply($event, 'eventPublish');
 
+        dump($workflow);
         dump($inscriptions);
 
-        $place = $event -> getPlace();
+//        if ($workflow->can($event, 'eventPublish')) {
+
+//            $eventWorkflow = new event();
+//            $workflow = $this->get('workflow.registry')->get($eventWorkflow);
+//            $workflow->getMarking($eventWorkflow);
+//
+//            $workflow->apply($eventWorkflow, 'eventPublish');
+//        }
+
+        $place = $event->getPlace();
 
 
-        return $this->render('events/affichEvent.html.twig', compact('event','inscriptions','place'));
+        return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }
 
 
