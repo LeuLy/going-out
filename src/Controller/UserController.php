@@ -28,9 +28,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
+        return $this->render(
+            'user/index.html.twig',
+            [
+                'controller_name' => 'UserController',
+            ]
+        );
     }
 
 
@@ -46,46 +49,55 @@ class UserController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        if(!is_null($error)){
+        if (!is_null($error)) {
             $this->addFlash(
                 'danger',
                 'Erreur de connexion'
             );
         }
 
-        return $this->render('user/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ]);
-
+        return $this->render(
+            'user/login.html.twig',
+            [
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]
+        );
 
 
     }
+
     /**
      * @Route("/register", name="register")
      */
     public function register()
     {
-        return $this->render('user/register.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
+        return $this->render(
+            'user/register.html.twig',
+            [
+                'controller_name' => 'UserController',
+            ]
+        );
     }
 
     /**
      * @Route("/profilModif", name="profilModif")
-     * @param UploadableManager $uploadableManager
+     * @param   UploadableManager  $uploadableManager
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function profilModif(UploadableManager $uploadableManager, Request $request,
-                                EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $user = $this->getUser();
+    public function profilModif(
+        UploadableManager $uploadableManager,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder
+    ) {
+        $user     = $this->getUser();
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
 
-
-        if($userForm->isSubmitted() && $userForm->isValid()) {
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
 
             $userForm->addError(new FormError('Erreur'));
 
@@ -106,37 +118,37 @@ class UserController extends Controller
 
             if ($filedata instanceof UploadedFile) {
 
-                if(!empty($user->getFile())){
+                if (!empty($user->getFile())) {
                     $fileExists = new File();
-                    $fileRep = $entityManager->getRepository(File::class);
-                    $fileExists = $fileRep->findOneBy(['user'=>$user->getId()]);
+                    $fileRep    = $entityManager->getRepository(File::class);
+                    $fileExists = $fileRep->findOneBy(['user' => $user->getId()]);
                     $entityManager->remove($fileExists);
                     $entityManager->flush();
                 }
 
-                    $pathF = $filedata->move(
-                        'public/uploads',
-                        $filedata->getClientOriginalName()
-                    );
-                    dump($pathF);
+                $pathF = $filedata->move(
+                    'public/uploads',
+                    $filedata->getClientOriginalName()
+                );
+                dump($pathF);
 
 
-                    $inf = new UploadedFileInfo($filedata);
-                    dump($inf);
+                $inf = new UploadedFileInfo($filedata);
+                dump($inf);
 
-                    $file->setMimeType($filedata->getClientMimeType());
-                    $file->setName($filedata->getClientOriginalName());
-                    $file->setSize($filedata->getClientSize());
-                    $file->setPath($filedata->getRealPath());
-                    $file->setUser($user);
-                    $file->setPublicPath('');
+                $file->setMimeType($filedata->getClientMimeType());
+                $file->setName($filedata->getClientOriginalName());
+                $file->setSize($filedata->getClientSize());
+                $file->setPath($filedata->getRealPath());
+                $file->setUser($user);
+                $file->setPublicPath('');
 
-                    $uploadableManager->markEntityToUpload($file, $inf, $pathF );
-                    dump('nom '.$file->getName());
-                    dump($user);
-                    dump($file);
-                    $path = $file ->getPublicPath();
-                    dump($path);
+                $uploadableManager->markEntityToUpload($file, $inf, $pathF);
+                dump('nom '.$file->getName());
+                dump($user);
+                dump($file);
+                $path = $file->getPublicPath();
+                dump($path);
 
             }
 
@@ -148,12 +160,9 @@ class UserController extends Controller
                 'success',
                 'Modification enregistrée'
             );
+
             return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
         }
-
-
-
-
 
 
         return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
@@ -165,11 +174,13 @@ class UserController extends Controller
      */
     public function userProfile(EntityManagerInterface $entityManager, $userId)
     {
-        $userRepo = $entityManager->getRepository(User::class);
-        $user = $userRepo->find($userId);
+        $userRepo    = $entityManager->getRepository(User::class);
+        $user        = $userRepo->find($userId);
         $currentUser = $this->getUser();
-        return $this->render('user/affichProfil.html.twig',
-                compact('user', 'currentUser')
+
+        return $this->render(
+            'user/affichProfil.html.twig',
+            compact('user', 'currentUser')
         );
     }
 
@@ -179,17 +190,20 @@ class UserController extends Controller
     public function deleteUser($userId, EntityManagerInterface $entityManager)
     {
 
-        $userRepository     = $entityManager->getRepository(User::class);
-        $user         = $userRepository->find($userId);
+        $userRepository = $entityManager->getRepository(User::class);
+        $user           = $userRepository->find($userId);
         $user->setActive(false);
-//        $user->setErased(true);
+        $user->setErased(true);
+        $user->setRoles(['ROLE_DELETED']);
 
 
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $this->addFlash('success',
-            'Utilisateur supprimé');
+        $this->addFlash(
+            'success',
+            'Utilisateur supprimé'
+        );
 
         return $this->redirectToRoute('home');
     }
@@ -201,16 +215,18 @@ class UserController extends Controller
     public function deactivateUser($userId, EntityManagerInterface $entityManager)
     {
 
-        $userRepository     = $entityManager->getRepository(User::class);
-        $user         = $userRepository->find($userId);
+        $userRepository = $entityManager->getRepository(User::class);
+        $user           = $userRepository->find($userId);
         $user->setActive(false);
 
 
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $this->addFlash('success',
-            'Utilisateur désactivé');
+        $this->addFlash(
+            'success',
+            'Utilisateur désactivé'
+        );
 
         return $this->redirectToRoute('userProfile', ['userId' => $userId]);
     }
@@ -221,16 +237,18 @@ class UserController extends Controller
     public function activateUser($userId, EntityManagerInterface $entityManager)
     {
 
-        $userRepository     = $entityManager->getRepository(User::class);
-        $user         = $userRepository->find($userId);
+        $userRepository = $entityManager->getRepository(User::class);
+        $user           = $userRepository->find($userId);
         $user->setActive(true);
 
 
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $this->addFlash('success',
-            'Utilisateur réactivé');
+        $this->addFlash(
+            'success',
+            'Utilisateur réactivé'
+        );
 
         return $this->redirectToRoute('userProfile', ['userId' => $userId]);
     }
@@ -242,8 +260,8 @@ class UserController extends Controller
     public function affichProfil()
     {
 
-        $user = $this->getUser();
-        $photo = $user -> getFile();
+        $user  = $this->getUser();
+        $photo = $user->getFile();
         dump($photo);
 
         return $this->render('user/affichProfil.html.twig', compact('photo'));
