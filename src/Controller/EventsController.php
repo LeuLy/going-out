@@ -251,7 +251,7 @@ class EventsController extends Controller
             $limit
         );
 
-        $nbTotalEvents = count($eventByDescription);
+        $nbTotalEvents = count($event);
         $nbPage = ceil($nbTotalEvents / $limit);
 
 
@@ -277,6 +277,12 @@ class EventsController extends Controller
                 'inscription',
                 'limit',
                 'var',
+                'beginDate',
+                'endDate',
+                'passedEvent',
+                'eventOwner',
+                'subscribed',
+                'notSubscribed',
                 'userId'
             ) // userId  rajouté
         );
@@ -297,8 +303,10 @@ class EventsController extends Controller
 
         dump($inscriptions);
 
+        $place = $event -> getPlace();
 
-        return $this->render('events/affichEvent.html.twig', compact('event','inscriptions'));
+
+        return $this->render('events/affichEvent.html.twig', compact('event','inscriptions','place'));
     }
 
 
