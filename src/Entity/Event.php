@@ -27,22 +27,26 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("today UTC")
+     * @Assert\GreaterThan("now Europe/Paris")
      */
     private $dateStart;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual("30",
+     *      message = "La durée minimale doit être de 30 minutes")
      */
     private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("now Europe/Paris")
      */
     private $dateInscriptionEnd;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual("2")
      */
     private $maxMembers;
 
@@ -79,6 +83,11 @@ class Event
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="event", cascade={"persist", "remove"})
      */
     private $inscriptions;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $cancelTxt;
 
     public function __construct()
     {
@@ -235,9 +244,21 @@ class Event
         // check if the $dateInscriptionEnd is after the $dateStart
         if ($this->getDateInscriptionEnd() > $this->getDateStart()) {
             $context->buildViolation('La date de fin d\'inscription doit correpondre au jour de début au plus tard')
-                    ->atPath('inscriptionEnd')
+                    ->atPath('dateInscriptionEnd')
                     ->addViolation();
         }
+    }
+
+    public function getCancelTxt(): ?string
+    {
+        return $this->cancelTxt;
+    }
+
+    public function setCancelTxt(?string $cancelTxt): self
+    {
+        $this->cancelTxt = $cancelTxt;
+
+        return $this;
     }
 
 

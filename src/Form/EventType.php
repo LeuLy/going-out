@@ -40,10 +40,9 @@ class EventType extends AbstractType
             )
             ->add(
                 'duration',
-                TimeType::class,
+                NumberType::class,
                 [
-                    'label' => 'Durée de la sortie',
-                    'widget' => 'single_text',
+                    'label' => 'Durée de la sortie (en minutes)',
                 ]
             )
             ->add(

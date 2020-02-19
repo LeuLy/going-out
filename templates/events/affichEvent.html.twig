@@ -33,7 +33,11 @@
 
 
                         <i class="fas fa-user-astronaut"></i> Organisateur :
-                        <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a><br>
+                        {% if ((event.creator.active == true) and (event.creator.erased == false)) %}
+                            <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a><br>
+                        {% else %}
+                            {{ event.creator.username }}
+                        {% endif %}
                         <i class="far fa-clipboard"></i> Description : {{ event.description }} <br>
                         <i class="far fa-calendar-alt"></i> Début des inscriptions
                         : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br>
