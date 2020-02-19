@@ -58,6 +58,7 @@ nav, small{
 }
 
 /* Boutons */
+
 .btnValid{
     text-transform: uppercase;
     border-radius: 5px;
@@ -106,7 +107,37 @@ nav, small{
     border: none;
     margin-left: 2em;
 }
-
+.withdraw-event, .inscription-event, .btnAdmin, .delete-event, .btnAction{
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #235784;
+    background-color: white;
+    box-shadow: 9px 9px 24px -13px rgba(35,87,132,0.75);
+    border: 1.4px solid rgba(35,87,132,0.6);
+    margin-left: 2em;
+}
+.btnAdmin a, .btnAction a{
+    text-decoration: none;
+    color: #235784;
+}
+.btnAdmin a:hover, .btnAction a:hover{
+    text-decoration: none;
+}
+.withdraw-event:hover, .inscription-event:hover,  .delete-event:hover{
+    color: #f7aa00;
+    box-shadow: 9px 9px 24px -13px rgba(247, 170, 0,0.75);
+    border: 1.4px solid rgba(247, 170, 0,0.6);
+}
+.btnAdmin:hover a, .btnAction:hover a{
+    color: #f7aa00;
+}
+.btnAdmin:hover, .btnAction:hover{
+    box-shadow: 9px 9px 24px -13px rgba(247, 170, 0,0.75);
+    border: 1.4px solid rgba(247, 170, 0,0.6);
+}
 /* Formulaire */
 
 form{
@@ -244,6 +275,18 @@ form{
     }
 }
 
+/* Fond Show Event */
+@media only screen and (min-width: 992px){
+    #show_search_event_bgd{
+        min-height:100vh;
+        background-image: url(../../img/illustration/mobile_testing.png);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 25%;
+    }
+}
+
 /* Image accueil*/
 
 .img_home{
@@ -338,4 +381,7 @@ footer{
 }
 .hideInput{
     display: none;
+}
+.pagination{
+    color: #235784;
 }
