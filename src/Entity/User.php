@@ -108,6 +108,11 @@ class User implements UserInterface
      */
     private $showPhone;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $erased;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -342,6 +347,18 @@ class User implements UserInterface
     public function setShowPhone(?bool $showPhone): self
     {
         $this->showPhone = $showPhone;
+
+        return $this;
+    }
+
+    public function getErased(): ?bool
+    {
+        return $this->erased;
+    }
+
+    public function setErased(?bool $erased): self
+    {
+        $this->erased = $erased;
 
         return $this;
     }

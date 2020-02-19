@@ -84,6 +84,11 @@ class Event
      */
     private $inscriptions;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $cancelTxt;
+
     public function __construct()
     {
 //        $this->members = new ArrayCollection();
@@ -242,6 +247,18 @@ class Event
                     ->atPath('dateInscriptionEnd')
                     ->addViolation();
         }
+    }
+
+    public function getCancelTxt(): ?string
+    {
+        return $this->cancelTxt;
+    }
+
+    public function setCancelTxt(?string $cancelTxt): self
+    {
+        $this->cancelTxt = $cancelTxt;
+
+        return $this;
     }
 
 
