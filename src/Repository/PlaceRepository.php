@@ -14,10 +14,13 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class PlaceRepository extends ServiceEntityRepository
 {
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Place::class);
     }
+
 
     // /**
     //  * @return Place[] Returns an array of Place objects

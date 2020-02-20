@@ -24,16 +24,18 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends Controller
 {
+
+
     /**
      * @Route("/user", name="user")
      */
     public function index()
     {
         return $this->render(
-            'user/index.html.twig',
-            [
-                'controller_name' => 'UserController',
-            ]
+                'user/index.html.twig',
+                [
+                        'controller_name' => 'UserController',
+                ]
         );
     }
 
@@ -43,7 +45,6 @@ class UserController extends Controller
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -58,15 +59,14 @@ class UserController extends Controller
         }
 
         return $this->render(
-            'user/login.html.twig',
-            [
-                'last_username' => $lastUsername,
-                'error'         => $error,
-            ]
+                'user/login.html.twig',
+                [
+                        'last_username' => $lastUsername,
+                        'error' => $error,
+                ]
         );
-
-
     }
+
 
     /**
      * @Route("/register", name="register")
@@ -74,96 +74,95 @@ class UserController extends Controller
     public function register()
     {
         return $this->render(
-            'user/register.html.twig',
-            [
-                'controller_name' => 'UserController',
-            ]
+                'user/register.html.twig',
+                [
+                        'controller_name' => 'UserController',
+                ]
         );
     }
 
+
     /**
      * @Route("/profilModif", name="profilModif")
-     * @param   UploadableManager  $uploadableManager
+     * @param UploadableManager $uploadableManager
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function profilModif(
-        UploadableManager $uploadableManager,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder
+            UploadableManager $uploadableManager,
+            Request $request,
+            EntityManagerInterface $entityManager,
+            UserPasswordEncoderInterface $passwordEncoder
     ) {
-        $user     = $this->getUser();
+        $user = $this->getUser();
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
+        if ($userForm->isSubmitted()) {
+            if ($userForm->isValid()) {
 
+                $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                                $user,
+                                $userForm->get('password')->getData()
+                        )
+                );
 
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
+                $filedata = $userForm->get('file')->getData();
 
+                dump($filedata);
 
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $userForm->get('password')->getData()
-                )
-            );
+                $file = new File();
 
-            $filedata = $userForm->get('file')->getData();
+                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
-            dump($filedata);
+                if ($filedata instanceof UploadedFile) {
 
-            $file = new File();
+                    if (!empty($user->getFile())) {
+                        $fileExists = new File();
+                        $fileRep = $entityManager->getRepository(File::class);
+                        $fileExists = $fileRep->findOneBy(['user' => $user->getId()]);
+                        $entityManager->remove($fileExists);
+                        $entityManager->flush();
+                    }
 
-            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                    $pathF = $filedata->move(
+                            'public/uploads',
+                            $filedata->getClientOriginalName()
+                    );
+                    dump($pathF);
 
-            if ($filedata instanceof UploadedFile) {
+                    $inf = new UploadedFileInfo($filedata);
+                    dump($inf);
 
-                if (!empty($user->getFile())) {
-                    $fileExists = new File();
-                    $fileRep    = $entityManager->getRepository(File::class);
-                    $fileExists = $fileRep->findOneBy(['user' => $user->getId()]);
-                    $entityManager->remove($fileExists);
-                    $entityManager->flush();
+                    $file->setMimeType($filedata->getClientMimeType());
+                    $file->setName($filedata->getClientOriginalName());
+                    $file->setSize($filedata->getClientSize());
+                    $file->setPath($filedata->getRealPath());
+                    $file->setUser($user);
+                    $file->setPublicPath('');
+
+                    $uploadableManager->markEntityToUpload($file, $inf, $pathF);
+                    dump('nom '.$file->getName());
+                    dump($user);
+                    dump($file);
+                    $path = $file->getPublicPath();
+                    dump($path);
                 }
 
-                $pathF = $filedata->move(
-                    'public/uploads',
-                    $filedata->getClientOriginalName()
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash(
+                        'success',
+                        'Modification enregistrée'
                 );
-                dump($pathF);
 
-
-                $inf = new UploadedFileInfo($filedata);
-                dump($inf);
-
-                $file->setMimeType($filedata->getClientMimeType());
-                $file->setName($filedata->getClientOriginalName());
-                $file->setSize($filedata->getClientSize());
-                $file->setPath($filedata->getRealPath());
-                $file->setUser($user);
-                $file->setPublicPath('');
-
-                $uploadableManager->markEntityToUpload($file, $inf, $pathF);
-                dump('nom '.$file->getName());
-                dump($user);
-                dump($file);
-                $path = $file->getPublicPath();
-                dump($path);
-
+                return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
             }
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-
-            $this->addFlash(
-                'success',
-                'Modification enregistrée'
-            );
-
-            return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
+            else {
+                $entityManager->refresh($user);
+            }
         }
-
 
         return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
     }
@@ -174,131 +173,14 @@ class UserController extends Controller
      */
     public function userProfile(EntityManagerInterface $entityManager, $userId)
     {
-        $userRepo    = $entityManager->getRepository(User::class);
-        $user        = $userRepo->find($userId);
+        $userRepo = $entityManager->getRepository(User::class);
+        $user = $userRepo->find($userId);
         $currentUser = $this->getUser();
 
         return $this->render(
-            'user/affichProfil.html.twig',
-            compact('user', 'currentUser')
-
+                'user/affichProfil.html.twig',
+                compact('user', 'currentUser')
         );
-    }
-
-    /**
-     * @Route("/userModif/{userId}", name="userModif", requirements={"userId": "\d+"})
-     * @param   UploadableManager  $uploadableManager
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function userModif(
-            UploadableManager $uploadableManager,
-            Request $request,
-            EntityManagerInterface $entityManager,
-            UserPasswordEncoderInterface $passwordEncoder,
-            $userId
-    ) {
-        $userRepo    = $entityManager->getRepository(User::class);
-        $user        = $userRepo->find($userId);
-        $currentUser = $this->getUser();
-
-        $userForm = $this->createForm(UserModifType::class, $user);
-        $userForm->handleRequest($request);
-
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-
-            $this->addFlash(
-                    'success',
-                    'Modification enregistrée'
-            );
-
-
-            return $this->redirectToRoute('userProfile', ['userId' => $userId]);
-        }
-
-//        return $this->render(
-//                'user/affichProfil.html.twig',
-//                compact('user', 'currentUser')
-
-//        );
-
-        return $this->render('user/userModif.html.twig', ['userFormView' => $userForm->createView()]);
-    }
-
-
-
-    /**
-     * @Route("/deleteUser/{userId}", name="deleteUser")
-     */
-    public function deleteUser($userId, EntityManagerInterface $entityManager)
-    {
-
-        $userRepository = $entityManager->getRepository(User::class);
-        $user           = $userRepository->find($userId);
-        $user->setActive(false);
-        $user->setErased(true);
-
-        $user->setRoles(['ROLE_DELETED']);
-
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $this->addFlash(
-            'success',
-            'Utilisateur supprimé'
-        );
-
-        return $this->redirectToRoute('home');
-    }
-
-
-    /**
-     * @Route("/deactivateUser/{userId}", name="deactivateUser")
-     */
-    public function deactivateUser($userId, EntityManagerInterface $entityManager)
-    {
-
-        $userRepository = $entityManager->getRepository(User::class);
-        $user           = $userRepository->find($userId);
-        $user->setActive(false);
-
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $this->addFlash(
-            'success',
-            'Utilisateur désactivé'
-        );
-
-        return $this->redirectToRoute('userProfile', ['userId' => $userId]);
-    }
-
-    /**
-     * @Route("/activateUser/{userId}", name="activateUser")
-     */
-    public function activateUser($userId, EntityManagerInterface $entityManager)
-    {
-
-        $userRepository = $entityManager->getRepository(User::class);
-        $user           = $userRepository->find($userId);
-        $user->setActive(true);
-
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $this->addFlash(
-            'success',
-            'Utilisateur réactivé'
-        );
-
-        return $this->redirectToRoute('userProfile', ['userId' => $userId]);
     }
 
 
@@ -307,11 +189,125 @@ class UserController extends Controller
      */
     public function affichProfil()
     {
-
-        $user  = $this->getUser();
+        $user = $this->getUser();
         $photo = $user->getFile();
         dump($photo);
 
         return $this->render('user/affichProfil.html.twig', compact('photo'));
     }
+
+
+//    Moved to AdminController.php
+//    /**
+//     * @Route("/userModif/{userId}", name="userModif", requirements={"userId": "\d+"})
+//     * @param UploadableManager $uploadableManager
+//     * @return \Symfony\Component\HttpFoundation\Response
+//     */
+//    public function userModif(
+//            UploadableManager $uploadableManager,
+//            Request $request,
+//            EntityManagerInterface $entityManager,
+//            UserPasswordEncoderInterface $passwordEncoder,
+//            $userId
+//    ) {
+//        $userRepo = $entityManager->getRepository(User::class);
+//        $user = $userRepo->find($userId);
+//        $currentUser = $this->getUser();
+//
+//        $userForm = $this->createForm(UserModifType::class, $user);
+//        $userForm->handleRequest($request);
+//
+//        if ($userForm->isSubmitted() && $userForm->isValid()) {
+//
+//            $entityManager->persist($user);
+//            $entityManager->flush();
+//
+//            $this->addFlash(
+//                    'success',
+//                    'Modification enregistrée'
+//            );
+//
+//            return $this->redirectToRoute('userProfile', ['userId' => $userId]);
+//        }
+//
+////        return $this->render(
+////                'user/affichProfil.html.twig',
+////                compact('user', 'currentUser')
+////        );
+//
+//        return $this->render('user/userModif.html.twig', ['userFormView' => $userForm->createView()]);
+//    }
+
+
+//    Moved to AdminController.php
+//    /**
+//     * @Route("/deleteUser/{userId}", name="deleteUser")
+//     */
+//    public function deleteUser($userId, EntityManagerInterface $entityManager)
+//    {
+//
+//        $userRepository = $entityManager->getRepository(User::class);
+//        $user = $userRepository->find($userId);
+//        $user->setActive(false);
+//        $user->setErased(true);
+//
+//        $user->setRoles(['ROLE_DELETED']);
+//
+//
+//        $entityManager->persist($user);
+//        $entityManager->flush();
+//
+//        $this->addFlash(
+//                'success',
+//                'Utilisateur supprimé'
+//        );
+//
+//        return $this->redirectToRoute('home');
+//    }
+
+
+//    Moved to AdminController.php
+//    /**
+//     * @Route("/deactivateUser/{userId}", name="deactivateUser")
+//     */
+//    public function deactivateUser($userId, EntityManagerInterface $entityManager)
+//    {
+//
+//        $userRepository = $entityManager->getRepository(User::class);
+//        $user = $userRepository->find($userId);
+//        $user->setActive(false);
+//
+//
+//        $entityManager->persist($user);
+//        $entityManager->flush();
+//
+//        $this->addFlash(
+//                'success',
+//                'Utilisateur désactivé'
+//        );
+//
+//        return $this->redirectToRoute('userProfile', ['userId' => $userId]);
+//    }
+
+
+//    Moved to AdminController.php
+//    /**
+//     * @Route("/activateUser/{userId}", name="activateUser")
+//     */
+//    public function activateUser($userId, EntityManagerInterface $entityManager)
+//    {
+//        $userRepository = $entityManager->getRepository(User::class);
+//        $user = $userRepository->find($userId);
+//        $user->setActive(true);
+//
+//        $entityManager->persist($user);
+//        $entityManager->flush();
+//
+//        $this->addFlash(
+//                'success',
+//                'Utilisateur réactivé'
+//        );
+//
+//        return $this->redirectToRoute('userProfile', ['userId' => $userId]);
+//    }
 }

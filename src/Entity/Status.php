@@ -43,7 +43,7 @@ class Status
         return $this->label;
     }
 
-    public function setLabel(string $label): self
+    public function setLabel(string $label)
     {
         $this->label = $label;
 
@@ -58,7 +58,7 @@ class Status
         return $this->events;
     }
 
-    public function addEvent(Event $event): self
+    public function addEvent(Event $event)
     {
         if (!$this->events->contains($event)) {
             $this->events[] = $event;
@@ -68,7 +68,7 @@ class Status
         return $this;
     }
 
-    public function removeEvent(Event $event): self
+    public function removeEvent(Event $event)
     {
         if ($this->events->contains($event)) {
             $this->events->removeElement($event);

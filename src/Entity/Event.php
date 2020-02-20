@@ -214,7 +214,7 @@ class Event
         return $this->inscriptions;
     }
 
-    public function addInscription(Inscription $inscription): self
+    public function addInscription(Inscription $inscription)
     {
         if (!$this->inscriptions->contains($inscription)) {
             $this->inscriptions[] = $inscription;
@@ -224,7 +224,7 @@ class Event
         return $this;
     }
 
-    public function removeInscription(Inscription $inscription): self
+    public function removeInscription(Inscription $inscription)
     {
         if ($this->inscriptions->contains($inscription)) {
             $this->inscriptions->removeElement($inscription);
@@ -237,28 +237,29 @@ class Event
         return $this;
     }
 
+    public function getCancelTxt(): ?string
+    {
+        return $this->cancelTxt;
+    }
+
+    public function setCancelTxt(?string $cancelTxt)
+    {
+        $this->cancelTxt = $cancelTxt;
+
+        return $this;
+    }
+
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, $payload){
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
         // check if the $dateInscriptionEnd is after the $dateStart
         if ($this->getDateInscriptionEnd() > $this->getDateStart()) {
             $context->buildViolation('La date de fin d\'inscription doit correpondre au jour de début au plus tard')
                     ->atPath('dateInscriptionEnd')
                     ->addViolation();
         }
-    }
-
-    public function getCancelTxt(): ?string
-    {
-        return $this->cancelTxt;
-    }
-
-    public function setCancelTxt(?string $cancelTxt): self
-    {
-        $this->cancelTxt = $cancelTxt;
-
-        return $this;
     }
 
 
@@ -273,7 +274,7 @@ class Event
 //        return $this->nbMember;
 //    }
 //
-//    public function setNbMember(?int $nbMember): self
+//    public function setNbMember(?int $nbMember)
 //    {
 //        $this->nbMember = $nbMember;
 //

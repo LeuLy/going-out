@@ -143,7 +143,7 @@ class Place
         return $this->city;
     }
 
-    public function setCity(?City $city): self
+    public function setCity(?City $city)
     {
         $this->city = $city;
 

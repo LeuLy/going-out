@@ -40,22 +40,22 @@
                     <div class="d-flex justify-content-around">
                     {% if (user.active) %}
                         <button class="btnActive">
-                            <a href="{{ path('deactivateUser',{'userId': user.id}) }}">Rendre inactif</a>
+                            <a href="{{ path('admindeactivateUser',{'userId': user.id}) }}">Rendre inactif</a>
                         </button>
                     {% else %}
                         <button class="btnActive">
-                            <a href="{{ path('activateUser',{'userId': user.id}) }}">Rendre actif</a>
+                            <a href="{{ path('adminactivateUser',{'userId': user.id}) }}">Rendre actif</a>
                         </button>
                     {% endif %}
 
 
                     <button class="btnActive">
-                        <a href="{{ path('userModif',{'userId': user.id}) }}">Modifier</a>
+                        <a href="{{ path('adminuserModif',{'userId': user.id}) }}">Modifier</a>
                     </button>
 
                     <button class="btnDelete">
 
-                        <a href="{{ path('deleteUser',{'userId': user.id}) }}">Supprimer</a>
+                        <a href="{{ path('admindeleteUser',{'userId': user.id}) }}">Supprimer</a>
                     </button>
                     </div>
                 {% endif %}

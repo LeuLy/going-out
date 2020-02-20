@@ -38,7 +38,7 @@ class Inscription
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?User $user)
     {
         $this->user = $user;
 
@@ -50,7 +50,7 @@ class Inscription
         return $this->event;
     }
 
-    public function setEvent(?Event $event): self
+    public function setEvent(?Event $event)
     {
         $this->event = $event;
 

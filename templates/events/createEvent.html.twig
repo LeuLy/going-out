@@ -8,9 +8,10 @@
     </div>
 {% endblock %}
 {% block geo %}
-    <script async defer
+    <script
             src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4">
     </script>
+{#    'async defer' deleted to avoid autocompletion problem     #}
 {% endblock %}
 {% block body %}
     <div class="row">
@@ -161,9 +162,9 @@
         }
     }
 
-    // google.maps.event.addDomListener(window, 'load', function() {
+    google.maps.event.addDomListener(window, 'load', function() {
         initializeAutocomplete('user_input_autocomplete_address');
-    // });
+    });
 
 </script>
 

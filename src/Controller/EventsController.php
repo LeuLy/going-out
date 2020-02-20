@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\Registry;
+
 class EventsController extends Controller
 {
 
@@ -40,10 +41,10 @@ class EventsController extends Controller
     public function index()
     {
         return $this->render(
-            'events/index.html.twig',
-            [
-                'controller_name' => 'EventsController',
-            ]
+                'events/index.html.twig',
+                [
+                        'controller_name' => 'EventsController',
+                ]
         );
     }
 
@@ -53,11 +54,9 @@ class EventsController extends Controller
      */
     public function updateEvent($event_id = 0, Request $request, EntityManagerInterface $entityManager)
     {
-
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $eventUser     = $entityManager->getRepository(Event::class);
-        $event         = $eventUser->find($event_id);
+//        $entityManager = $this->getDoctrine()->getManager();
+        $eventUser = $entityManager->getRepository(Event::class);
+        $event = $eventUser->find($event_id);
         dump($event);
 
         $eventForm = $this->createForm(EventType::class, $event);
@@ -67,9 +66,8 @@ class EventsController extends Controller
         if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $formData      = $request->request->all();
+            $formData = $request->request->all();
             dump($formData);
-
 
             if (empty($formData['event']['place'])) {
 
@@ -90,26 +88,25 @@ class EventsController extends Controller
                 $event->setPlace($place);
             }
 
-
             $entityManager->persist($event);
             $entityManager->flush();
 
             $this->addFlash(
-                'success',
-                'Sortie modifiée'
+                    'success',
+                    'Sortie modifiée'
             );
 
             return $this->redirectToRoute('home');
         }
 
         return $this->render(
-            'events/updateEvent.html.twig',
-            [
-                'eventForm' => $eventForm->createView(),
-            ]
+                'events/updateEvent.html.twig',
+                [
+                        'eventForm' => $eventForm->createView(),
+                ]
         );
-
     }
+
 
     /**
      * @Route("/create-events", name="create-events")
@@ -117,10 +114,9 @@ class EventsController extends Controller
      */
     public function createEvent(Request $request, EntityManagerInterface $entityManager)
     {
-
         $cityRepo = $entityManager->getRepository(City::class);
 
-        $event     = new Event();
+        $event = new Event();
         $eventForm = $this->createForm(EventType::class, $event);
         $eventForm->handleRequest($request);
         $event->setCreator($this->getUser());
@@ -135,45 +131,41 @@ class EventsController extends Controller
             $entityManager->flush();
 
             $this->addFlash(
-                'success',
-                'Sortie créée'
+                    'success',
+                    'Sortie créée'
             );
 
             return $this->redirectToRoute('create-events');
         }
 
-
-       
         return $this->render(
-            'events/createEvent.html.twig',
-            [
-                'eventForm' => $eventForm->createView(),
-            ]
+                'events/createEvent.html.twig',
+                [
+                        'eventForm' => $eventForm->createView(),
+                ]
         );
-
     }
 
 
     /**
-     *
      * @Route("/event/{page}", name="listEvent", requirements={"page": "\d+"})
      */
     public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
     {
-        $limit                 = 4;
-        $siteRepository        = $entityManager->getRepository(Site::class);
+        $limit = 4;
+        $siteRepository = $entityManager->getRepository(Site::class);
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
-        $eventRepository       = $entityManager->getRepository(Event::class);
-        $userRepository        = $entityManager->getRepository(User::class);
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $userRepository = $entityManager->getRepository(User::class);
 
-        $var           = $request->query->get("var");
-        $beginDate     = $request->query->get("beginDate");
-        $endDate       = $request->query->get("endDate");
-        $passedEvent   = $request->query->get("passedEvent");
-        $subscribed    = $request->query->get("subscribed");
+        $var = $request->query->get("var");
+        $beginDate = $request->query->get("beginDate");
+        $endDate = $request->query->get("endDate");
+        $passedEvent = $request->query->get("passedEvent");
+        $subscribed = $request->query->get("subscribed");
         $notSubscribed = $request->query->get("notSubscribed");
-        $eventOwner    = $request->query->get("eventOwner");
-        $userId        = $this->getUser()->getId();
+        $eventOwner = $request->query->get("eventOwner");
+        $userId = $this->getUser()->getId();
 
 
         $user = $userRepository->find($this->getUser());
@@ -184,35 +176,31 @@ class EventsController extends Controller
 //        $nbTotalSubscribed = count ($inscription);
 //        dump($nbTotalSubscribed);
 
-
 //        $nbInscription = $inscription->getInscriptions()->count();
 
         $siteLabel = $request->query->get('label');
 
         $site = $siteRepository->findByLabel($siteLabel);
 
-
         $event = $eventRepository->findEventBySite($site, $page, $limit);
 
-
         $eventByDescription = $eventRepository->findEventByFilters(
-            $beginDate,
-            $endDate,
-            $eventOwner,
-            $userId,
-            $user,
-            $passedEvent,
-            $subscribed,
-            $notSubscribed,
-            $var,
-            $site,
-            $page,
-            $limit
+                $beginDate,
+                $endDate,
+                $eventOwner,
+                $userId,
+                $user,
+                $passedEvent,
+                $subscribed,
+                $notSubscribed,
+                $var,
+                $site,
+                $page,
+                $limit
         );
 
-
         $nbTotalEvents = count($event);
-        $nbPage        = ceil($nbTotalEvents / $limit);
+        $nbPage = ceil($nbTotalEvents / $limit);
 
 
         //eventByCreator -> les evenements créés par l'utilisateur courant.
@@ -220,32 +208,32 @@ class EventsController extends Controller
 
 
         $nbTotalEventsByDescription = count($eventByDescription);
-        $nbPageByDescription        = ceil($nbTotalEventsByDescription / $limit);
+        $nbPageByDescription = ceil($nbTotalEventsByDescription / $limit);
 
 
         return $this->render(
-            'events/event.html.twig',
-            compact(
-                'eventByDescription',
-                'eventByCreator',
-                'page',
-                'user',
-                'nbPageByDescription',
+                'events/event.html.twig',
+                compact(
+                        'eventByDescription',
+                        'eventByCreator',
+                        'page',
+                        'user',
+                        'nbPageByDescription',
 
-                'nbPage',
-                'siteLabel',
-                'event',
-                'inscription',
-                'limit',
-                'var',
-                'beginDate',
-                'endDate',
-                'passedEvent',
-                'eventOwner',
-                'subscribed',
-                'notSubscribed',
-                'userId'
-            ) // userId  rajouté
+                        'nbPage',
+                        'siteLabel',
+                        'event',
+                        'inscription',
+                        'limit',
+                        'var',
+                        'beginDate',
+                        'endDate',
+                        'passedEvent',
+                        'eventOwner',
+                        'subscribed',
+                        'notSubscribed',
+                        'userId'
+                ) // userId  rajouté
         );
     }
 
@@ -256,10 +244,10 @@ class EventsController extends Controller
     public function affichEvent($id, Request $request, EntityManagerInterface $entityManager)
     {
         $eventRepository = $entityManager->getRepository(Event::class);
-        $event           = $eventRepository->find($id);
+        $event = $eventRepository->find($id);
 
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
-        $inscriptions          = $inscriptionRepository->findSubscribedByEvent($id);
+        $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
 
 // WORKFLOW EN CREATION:
         $workflow = $this->workflows->get($event, 'eventStatus');
@@ -279,10 +267,98 @@ class EventsController extends Controller
 
         $place = $event->getPlace();
 
-
         return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }
 
+
+    /**
+     * @Route("/eventAllSites/{page}", name="listEventAllSites", requirements={"page": "\d+"})
+     */
+    public function eventAllSites(Request $request, EntityManagerInterface $entityManager, $page = 0)
+    {
+        $limit = 4;
+        $siteRepository = $entityManager->getRepository(Site::class);
+        $inscriptionRepository = $entityManager->getRepository(Inscription::class);
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $userRepository = $entityManager->getRepository(User::class);
+
+        $var = $request->query->get("var");
+        $beginDate = $request->query->get("beginDate");
+        $endDate = $request->query->get("endDate");
+        $passedEvent = $request->query->get("passedEvent");
+        $subscribed = $request->query->get("subscribed");
+        $notSubscribed = $request->query->get("notSubscribed");
+        $eventOwner = $request->query->get("eventOwner");
+        $userId = $this->getUser()->getId();
+
+
+        $user = $userRepository->find($this->getUser());
+
+        $inscription = $inscriptionRepository->findAll();
+
+//        Nombre total d'inscriptions
+//        $nbTotalSubscribed = count ($inscription);
+//        dump($nbTotalSubscribed);
+
+//        $nbInscription = $inscription->getInscriptions()->count();
+
+//        $siteLabel = $request->query->get('label');
+//
+//        $site = $siteRepository->findByLabel($siteLabel);
+
+        $event = $eventRepository->findAll();
+
+        $eventByDescription = $eventRepository->findEventByFiltersAllSites(
+                $beginDate,
+                $endDate,
+                $eventOwner,
+                $userId,
+                $user,
+                $passedEvent,
+                $subscribed,
+                $notSubscribed,
+                $var,
+                $page,
+                $limit
+        );
+
+        $nbTotalEvents = count($event);
+        $nbPage = ceil($nbTotalEvents / $limit);
+
+
+        //eventByCreator -> les evenements créés par l'utilisateur courant.
+        $eventByCreator = $eventRepository->findEventByCreator($userId);
+
+
+        $nbTotalEventsByDescription = count($eventByDescription);
+        $nbPageByDescription = ceil($nbTotalEventsByDescription / $limit);
+
+
+        return $this->render(
+                'events/eventAllSites.html.twig',
+                compact(
+                        'eventByDescription',
+                        'eventByCreator',
+                        'page',
+                        'user',
+                        'nbPageByDescription',
+
+                        'nbPage',
+//                        'siteLabel',
+                        'event',
+                        'inscription',
+                        'limit',
+                        'var',
+                        'beginDate',
+                        'endDate',
+                        'passedEvent',
+                        'eventOwner',
+                        'subscribed',
+                        'notSubscribed',
+                        'userId'
+                ) // userId  rajouté
+        );
+    }
 
 }
 
