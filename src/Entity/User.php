@@ -179,7 +179,7 @@ class User implements UserInterface
         return $this->phone;
     }
 
-    public function setPhone(string $phone)
+    public function setPhone(?string $phone)
     {
         $this->phone = $phone;
 
