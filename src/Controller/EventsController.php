@@ -148,7 +148,6 @@ class EventsController extends Controller
 
 
     /**
-     *
      * @Route("/event/{page}", name="listEvent", requirements={"page": "\d+"})
      */
     public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
@@ -270,6 +269,97 @@ class EventsController extends Controller
 
         return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }
+
+
+    /**
+     * @Route("/eventAllSites/{page}", name="listEventAllSites", requirements={"page": "\d+"})
+     */
+    public function eventAllSites(Request $request, EntityManagerInterface $entityManager, $page = 0)
+    {
+        $limit = 4;
+        $siteRepository = $entityManager->getRepository(Site::class);
+        $inscriptionRepository = $entityManager->getRepository(Inscription::class);
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $userRepository = $entityManager->getRepository(User::class);
+
+        $var = $request->query->get("var");
+        $beginDate = $request->query->get("beginDate");
+        $endDate = $request->query->get("endDate");
+        $passedEvent = $request->query->get("passedEvent");
+        $subscribed = $request->query->get("subscribed");
+        $notSubscribed = $request->query->get("notSubscribed");
+        $eventOwner = $request->query->get("eventOwner");
+        $userId = $this->getUser()->getId();
+
+
+        $user = $userRepository->find($this->getUser());
+
+        $inscription = $inscriptionRepository->findAll();
+
+//        Nombre total d'inscriptions
+//        $nbTotalSubscribed = count ($inscription);
+//        dump($nbTotalSubscribed);
+
+//        $nbInscription = $inscription->getInscriptions()->count();
+
+//        $siteLabel = $request->query->get('label');
+//
+//        $site = $siteRepository->findByLabel($siteLabel);
+
+        $event = $eventRepository->findAll();
+
+        $eventByDescription = $eventRepository->findEventByFiltersAllSites(
+                $beginDate,
+                $endDate,
+                $eventOwner,
+                $userId,
+                $user,
+                $passedEvent,
+                $subscribed,
+                $notSubscribed,
+                $var,
+                $page,
+                $limit
+        );
+
+        $nbTotalEvents = count($event);
+        $nbPage = ceil($nbTotalEvents / $limit);
+
+
+        //eventByCreator -> les evenements créés par l'utilisateur courant.
+        $eventByCreator = $eventRepository->findEventByCreator($userId);
+
+
+        $nbTotalEventsByDescription = count($eventByDescription);
+        $nbPageByDescription = ceil($nbTotalEventsByDescription / $limit);
+
+
+        return $this->render(
+                'events/eventAllSites.html.twig',
+                compact(
+                        'eventByDescription',
+                        'eventByCreator',
+                        'page',
+                        'user',
+                        'nbPageByDescription',
+
+                        'nbPage',
+//                        'siteLabel',
+                        'event',
+                        'inscription',
+                        'limit',
+                        'var',
+                        'beginDate',
+                        'endDate',
+                        'passedEvent',
+                        'eventOwner',
+                        'subscribed',
+                        'notSubscribed',
+                        'userId'
+                ) // userId  rajouté
+        );
+    }
+
 }
 
 

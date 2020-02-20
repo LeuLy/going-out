@@ -97,67 +97,71 @@ class UserController extends Controller
         $user = $this->getUser();
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
+        if ($userForm->isSubmitted()) {
+            if ($userForm->isValid()) {
 
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
+                $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                                $user,
+                                $userForm->get('password')->getData()
+                        )
+                );
 
-            $user->setPassword(
-                    $passwordEncoder->encodePassword(
-                            $user,
-                            $userForm->get('password')->getData()
-                    )
-            );
+                $filedata = $userForm->get('file')->getData();
 
-            $filedata = $userForm->get('file')->getData();
+                dump($filedata);
 
-            dump($filedata);
+                $file = new File();
 
-            $file = new File();
+                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
 
-            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                if ($filedata instanceof UploadedFile) {
 
-            if ($filedata instanceof UploadedFile) {
+                    if (!empty($user->getFile())) {
+                        $fileExists = new File();
+                        $fileRep = $entityManager->getRepository(File::class);
+                        $fileExists = $fileRep->findOneBy(['user' => $user->getId()]);
+                        $entityManager->remove($fileExists);
+                        $entityManager->flush();
+                    }
 
-                if (!empty($user->getFile())) {
-                    $fileExists = new File();
-                    $fileRep = $entityManager->getRepository(File::class);
-                    $fileExists = $fileRep->findOneBy(['user' => $user->getId()]);
-                    $entityManager->remove($fileExists);
-                    $entityManager->flush();
+                    $pathF = $filedata->move(
+                            'public/uploads',
+                            $filedata->getClientOriginalName()
+                    );
+                    dump($pathF);
+
+                    $inf = new UploadedFileInfo($filedata);
+                    dump($inf);
+
+                    $file->setMimeType($filedata->getClientMimeType());
+                    $file->setName($filedata->getClientOriginalName());
+                    $file->setSize($filedata->getClientSize());
+                    $file->setPath($filedata->getRealPath());
+                    $file->setUser($user);
+                    $file->setPublicPath('');
+
+                    $uploadableManager->markEntityToUpload($file, $inf, $pathF);
+                    dump('nom '.$file->getName());
+                    dump($user);
+                    dump($file);
+                    $path = $file->getPublicPath();
+                    dump($path);
                 }
 
-                $pathF = $filedata->move(
-                        'public/uploads',
-                        $filedata->getClientOriginalName()
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash(
+                        'success',
+                        'Modification enregistrée'
                 );
-                dump($pathF);
 
-                $inf = new UploadedFileInfo($filedata);
-                dump($inf);
-
-                $file->setMimeType($filedata->getClientMimeType());
-                $file->setName($filedata->getClientOriginalName());
-                $file->setSize($filedata->getClientSize());
-                $file->setPath($filedata->getRealPath());
-                $file->setUser($user);
-                $file->setPublicPath('');
-
-                $uploadableManager->markEntityToUpload($file, $inf, $pathF);
-                dump('nom '.$file->getName());
-                dump($user);
-                dump($file);
-                $path = $file->getPublicPath();
-                dump($path);
+                return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
             }
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $this->addFlash(
-                    'success',
-                    'Modification enregistrée'
-            );
-
-            return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);
+            else {
+                $entityManager->refresh($user);
+            }
         }
 
         return $this->render('user/profilModif.html.twig', ['userFormView' => $userForm->createView()]);

@@ -39,7 +39,6 @@ class EventRepository extends ServiceEntityRepository
             $page = 0,
             $limit = 100
     ) {
-
         $qb = $this->createQueryBuilder('e');
         $qb
                 ->andWhere('e.site = :site')
@@ -149,11 +148,9 @@ DQL;
             $subscribed,
             $notSubscribed,
             $var,
-            $site,
             $page = 0,
             $limit = 100
     ) {
-
         $qb = $this->createQueryBuilder('e');
         $qb
 //                ->andWhere('e.site = :site')
