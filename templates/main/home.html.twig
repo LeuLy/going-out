@@ -9,7 +9,7 @@
         {% set i = 0 %}
         {% for site in siteAll %}
 
-            {% if size%3 != 0 %}
+            {#{% if size%3 != 0 %}#}
 
                 {% set mod = size%3 %}
 
@@ -44,7 +44,9 @@
                     <div class="col-md-1"></div>
             {% endif %}
 
-            {% endif %}
+           {# {% endif %}#}
+
+
         {% endfor %}
 
         <div class="col-md-2">
