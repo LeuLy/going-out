@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Controller;
+
 
 use App\Entity\Event;
 use App\Entity\Site;
@@ -18,28 +20,16 @@ class MainController extends Controller
     public function home(Request $request, EntityManagerInterface $entityManager)
     {
 
-//        $currentUser = $this->getUser();
-//        if($currentUser->getErased() == true){
-//            $this->addFlash(
-//                    'danger',
-//                    'Ce compte a été supprimé'
-//            );
-//            return $this->redirectToRoute('logout');
-//        }
-
-
         $siteRepository = $entityManager->getRepository(Site::class);
 
-
-        $eventRepository = $entityManager->getRepository(Event::class);
-
-
-        $siteLabel = $request->query->get("label");
-        $site      = $siteRepository->findByLabel($siteLabel);
-        $event     = $eventRepository->findEventBySite($site);
+        $siteAll = $siteRepository -> findAll();
+        dump($siteAll);
+        $size = sizeof($siteAll);
+        dump($size);
 
 
-        return $this->render('main/home.html.twig', compact('event', 'site', 'siteLabel'));
+
+        return $this->render('main/home.html.twig', compact( 'siteAll','size'));
     }
-}
 
+}

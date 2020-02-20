@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\City;
 use App\Entity\Event;
-use App\Entity\EventUser;
 use App\Entity\Inscription;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,38 +16,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AjaxController extends AbstractController
 {
+
+
     /**
      * @Route("/api/inscriptionEvent/{id}", name="ajax_route_inscriptionEvent")
      */
     public function inscriptionEvent($id = 0, Request $request, EntityManagerInterface $entityManager)
     {
         $eventRepository = $entityManager->getRepository(Event::class);
-        $event           = $eventRepository->find($id);
+        $event = $eventRepository->find($id);
 
 
         $entityManager = $this->getDoctrine()->getManager();
-        $eventUser     = new Inscription();
+        $eventUser = new Inscription();
 
 
         $eventUser->setEvent($event);
 
 
         $userRepository = $entityManager->getRepository(User::class);
-        $user           = $userRepository->find($this->getUser());
+        $user = $userRepository->find($this->getUser());
 
         $eventUser->setUser($user);
-//        dump($eventUser);
-
 
         $entityManager->persist($eventUser);
         $entityManager->flush();
 
 
         return new JsonResponse(
-            [
-                "UserId"  => $eventUser->getUser(),
-                "EventId" => $eventUser->getEvent(),
-            ]
+                [
+                        "UserId" => $eventUser->getUser(),
+                        "EventId" => $eventUser->getEvent(),
+                ]
         );
     }
 
@@ -60,8 +59,8 @@ class AjaxController extends AbstractController
     {
 
         $entityManager = $this->getDoctrine()->getManager();
-        $eventUser     = $entityManager->getRepository(Event::class);
-        $event         = $eventUser->find($event_id);
+        $eventUser = $entityManager->getRepository(Event::class);
+        $event = $eventUser->find($event_id);
 
 //        dump($event);
 //        if (!$eventUser) {
@@ -71,76 +70,57 @@ class AjaxController extends AbstractController
 //        }
 
         $userRepository = $entityManager->getRepository(User::class);
-        $user           = $userRepository->find($this->getUser());
-
-//        dump($user);
-
+        $user = $userRepository->find($this->getUser());
 
         $InscriptionRepository = $entityManager->getRepository(Inscription::class);
-        $inscription           = $InscriptionRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
+        $inscription = $InscriptionRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
         dump($inscription);
-
 
         $entityManager->remove($inscription);
         $entityManager->flush();
 
 
         return new JsonResponse(
-            [
+                [
 
-//                "EventId" => $eventUser->getEventId(),
-            ]
+                ]
         );
-
-
     }
+
 
     /**
      * @Route("/api/deleteEvent/{event_id}", name="ajax_route_deleteEvent")
      */
     public function deleteEvent($event_id = 0, EntityManagerInterface $entityManager)
     {
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $eventUser     = $entityManager->getRepository(Event::class);
-        $event         = $eventUser->find($event_id);
-
-
+        $eventUser = $entityManager->getRepository(Event::class);
+        $event = $eventUser->find($event_id);
 
         $entityManager->remove($event);
         $entityManager->flush();
 
-
         return new JsonResponse(
                 [
 
-
                 ]
         );
-
-
     }
+
 
     /**
      * @Route("/api/seekCity/{var}", name="ajax_route_seekCity")
      */
-    public function seekCity($var, Request $request, EntityManagerInterface $entityManager)
+    public function seekCity($var, EntityManagerInterface $entityManager)
     {
-
-        $cityRepo     = $entityManager->getRepository(City::class);
+        $cityRepo = $entityManager->getRepository(City::class);
 
         $list = $cityRepo->findCityByVar($var);
 
-
-
         return new JsonResponse(
                 [
-                        'list' => $list
-
+                        'list' => $list,
                 ]
         );
-
-
     }
 
 }

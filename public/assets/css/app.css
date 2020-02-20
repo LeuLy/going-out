@@ -105,7 +105,6 @@ nav, small{
     background-color: white;
     box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
     border: none;
-    margin-left: 2em;
 }
 .withdraw-event, .inscription-event, .btnAdmin, .delete-event, .btnAction{
     text-transform: uppercase;
@@ -164,6 +163,18 @@ nav, small{
     box-shadow: 9px 9px 24px -13px rgba(247, 170, 0,0.75);
     border: 1.4px solid rgba(247, 170, 0,0.6);
 }
+#disabled{
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: rgba(35,87,132,0.2);
+    background-color: white;
+    box-shadow: 9px 9px 24px -13px rgba(35,87,132,0.55);
+    border: 1.4px solid rgba(35,87,132,0.2);
+    margin-left: 2em;
+}
 
     /* Formulaire */
 
@@ -190,7 +201,7 @@ form{
 
 /* Logo */
 
-#logo{
+#logo, #hw{
     width: 10em;
     display: block;
     height: auto;
@@ -222,7 +233,7 @@ form{
 @media only screen and (min-width: 992px){
     #register{
         min-height:100vh;
-        background-image: url(../../img/typo_inscription.png);
+        background-image: url(../../img/fnd_ins.png);
         background-repeat: no-repeat;
         background-position: center bottom;
         background-attachment: fixed;
@@ -313,7 +324,29 @@ form{
         background-size: 25%;
     }
 }
-
+/* Fond Erreur 403 */
+#error403_bgd{
+    min-height:100vh;
+    background-image: url(../../img/error/error403.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+    background-size: 25%;
+}
+.user_delete, .error502{
+    margin-top: 4em;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+/* Fond Erreur 403 */
+#error502_bgd{
+    min-height:100vh;
+    background-image: url(../../img/error/error502.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+    background-size: 25%;
+}
 /* Image accueil*/
 
 .img_home{
@@ -337,7 +370,7 @@ form{
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-        background-color: #f7aa00;
+    background-color: #f7aa00;
 }
 .img_hov:hover .overlay {
     opacity: 0.7;
@@ -365,10 +398,13 @@ form{
     color: white;
 }
 
-@media only screen and (min-width: 992px) {
+/*@media only screen and (min-width: 992px) {
     #img_decal {
         margin-left: 5em;
     }
+}*/
+#decal{
+    margin-left: 5em;
 }
 
 footer{
@@ -412,7 +448,23 @@ footer{
 .pagination{
     color: #235784;
 }
-
+.affProfil{
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-top: 1em;
+}
+.affEvent{
+    margin: 2em;
+}
+.parts{
+    text-decoration: none;
+    font-weight: bold;
+    color: #235784;
+}
+.parts:hover{
+    text-decoration: none;
+    color: #f7aa00;
+}
 /* Error 404 */
 
 .title_game{

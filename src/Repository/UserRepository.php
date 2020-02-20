@@ -14,10 +14,32 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
+
+
+    public function findUserByUsernameOrEmail($var)
+    {
+        $entityManager = $this->getEntityManager();
+        $dql = <<<DQL
+SELECT u
+FROM APP\ENTITY\User u
+WHERE u.username = :var
+OR u.email = :var
+DQL;
+
+        $query = $entityManager
+                ->createQuery($dql)
+                ->setParameter(':var', $var);
+
+        return $query->getOneOrNullResult();
+    }
+
+
 
     // /**
     //  * @return User[] Returns an array of User objects

@@ -113,6 +113,11 @@ class User implements UserInterface
      */
     private $erased;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $passwordToken;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -179,7 +184,7 @@ class User implements UserInterface
         return $this->phone;
     }
 
-    public function setPhone(string $phone)
+    public function setPhone(?string $phone)
     {
         $this->phone = $phone;
 
@@ -197,6 +202,7 @@ class User implements UserInterface
 
         return $this;
     }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -214,6 +220,7 @@ class User implements UserInterface
         if (empty($this->roles)) {
             $this->roles = ['ROLE_USER'];
         }
+
         return $this->roles;
     }
 
@@ -234,22 +241,6 @@ class User implements UserInterface
         $this->active = $active;
 
         return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
     }
 
     /**
@@ -282,7 +273,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
     public function getFile(): ?File
     {
@@ -356,9 +346,37 @@ class User implements UserInterface
         return $this->erased;
     }
 
-    public function setErased(?bool $erased): self
+    public function setErased(?bool $erased)
     {
         $this->erased = $erased;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getPasswordToken(): ?string
+    {
+        return $this->passwordToken;
+    }
+
+    public function setPasswordToken(?string $passwordToken)
+    {
+        $this->passwordToken = $passwordToken;
 
         return $this;
     }

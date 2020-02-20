@@ -22,10 +22,12 @@ use Http\Adapter\Guzzle6\Client;
 class CityController extends Controller
 {
 
+
     /**
      * @Route("/update_cities", name="update_cities")
      */
-    public function city(Request $request, EntityManagerInterface $entityManager){
+    public function city(Request $request, EntityManagerInterface $entityManager)
+    {
 
         $cityRep = $entityManager->getRepository(City::class);
 
@@ -35,8 +37,8 @@ class CityController extends Controller
 
         $city_result = null;
 
-        if(!is_null($var_search)){
-            $city_result = $cityRep -> findBySearch($var_search);
+        if (!is_null($var_search)) {
+            $city_result = $cityRep->findBySearch($var_search);
 
             dump($city_result);
         }
@@ -44,7 +46,7 @@ class CityController extends Controller
         /* Add city */
         $city_name = $request->query->get("city");
         $city_postcode = $request->query->get("postcode");
-        if(!is_null($city_name) && !is_null($city_postcode)){
+        if (!is_null($city_name) && !is_null($city_postcode)) {
             $city = new City();
             $city->setName($city_name);
             $city->setPostalCode($city_postcode);
@@ -53,68 +55,68 @@ class CityController extends Controller
             $entityManager->flush();
 
             $this->addFlash(
-                'success',
-                'Ville ajoutée'
+                    'success',
+                    'Ville ajoutée'
             );
         }
 
         /* Remove city */
         $city_id_delete = $request->query->get("delete");
-        if(!is_null($city_id_delete)){
+        if (!is_null($city_id_delete)) {
             dump('id ville :'.$city_id_delete);
-            $city_delete = $cityRep ->find($city_id_delete);
-            $entityManager -> remove($city_delete);
-            $entityManager -> flush();
+            $city_delete = $cityRep->find($city_id_delete);
+            $entityManager->remove($city_delete);
+            $entityManager->flush();
             $this->addFlash(
-                'success',
-                'Ville supprimée'
+                    'success',
+                    'Ville supprimée'
             );
         }
 
 
         /* Update city */
         $city_id_update = $request->query->get("update");
-        if(!is_null($city_id_update)){
+        if (!is_null($city_id_update)) {
             $city_name = $request->query->get("city_mod");
             $city_postcode = $request->query->get("postcode_mod");
             $city_update = new City();
-            $city_update = $cityRep ->find($city_id_update);
-            $city_update -> setName($city_name);
-            $city_update -> setPostalCode($city_postcode);
-            $entityManager -> persist($city_update);
-            $entityManager -> flush();
+            $city_update = $cityRep->find($city_id_update);
+            $city_update->setName($city_name);
+            $city_update->setPostalCode($city_postcode);
+            $entityManager->persist($city_update);
+            $entityManager->flush();
             $this->addFlash(
-                'success',
-                'Ville Modifiée'
+                    'success',
+                    'Ville Modifiée'
             );
         }
 
-        return $this->render('city/update_cities.html.twig',compact('city_result'));
+        return $this->render('city/update_cities.html.twig', compact('city_result'));
     }
+
 
     /**
      * @Route("/geo", name="geo")
      * @throws \Geocoder\Exception\Exception
      */
-    public function test_geo(){
+    public function test_geo()
+    {
 
+        /*        $httpClient = new \Http\Adapter\Guzzle6\Client();
+                $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
+                $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');*/
 
-/*        $httpClient = new \Http\Adapter\Guzzle6\Client();
-        $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
-        $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');*/
-
-
-/*        $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));*/
+        /*        $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));*/
 
         $config = [
-            'verify' => false,
-            'proxy'   => 'http://proxy-sh.ad.campus-eni.fr:8080',
+                'verify' => false,
+                'proxy' => 'http://proxy-sh.ad.campus-eni.fr:8080',
         ];
 
         $guzzle = new GuzzleClient($config);
 
-        $adapter  = new Client($guzzle);
-        $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4' );
+        $adapter = new Client($guzzle);
+        $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
         $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');
 
         $result = $geocoder->geocodeQuery(GeocodeQuery::create('Buckingham Palace, London'));
@@ -135,11 +137,13 @@ class CityController extends Controller
         return $this->render('city/test_geo.html.twig');
     }
 
+
     /**
      * @Route("/auto", name="auto")
      */
-    public function test_auto(){
-        return $this -> render('city/autocomplete.html.twig');
+    public function test_auto()
+    {
+        return $this->render('city/autocomplete.html.twig');
     }
 
 }

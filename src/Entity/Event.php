@@ -75,7 +75,7 @@ class Event
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $status;
 
@@ -88,6 +88,29 @@ class Event
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $cancelTxt;
+
+
+
+
+    private $currentPlace;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $state;
+
+
+    public function getCurrentPlace()
+    {
+        return $this->currentPlace;
+    }
+
+    public function setCurrentPlace($currentPlace, $context = [])
+    {
+        $this->currentPlace = $currentPlace;
+    }
+
+    
 
     public function __construct()
     {
@@ -214,7 +237,7 @@ class Event
         return $this->inscriptions;
     }
 
-    public function addInscription(Inscription $inscription): self
+    public function addInscription(Inscription $inscription)
     {
         if (!$this->inscriptions->contains($inscription)) {
             $this->inscriptions[] = $inscription;
@@ -224,7 +247,7 @@ class Event
         return $this;
     }
 
-    public function removeInscription(Inscription $inscription): self
+    public function removeInscription(Inscription $inscription)
     {
         if ($this->inscriptions->contains($inscription)) {
             $this->inscriptions->removeElement($inscription);
@@ -237,10 +260,23 @@ class Event
         return $this;
     }
 
+    public function getCancelTxt(): ?string
+    {
+        return $this->cancelTxt;
+    }
+
+    public function setCancelTxt(?string $cancelTxt)
+    {
+        $this->cancelTxt = $cancelTxt;
+
+        return $this;
+    }
+
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, $payload){
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
         // check if the $dateInscriptionEnd is after the $dateStart
         if ($this->getDateInscriptionEnd() > $this->getDateStart()) {
             $context->buildViolation('La date de fin d\'inscription doit correpondre au jour de début au plus tard')
@@ -249,14 +285,14 @@ class Event
         }
     }
 
-    public function getCancelTxt(): ?string
+    public function getState(): ?string
     {
-        return $this->cancelTxt;
+        return $this->state;
     }
 
-    public function setCancelTxt(?string $cancelTxt): self
+    public function setState(?string $state)
     {
-        $this->cancelTxt = $cancelTxt;
+        $this->state = $state;
 
         return $this;
     }
@@ -273,7 +309,7 @@ class Event
 //        return $this->nbMember;
 //    }
 //
-//    public function setNbMember(?int $nbMember): self
+//    public function setNbMember(?int $nbMember)
 //    {
 //        $this->nbMember = $nbMember;
 //

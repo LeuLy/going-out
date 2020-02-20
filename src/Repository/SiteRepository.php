@@ -15,6 +15,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class SiteRepository extends ServiceEntityRepository
 {
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Site::class);
@@ -25,16 +27,15 @@ class SiteRepository extends ServiceEntityRepository
         $regex = '%'.$search.'%';
         $qb = $this->createQueryBuilder('s');
         $qb
-
-            ->andWhere('s.label LIKE :search')
-            ->setParameter(':search', $regex);
-
+                ->andWhere('s.label LIKE :search')
+                ->setParameter(':search', $regex);
 
         $query = $qb->getQuery();
         $result = $query->getResult();
 
         return ($result);
     }
+
 
     // /**
     //  * @return Site[] Returns an array of Site objects

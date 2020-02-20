@@ -14,10 +14,13 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class StatusRepository extends ServiceEntityRepository
 {
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Status::class);
     }
+
 
     // /**
     //  * @return Status[] Returns an array of Status objects

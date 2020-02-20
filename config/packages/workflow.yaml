@@ -9,8 +9,9 @@ framework:
                 #                actuel de notre objet. Ici, cela veut simplement dire que nous allons stocker l’état dans un attribut state de notre objet en utilisant une méthode setState.
                 type: 'single_state'
                 arguments:
-                    - 'currentPlace'
-            #                property: 'state'
+                    - 'state'
+#                    - 'status'
+
             supports:
                 - App\Entity\Event
             initial_place: EnCreation # état de départ de notre objet.
@@ -37,16 +38,8 @@ framework:
                 eventPast:
                     from: Cloturee
                     to: Passee
-                cancel_order:
+                cancelEvent:
                     from: [EnCreation, Ouverte]
                     to: Annulee
 
 
-
-#
-#                    - En création
-#                    - Ouverte
-#                    - Clôturée
-#                    - Activité en cours
-#                    - Passée
-#                    - Annulée
