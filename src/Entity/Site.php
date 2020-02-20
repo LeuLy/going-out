@@ -33,6 +33,13 @@ class Site
      */
     private $user;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\File", inversedBy="site", cascade={"persist", "remove"})
+     */
+    private $image;
+
+
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -114,6 +121,18 @@ class Site
                 $user->setSite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?File
+    {
+        return $this->image;
+    }
+
+    public function setImage(?File $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

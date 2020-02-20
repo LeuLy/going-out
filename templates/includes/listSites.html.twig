@@ -10,12 +10,14 @@
         </tr>
         </thead>
         <tbody>
-        <form role="add" action="{{ path('update_sites') }}">
+        <form role="add" action="{{ path('update_sites') }}" method="post">
             <tr>
 
-                <td><input class="form-control" type="text" name="label"></td>
-                <td><button type="submit" class="btnForm">Ajouter</button></td>
+                {{ form_start(siteFormView) }}
+                <td> {{ form_row(siteFormView.label,{'label':'Nom de la ville'}) }} {{ form_row(siteFormView.image,{'label':'Ajouter une image'}) }}</td>
 
+                <td><button type="submit" class="btnForm">Ajouter</button></td>
+                {{ form_end(siteFormView) }}
             </tr>
         </form>
         {% if site_result is not null %}

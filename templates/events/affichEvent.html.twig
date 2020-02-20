@@ -43,7 +43,7 @@
                         {% endif %}
                         <i class="far fa-clipboard"></i> Description : {{ event.description }} <br/>
                         <i class="fas fa-map-marker-alt"></i> Lieu : {{ event.place.label }}<br/>
-                        <i class="far fa-calendar-alt"></i> Début des inscriptions
+                        <i class="far fa-calendar-alt"></i> Début de l'évènement
                         : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br/>
                         <i class="far fa-calendar-times"></i> Fin des inscriptions
                         : {{ event.dateInscriptionEnd |date('d-m-Y') }} à {{ event.dateInscriptionEnd |date('H:i') }}

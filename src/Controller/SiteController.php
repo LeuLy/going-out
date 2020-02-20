@@ -5,8 +5,11 @@ namespace App\Controller;
 
 
 use App\Entity\Site;
+use App\Form\SiteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,20 +37,61 @@ class SiteController extends Controller
             dump($site_result);
         }
 
-        /* Add site */
-        $site_name = $request->query->get("label");
-        if(!is_null($site_name)){
-            $site = new Site();
-            $site->setLabel('ENI '.strtoupper($site_name));
 
-            $entityManager->persist($site);
-            $entityManager->flush();
+        $siteNew =new Site();
+        $siteForm = $this->createForm(SiteType::class, $siteNew);
+        $siteForm->handleRequest($request);
 
-            $this->addFlash(
-                'success',
-                'Site ajouté'
-            );
+        if ($siteForm->isSubmitted() && $siteForm->isValid()) {
+
+            dump('ok');
+
+            /* Add site */
+            $site_name = $siteForm->get('label')->getData();
+            if(!is_null($site_name)){
+                dump('ok ok');
+                /*$site = new Site();*/
+                $siteNew->setLabel('ENI '.strtoupper($site_name));
+            }
+
+            $imageFile = $siteForm->get('image')->getData();
+
+            if ($imageFile instanceof UploadedFile) {
+                dump('up');
+            }
+            if ($imageFile) {
+                dump('ok image');
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imageFile->move(
+                        $this->getParameter('public/uploads_site'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $siteNew->setImage($newFilename);
+
+                $entityManager->persist($siteNew);
+                $entityManager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Site ajouté'
+                );
+            }
+            return $this->render('site/update_sites.html.twig', array('site_result'=>$site_result,'siteFormView' => $siteForm->createView()));
         }
+
+
 
         /* Remove site */
         $site_id_delete = $request->query->get("delete");
@@ -77,7 +121,7 @@ class SiteController extends Controller
         }
 
 
-        return $this->render('site/update_sites.html.twig',compact('site_result'));
+        return $this->render('site/update_sites.html.twig', array('site_result'=>$site_result,'siteFormView' => $siteForm->createView()));
 
     }
 
