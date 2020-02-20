@@ -48,7 +48,7 @@ class City implements \JsonSerializable
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -60,7 +60,7 @@ class City implements \JsonSerializable
         return $this->postalCode;
     }
 
-    public function setPostalCode(string $postalCode): self
+    public function setPostalCode(string $postalCode)
     {
         $this->postalCode = $postalCode;
 
@@ -75,7 +75,7 @@ class City implements \JsonSerializable
         return $this->places;
     }
 
-    public function addPlace(Place $place): self
+    public function addPlace(Place $place)
     {
         if (!$this->places->contains($place)) {
             $this->places[] = $place;
@@ -85,7 +85,7 @@ class City implements \JsonSerializable
         return $this;
     }
 
-    public function removePlace(Place $place): self
+    public function removePlace(Place $place)
     {
         if ($this->places->contains($place)) {
             $this->places->removeElement($place);

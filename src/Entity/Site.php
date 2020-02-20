@@ -49,7 +49,7 @@ class Site
         return $this->label;
     }
 
-    public function setLabel(string $label): self
+    public function setLabel(string $label)
     {
         $this->label = $label;
 
@@ -64,7 +64,7 @@ class Site
         return $this->events;
     }
 
-    public function addEvent(Event $event): self
+    public function addEvent(Event $event)
     {
         if (!$this->events->contains($event)) {
             $this->events[] = $event;
@@ -74,7 +74,7 @@ class Site
         return $this;
     }
 
-    public function removeEvent(Event $event): self
+    public function removeEvent(Event $event)
     {
         if ($this->events->contains($event)) {
             $this->events->removeElement($event);
@@ -95,7 +95,7 @@ class Site
         return $this->user;
     }
 
-    public function addUser(User $user): self
+    public function addUser(User $user)
     {
         if (!$this->user->contains($user)) {
             $this->user[] = $user;
@@ -105,7 +105,7 @@ class Site
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeUser(User $user)
     {
         if ($this->user->contains($user)) {
             $this->user->removeElement($user);
