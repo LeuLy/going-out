@@ -75,7 +75,7 @@ class Event
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $status;
 
@@ -88,6 +88,29 @@ class Event
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $cancelTxt;
+
+
+
+
+    private $currentPlace;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $state;
+
+
+    public function getCurrentPlace()
+    {
+        return $this->currentPlace;
+    }
+
+    public function setCurrentPlace($currentPlace, $context = [])
+    {
+        $this->currentPlace = $currentPlace;
+    }
+
+    
 
     public function __construct()
     {
@@ -260,6 +283,18 @@ class Event
                     ->atPath('dateInscriptionEnd')
                     ->addViolation();
         }
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(?string $state)
+    {
+        $this->state = $state;
+
+        return $this;
     }
 
 

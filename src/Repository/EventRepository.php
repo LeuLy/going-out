@@ -7,7 +7,8 @@ use App\Entity\Site;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-
+use Symfony\Component\Workflow\Exception\LogicException;
+use Symfony\Component\Workflow\Registry;
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
  * @method Event|null findOneBy(array $criteria, array $orderBy = null)
@@ -26,71 +27,72 @@ class EventRepository extends ServiceEntityRepository
 
 
     public function findEventByFilters(
-            $beginDate,
-            $endDate,
-            $eventOwner,
-            $userId,
-            $user,
-            $passedEvent,
-            $subscribed,
-            $notSubscribed,
-            $var,
-            $site,
-            $page = 0,
-            $limit = 100
+        $beginDate,
+        $endDate,
+        $eventOwner,
+        $userId,
+        $user,
+        $passedEvent,
+        $subscribed,
+        $notSubscribed,
+        $var,
+        $site,
+        $page = 0,
+        $limit = 100
+
     ) {
         $qb = $this->createQueryBuilder('e');
         $qb
-                ->andWhere('e.site = :site')
-                ->setParameter(':site', $site)
-                ->setFirstResult($page * $limit)
-                ->setMaxResults($limit);
+            ->andWhere('e.site = :site')
+            ->setParameter(':site', $site)
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
         if ($var != null) {
             $qb
-                    ->andWhere('e.label LIKE :var')
-                    ->orWhere('e.description LIKE :var')
-                    ->setParameter(':var', "%".$var."%");
+                ->andWhere('e.label LIKE :var')
+                ->orWhere('e.description LIKE :var')
+                ->setParameter(':var', "%".$var."%");
         }
         if ($beginDate != null) {
             $qb
-                    ->andWhere('e.dateStart >= :beginDate')
-                    ->setParameter(':beginDate', $beginDate);
+                ->andWhere('e.dateStart >= :beginDate')
+                ->setParameter(':beginDate', $beginDate);
         }
         if ($endDate != null) {
             $qb
-                    ->andWhere('e.dateStart <= :endDate')
-                    ->setParameter(':endDate', $endDate);
+                ->andWhere('e.dateStart <= :endDate')
+                ->setParameter(':endDate', $endDate);
         }
         if ($passedEvent == 'on') {
             $qb
-                    ->andWhere('e.dateStart <= :now')
-                    ->setParameter('now', new \DateTime());
+                ->andWhere('e.dateStart <= :now')
+                ->setParameter('now', new \DateTime());
         }
         if ($eventOwner == 'on') {
             $qb
-                    ->andWhere('e.creator = :userId')
-                    ->setParameter(':userId', $userId);
+                ->andWhere('e.creator = :userId')
+                ->setParameter(':userId', $userId);
         }
         if ($subscribed == 'on' && $notSubscribed == 'on') {
             // Ne rien faire ici
         } else {
             if ($subscribed == 'on') {
                 $qb
-                        ->addselect('i')
-                        ->innerJoin('e.inscriptions', 'i')
-                        ->andWhere('i.user = :user')
-                        ->setParameter(':user', $user);
+                    ->addselect('i')
+                    ->innerJoin('e.inscriptions', 'i')
+                    ->andWhere('i.user = :user')
+                    ->setParameter(':user', $user);
                 dump($user);
             }
             if ($notSubscribed == 'on') {
                 $subQb = $this->createQueryBuilder('sq')
-                        ->innerJoin('sq.inscriptions', 'sqb')
-                        ->Where('sqb.user = :user');
+                    ->innerJoin('sq.inscriptions', 'sqb')
+                    ->Where('sqb.user = :user');
                 $qb
-                        ->addselect('i')
-                        ->leftJoin('e.inscriptions', 'i')
-                        ->andWhere('e NOT IN ('.$subQb->getDQL().')')
-                        ->setParameter(':user', $user);
+                    ->addselect('i')
+                    ->leftJoin('e.inscriptions', 'i')
+                    ->andWhere('e NOT IN ('.$subQb->getDQL().')')
+                    ->setParameter(':user', $user);
                 dump($user);
             }
         }
@@ -107,8 +109,8 @@ class EventRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('e');
         $qb
-                ->Where('e.creator = :userId')
-                ->setParameter(':userId', $userId);
+            ->Where('e.creator = :userId')
+            ->setParameter(':userId', $userId);
 
         $query = $qb->getQuery();
 
@@ -122,87 +124,87 @@ class EventRepository extends ServiceEntityRepository
     public function findEventBySite($site, $page = 0, $limit = 10)
     {
         $entityManager = $this->getEntityManager();
-        $dql = <<<DQL
+        $dql           = <<<DQL
 SELECT e
 FROM APP\ENTITY\Event e
 WHERE e.site = :site
 DQL;
 
         $query = $entityManager
-                ->createQuery($dql)
-                ->setParameter(':site', $site)
-                ->setFirstResult($page * $limit)
-                ->setMaxResults($limit);
+            ->createQuery($dql)
+            ->setParameter(':site', $site)
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
 
         return $query->getResult();
     }
 
 
     public function findEventByFiltersAllSites(
-            $beginDate,
-            $endDate,
-            $eventOwner,
-            $userId,
-            $user,
-            $passedEvent,
-            $subscribed,
-            $notSubscribed,
-            $var,
-            $page = 0,
-            $limit = 100
+        $beginDate,
+        $endDate,
+        $eventOwner,
+        $userId,
+        $user,
+        $passedEvent,
+        $subscribed,
+        $notSubscribed,
+        $var,
+        $page = 0,
+        $limit = 100
     ) {
         $qb = $this->createQueryBuilder('e');
         $qb
 //                ->andWhere('e.site = :site')
 //                ->setParameter(':site', $site)
-                ->setFirstResult($page * $limit)
-                ->setMaxResults($limit);
+            ->setFirstResult($page * $limit)
+            ->setMaxResults($limit);
         if ($var != null) {
             $qb
-                    ->andWhere('e.label LIKE :var')
-                    ->orWhere('e.description LIKE :var')
-                    ->setParameter(':var', "%".$var."%");
+                ->andWhere('e.label LIKE :var')
+                ->orWhere('e.description LIKE :var')
+                ->setParameter(':var', "%".$var."%");
         }
         if ($beginDate != null) {
             $qb
-                    ->andWhere('e.dateStart >= :beginDate')
-                    ->setParameter(':beginDate', $beginDate);
+                ->andWhere('e.dateStart >= :beginDate')
+                ->setParameter(':beginDate', $beginDate);
         }
         if ($endDate != null) {
             $qb
-                    ->andWhere('e.dateStart <= :endDate')
-                    ->setParameter(':endDate', $endDate);
+                ->andWhere('e.dateStart <= :endDate')
+                ->setParameter(':endDate', $endDate);
         }
         if ($passedEvent == 'on') {
             $qb
-                    ->andWhere('e.dateStart <= :now')
-                    ->setParameter('now', new \DateTime());
+                ->andWhere('e.dateStart <= :now')
+                ->setParameter('now', new \DateTime());
         }
         if ($eventOwner == 'on') {
             $qb
-                    ->andWhere('e.creator = :userId')
-                    ->setParameter(':userId', $userId);
+                ->andWhere('e.creator = :userId')
+                ->setParameter(':userId', $userId);
         }
         if ($subscribed == 'on' && $notSubscribed == 'on') {
             // Ne rien faire ici
         } else {
             if ($subscribed == 'on') {
                 $qb
-                        ->addselect('i')
-                        ->innerJoin('e.inscriptions', 'i')
-                        ->andWhere('i.user = :user')
-                        ->setParameter(':user', $user);
+                    ->addselect('i')
+                    ->innerJoin('e.inscriptions', 'i')
+                    ->andWhere('i.user = :user')
+                    ->setParameter(':user', $user);
                 dump($user);
             }
             if ($notSubscribed == 'on') {
                 $subQb = $this->createQueryBuilder('sq')
-                        ->innerJoin('sq.inscriptions', 'sqb')
-                        ->Where('sqb.user = :user');
+                    ->innerJoin('sq.inscriptions', 'sqb')
+                    ->Where('sqb.user = :user');
                 $qb
-                        ->addselect('i')
-                        ->leftJoin('e.inscriptions', 'i')
-                        ->andWhere('e NOT IN ('.$subQb->getDQL().')')
-                        ->setParameter(':user', $user);
+                    ->addselect('i')
+                    ->leftJoin('e.inscriptions', 'i')
+                    ->andWhere('e NOT IN ('.$subQb->getDQL().')')
+                    ->setParameter(':user', $user);
                 dump($user);
             }
         }

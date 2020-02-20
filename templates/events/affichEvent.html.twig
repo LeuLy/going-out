@@ -29,6 +29,7 @@
                 <div class="card-body">
                     <h4 class="card-title d-flex justify-content-center">{{ event.label }}</h4>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
+
                     <div class="affEvent">
                         <p class="card-text">
 {#                        {% if 'EnCreation' in workflow_marked_places(eventStatus) %}#}
@@ -50,6 +51,7 @@
                         <br>
                         <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H') }}h{{ event.duration |date('i') }}<br/>
                         <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
+
                     </p>
                 </div>
                     <div class="card-body">

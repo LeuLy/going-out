@@ -1,0 +1,70 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Annulation d'evenement{% endblock %}
+{% block test %}
+    <div id="show_event_bgd">
+        {{ parent() }}
+    </div>
+{% endblock %}
+{% block geo %}
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4&callback=initMap">
+    </script>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-xs-2 col-md-4">
+
+        </div>
+        <div class="col-xs-8 col-md-4">
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title d-flex justify-content-center">{{ event.label }}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+
+
+                    <i class="fas fa-user-astronaut"></i> Organisateur :
+                    {% if ((event.creator.active == true) and (event.creator.erased == false)) %}
+                    <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a>
+                <br/>
+                    {% else %}
+                        {{ event.creator.username }}
+                    {% endif %}<br/>
+                    <i class="far fa-clipboard"></i> Description : {{ event.description }} <br/>
+                    <i class="far fa-calendar-alt"></i> Début des inscriptions
+                    : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br/>
+                    <i class="far fa-calendar-times"></i> Fin des inscriptions
+                    : {{ event.dateInscriptionEnd |date('d-m-Y') }} à {{ event.dateInscriptionEnd |date('H:i') }}
+                    <br>
+                    <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H:i') }} <br/>
+                    <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
+
+                    </p>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title d-flex justify-content-center">Motif d'annulation</h5>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1"></label>
+                        <textarea class="form-control" id="cancelTxt" name="cancelTxt" rows="10" placeholder="motif d'annulation."></textarea>
+                    </div>
+                    <button class="btnValid" type="submit">
+                        <a href="{{ path('home') }}">
+                            Annuler la sortie
+                        </a>
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+
+
+
+{% endblock %}
