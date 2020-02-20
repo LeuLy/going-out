@@ -12,12 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends Controller
 {
 
+
     /**
      * @Route("/", name="home")
      */
     public function home(Request $request, EntityManagerInterface $entityManager)
     {
-
 //        $currentUser = $this->getUser();
 //        if($currentUser->getErased() == true){
 //            $this->addFlash(
@@ -27,17 +27,13 @@ class MainController extends Controller
 //            return $this->redirectToRoute('logout');
 //        }
 
-
         $siteRepository = $entityManager->getRepository(Site::class);
-
 
         $eventRepository = $entityManager->getRepository(Event::class);
 
-
         $siteLabel = $request->query->get("label");
-        $site      = $siteRepository->findByLabel($siteLabel);
-        $event     = $eventRepository->findEventBySite($site);
-
+        $site = $siteRepository->findByLabel($siteLabel);
+        $event = $eventRepository->findEventBySite($site);
 
         return $this->render('main/home.html.twig', compact('event', 'site', 'siteLabel'));
     }

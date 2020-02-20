@@ -61,7 +61,7 @@ class File
         return $this->path;
     }
 
-    public function setPath(string $path): self
+    public function setPath(string $path)
     {
         $this->path = $path;
 
@@ -73,7 +73,7 @@ class File
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -85,7 +85,7 @@ class File
         return $this->mimeType;
     }
 
-    public function setMimeType(string $mimeType): self
+    public function setMimeType(string $mimeType)
     {
         $this->mimeType = $mimeType;
 
@@ -97,7 +97,7 @@ class File
         return $this->size;
     }
 
-    public function setSize(string $size): self
+    public function setSize(string $size)
     {
         $this->size = $size;
 
@@ -114,7 +114,7 @@ class File
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?User $user)
     {
         $this->user = $user;
 
@@ -127,7 +127,7 @@ class File
         return $this;
     }
 
-    public function setPublicPath(string $publicPath): self
+    public function setPublicPath(string $publicPath)
     {
         $this->publicPath = '/uploads/'.$this->name;;
 

@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PlaceController extends Controller
 {
 
+
     /**
      * @Route("/create-events-place", name="create-events-place")
      */
@@ -29,66 +30,57 @@ class PlaceController extends Controller
 
         $place = new Place();
 
-        if($request->isMethod('get')){
-
+        if ($request->isMethod('get')) {
 
             $formData = $request->query->all();
-            $btName = $request-> query -> get( 'submitPlace' );
+            $btName = $request->query->get('submitPlace');
 //            dump($btName);
 
-
-
-            $place_label = $request -> query -> get("place_name");
-            $city_num = $request -> query -> get("street_number");
-            $city_street = $request -> query -> get("route");
-            $city_name = $request -> query -> get("locality");
-            $city_postcode = $request -> query -> get("postal_code");
-            $city_address = $request -> query -> get("user_input_autocomplete_address");
+            $place_label = $request->query->get("place_name");
+            $city_num = $request->query->get("street_number");
+            $city_street = $request->query->get("route");
+            $city_name = $request->query->get("locality");
+            $city_postcode = $request->query->get("postal_code");
+            $city_address = $request->query->get("user_input_autocomplete_address");
 
             /*dump($city_num.' '.$city_street.' '.$city_name);*/
 
             if (!empty($place_label) && !empty($city_street) && !empty($city_name)) {
 
-
-
-
                 $place->setLabel($place_label);
                 $place->setAddress($city_num.' '.$city_street);
-
 
                 /* Check if the city is in database */
 
                 $check_city = new City();
                 $check_city = $cityRepo->findOneBy(array('name' => $city_name));
 
-                if(!$check_city){
+                if (!$check_city) {
                     $city = new City();
-                    $city -> setName($city_name);
-                    if(!empty($city_postcode)){
-                        $city -> setPostalCode($city_postcode);
-                    }
-                    else{
-                        $city -> setPostalCode('none');
+                    $city->setName($city_name);
+                    if (!empty($city_postcode)) {
+                        $city->setPostalCode($city_postcode);
+                    } else {
+                        $city->setPostalCode('none');
                     }
                     $entityManager->persist($city);
                     $entityManager->flush();
                     $place->setCity($city);
-                }else{
+                } else {
                     $place->setCity($check_city);
                 }
-
 
                 /* Define latitude and longitude */
 
                 $config = [
                         'verify' => false,
-                        'proxy'   => 'http://proxy-sh.ad.campus-eni.fr:8080',
+                        'proxy' => 'http://proxy-sh.ad.campus-eni.fr:8080',
                 ];
 
                 $guzzle = new GuzzleClient($config);
 
-                $adapter  = new Client($guzzle);
-                $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4' );
+                $adapter = new Client($guzzle);
+                $provider = new GoogleMaps($adapter, null, 'AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4');
                 $geocoder = new \Geocoder\StatefulGeocoder($provider, 'en');
 
                 $adress = $city_address;
@@ -121,7 +113,7 @@ class PlaceController extends Controller
 //                );
                 return new JsonResponse(
                         [
-                                "placeId"  => $place->getId(),
+                                "placeId" => $place->getId(),
                                 "placeLabel" => $place->getLabel(),
                         ]
                 );
@@ -133,15 +125,14 @@ class PlaceController extends Controller
 //                        'Lieu incorrect'
 //                );
 //            }
-
         }
 
         return new JsonResponse(
                 [
-                        "error" => 'erreur'
+                        "error" => 'erreur',
                 ]
         );
-
+    }
 
 //        $eventPlace     = new Place();
 //        $eventPlaceForm = $this->createForm(PlaceType::class, $eventPlace);
@@ -163,7 +154,6 @@ class PlaceController extends Controller
 //            ]
 //        );
 
-    }
 
 //
 //    public function createEventPlace(Request $request)

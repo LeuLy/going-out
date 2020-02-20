@@ -27,8 +27,9 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title d-flex justify-content-center">{{ event.label }}</h5>
+                    <h4 class="card-title d-flex justify-content-center">{{ event.label }}</h4>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
+
                     <p class="card-text">
                         {% if workflow_can(event, 'newEvent') %}
                     <p>OK OK0</p>
@@ -64,18 +65,20 @@
                     <br>
                     <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H:i') }} <br/>
                     <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
+
                     </p>
+                </div>
                     <div class="card-body">
                         <h5 class="card-title d-flex justify-content-center">Liste des participants</h5>
-                        <h6 class="card-subtitle mb-2 text-muted"></h6>
+                        <h6 class="card-title d-flex justify-content-center">{{ inscriptions|length }} participant(s)</h6>
 
-                        <p>{{ inscriptions|length }} participant(s)</p>
+                        <div class="affEvent">
                         {% for inscription in inscriptions %}
-                            <a href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
+                            <a class="parts" href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
                             <br>
 
                         {% endfor %}
-
+                        </div>
 
                     </div>
                 </div>

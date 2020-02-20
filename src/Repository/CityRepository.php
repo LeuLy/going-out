@@ -15,10 +15,13 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class CityRepository extends ServiceEntityRepository
 {
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, City::class);
     }
+
 
     public function findCityByVar($var)
     {
@@ -31,30 +34,29 @@ WHERE c.name LIKE :var
 OR c.postalCode LIKE :var
 DQL;
 
-
         $query = $entityManager
                 ->createQuery($dql)
                 ->setParameter(':var', "%".$var."%");
 
         return $query->getResult();
-
     }
+
 
     public function findBySearch($search)
     {
         $regex = '%'.$search.'%';
         $qb = $this->createQueryBuilder('c');
         $qb
-
-            ->andWhere('c.name LIKE :search')
-            ->setParameter(':search', $regex);
-
+                ->andWhere('c.name LIKE :search')
+                ->setParameter(':search', $regex);
 
         $query = $qb->getQuery();
         $result = $query->getResult();
 
         return ($result);
     }
+
+
 
     // /**
     //  * @return City[] Returns an array of City objects

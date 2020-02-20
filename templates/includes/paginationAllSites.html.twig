@@ -1,0 +1,22 @@
+{% if nbPageByDescription > 0 %}
+
+    {% for i in range(1, nbPageByDescription) %}
+        {% if page == i - 1 %}
+            <b>
+                <a class="pagination" href="{{ path('listEventAllSites',{'page': i - 1, 'var':var,
+                    'beginDate':beginDate, 'endDate':endDate, 'passedEvent':passedEvent, 'eventOwner':eventOwner,
+               'subscribed':subscribed, 'notSubscribed':notSubscribed }) }}"
+                   style="color:#242326;">{{ i }}</a></b>
+        {% else %}
+            <a class="pagination"  href="{{ path('listEventAllSites',{'page': i - 1, 'var':var,
+                'beginDate':beginDate, 'endDate':endDate, 'passedEvent':passedEvent, 'eventOwner':eventOwner,
+                'subscribed':subscribed, 'notSubscribed':notSubscribed }) }}"
+               >{{ i }}</a>
+
+        {% endif %}
+        {% if not loop.last %}
+            &nbsp;-&nbsp;
+        {% endif %}
+    {% endfor %}
+
+{% endif %}

@@ -10,6 +10,7 @@ framework:
                 type: 'single_state'
                 arguments:
                     - 'currentPlace'
+#                    - 'status'
             #                property: 'state'
             supports:
                 - App\Entity\Event
@@ -50,3 +51,32 @@ framework:
 #                    - Activité en cours
 #                    - Passée
 #                    - Annulée
+
+
+#
+#    places:
+#        - EnCreation
+#        - Ouverte
+#        - Cloturee
+#        - ActiviteEnCours
+#        - Passee
+#        - Annulee
+#        transitions:
+#            newEvent:
+#                from: EnCreation
+#                to: EnCreation
+#            eventPublish:
+#                from: EnCreation
+#                to: Ouverte
+#            eventClose:
+#                from: Ouverte
+#                to: Cloturee
+#            eventNow:
+#                from: Ouverte
+#                to: ActiviteEnCours
+#            eventPast:
+#                from: Cloturee
+#                to: Passee
+#            cancelEvent:
+#                from: [EnCreation, Ouverte]
+#                to: Annulee

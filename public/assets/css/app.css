@@ -105,7 +105,6 @@ nav, small{
     background-color: white;
     box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
     border: none;
-    margin-left: 2em;
 }
 .withdraw-event, .inscription-event, .btnAdmin, .delete-event, .btnAction{
     text-transform: uppercase;
@@ -337,7 +336,7 @@ form{
     width: 100%;
     opacity: 0;
     transition: .5s ease;
-        background-color: #f7aa00;
+    background-color: #f7aa00;
 }
 .img_hov:hover .overlay {
     opacity: 0.7;
@@ -412,7 +411,22 @@ footer{
 .pagination{
     color: #235784;
 }
-
+.affProfil{
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-top: 1em;
+}
+.affEvent{
+    margin: 2em;
+}
+.parts{
+    text-decoration: none;
+    color: #235784;
+}
+.parts:hover{
+    text-decoration: none;
+    color: #f7aa00;
+}
 /* Error 404 */
 
 .title_game{
