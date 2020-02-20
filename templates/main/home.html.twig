@@ -14,18 +14,23 @@
 
                 {% set mod = size%3 %}
 
-                {% if i == size - mod %}
+                {% if i == size - mod  and (size+1)%3 != 0 %}
                     <div class="col-md-1" id="decal"></div>
                     {% endif %}
         <div class="col-md-2">
             <div class="img_hov">
-                <img class="img_home" src="{{ asset('public/uploads_site/' ~ site.file.name) }}" alt="nantes" >
+
+            {% if site.file is not null %}
+                <img class="img_home" src="{{ asset('public/uploads_site/' ~ site.file.name) }}" alt="img_city" >
+                {% else %}
+                    <img class="img_home" src="{{ asset('public/img_default/city_default.png') }}" alt="img_city" >
+                    {% endif %}
                 <div class="overlay"></div>
                 <div class="city_text">
                     {% if app.user %}
                         <a name="label" value="{{ site.label }}" href="{{ path('listEvent', {'label': site.label |raw}) }}">{{ site.label }}</a>
                     {% else %}
-                        <a>NANTES</a>
+                        <a>{{ site.label }}</a>
                     {% endif %}
                 </div>
             </div>
@@ -42,6 +47,23 @@
 
             {% endif %}
         {% endfor %}
+
+        <div class="col-md-2">
+            <div class="img_hov">
+
+                    <img class="img_home" src="{{ asset('public/img_default/france.png') }}" alt="img_city" >
+
+                <div class="overlay"></div>
+                <div class="city_text">
+                    {% if app.user %}
+                        <a name="label" value="sites" href="{{ path('listEventAllSites') }}">TOUS LES SITES</a>
+                    {% else %}
+                        <a>TOUS LES SITES</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
     </div>
 
 

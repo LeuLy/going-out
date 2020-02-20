@@ -60,6 +60,7 @@ class SiteController extends Controller
 
             $filedata = $siteForm->get('file')->getData();
 
+
             dump($filedata);
 
             $file = new File();
