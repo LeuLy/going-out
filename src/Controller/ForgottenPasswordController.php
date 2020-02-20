@@ -18,25 +18,32 @@ class ForgottenPasswordController extends Controller
 {
 
 
-
     /**
      * @Route("/forgotten/password", name="forgotten_password")
      */
     public function index()
     {
-        return $this->render('forgotten_password/index.html.twig', [
-            'controller_name' => 'ForgottenPasswordController',
-        ]);
+        return $this->render(
+                'forgotten_password/index.html.twig',
+                [
+                        'controller_name' => 'ForgottenPasswordController',
+                ]
+        );
     }
 
 
     /**
-     * @Route("/newPassword/{email}/{token}", name="newPassword", requirements={"email": "\s", "token": "\s"})
+     * @Route("/newPassword/{email}/{token}", name="newPassword", requirements={"email": "[a-z0-9@.-]{1,200}", "token": "[a-f0-9]{1,200}"})
      */
-    public function newPassword(Request $request, EntityManagerInterface $entityManager,
-            UserPasswordEncoderInterface $passwordEncoder, $user)
-    {
+    public function newPassword(
+            Request $request,
+            EntityManagerInterface $entityManager,
+            UserPasswordEncoderInterface $passwordEncoder,
+            $email
+    ) {
         $userRepo = $entityManager->getRepository(User::class);
+
+        $user = $userRepo->findUserByUsernameOrEmail($email);
 
         $userForm = $this->createForm(UserNewPasswordType::class, $user);
         $userForm->handleRequest($request);
@@ -60,7 +67,7 @@ class ForgottenPasswordController extends Controller
                     'Modification enregistrée'
             );
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('forgotten_password/newPassword.html.twig', ['userFormView' => $userForm->createView()]);
@@ -77,25 +84,31 @@ class ForgottenPasswordController extends Controller
         $userInfo = $request->query->get("info_user_fpw");
         $userToken = $request->query->get("token_user_fpw");
 
-        $user = $userRepo->findUserByUsernameOrEmail($userInfo);
+        if (($userInfo != null) && ($userToken != null)) {
+            $user = $userRepo->findUserByUsernameOrEmail($userInfo);
+            dump($user);
 
-        if ($user) {
-            if ($user -> getPasswordToken == $userToken) {
-                return $this->redirectToRoute('fpwnewPassword', compact($user));
-            }
-            else {
+            if ($user) {
+                dump($user->getPasswordToken());
+                dump($userToken);
+                if ($user->getPasswordToken() == $userToken) {
+                    $userEmail = $user->getEmail();
+                    $userToken = $user->getPasswordToken();
+                    return $this->redirectToRoute('fpwnewPassword', ['email' => $userEmail, 'token' => $userToken]);
+                } else {
+                    $this->addFlash(
+                            'danger',
+                            'Clé incorrecte'
+                    );
+                }
+            } else {
                 $this->addFlash(
                         'danger',
-                        'Clé incorrecte'
+                        'Identifiant ou email incorrect'
                 );
             }
         }
-        else {
-            $this->addFlash(
-                    'danger',
-                    'Identifiant ou email incorrect'
-            );
-        }
+
         return $this->render('forgotten_password/passwordToken.html.twig');
     }
 
@@ -109,28 +122,32 @@ class ForgottenPasswordController extends Controller
         $userRepo = $entityManager->getRepository(User::class);
 
         $userInfo = $request->query->get("info_user_fpw");
-        $user = $userRepo->findUserByUsernameOrEmail($userInfo);
 
-        if ($user) {
-            $token = bin2hex(random_bytes(10));
-            dump($token);
-            $user -> setPasswordToken($token);
-            $userEmail = $user -> getEmail();
-            $userToken = $user -> getPasswordToken();
+        if ($userInfo != null) {
+            $user = $userRepo->findUserByUsernameOrEmail($userInfo);
 
-            $this->addFlash(
-                    'success',
-                    'Votre clé vous a été envoyée par email!' . '\n Token = ' . $token
-            );
+            if ($user) {
+                $token = bin2hex(random_bytes(10));
+                dump($token);
+                $user->setPasswordToken($token);
 
-            return $this->redirectToRoute('fpwpasswordToken', [ 'email' => $userEmail ], [ 'token' => $userToken ]);
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $this->addFlash(
+                        'success',
+                        'Votre clé vous a été envoyée par email!'.'\n Token = '.$token
+                );
+
+                return $this->redirectToRoute('fpwpasswordToken');
+            } else {
+                $this->addFlash(
+                        'danger',
+                        'Identifiant ou email incorrect'
+                );
+            }
         }
-        else {
-            $this->addFlash(
-                    'danger',
-                    'Identifiant ou email incorrect'
-            );
-        }
+
         return $this->render('forgotten_password/forgottenPassword.html.twig');
     }
 
