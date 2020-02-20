@@ -18,12 +18,17 @@
             {{ form_row(eventForm.maxMembers) }}
             {{ form_row(eventForm.description) }}
             {{ form_row(eventForm.place) }}
+            {{ form_row(eventForm.site) }}
+            {{ form_row(eventForm.status) }}
             {#            {{ form_widget(eventForm.place, { 'disabled':'disabled' }) }}#}
-            {% include 'includes/modalFormPlace.html.twig' %}
 
+            <button type="submit" class="btnValid">
+                Enregistrer
+            </button>
 
             {#            <button class="btn">Register</button>#}
             {{ form_end(eventForm) }}
+
         </div>
         <div class="col-xs-2 col-md-3">
         </div>
