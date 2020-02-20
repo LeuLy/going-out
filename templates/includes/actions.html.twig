@@ -45,6 +45,7 @@
 
         {% if ( ((eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers) or (eventByDescription.dateInscriptionEnd <= date('now')) ) %}
             {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
+
                 <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire
                 </button>
             {% endif %}
