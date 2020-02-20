@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Event{% endblock %}
+{% block title %}Annulation d'evenement{% endblock %}
 {% block test %}
     <div id="show_event_bgd">
         {{ parent() }}
@@ -14,12 +14,6 @@
 {% block body %}
     <div class="row">
         <div class="col-xs-2 col-md-4">
-            <input type="hidden" value="{{ place.latitude }}" id="lat">
-            <input type="hidden" value="{{ place.longitude }}" id="long">
-            <div id="map" style="border: 1px solid black;
-               width: 400px; height: 400px;
-               margin-left: 30px; margin-top: 30px;">
-            </div>
 
         </div>
         <div class="col-xs-8 col-md-4">
@@ -49,48 +43,27 @@
 
                     </p>
                 </div>
-                    <div class="card-body">
-                        <h5 class="card-title d-flex justify-content-center">Liste des participants</h5>
-                        <h6 class="card-title d-flex justify-content-center">{{ inscriptions|length }} participant(s)</h6>
-
-                        <div class="affEvent">
-                        {% for inscription in inscriptions %}
-                            <a class="parts" href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
-                            <br>
-
-                        {% endfor %}
-                        </div>
-
+                <div class="card-body">
+                    <h5 class="card-title d-flex justify-content-center">Motif d'annulation</h5>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1"></label>
+                        <textarea class="form-control" id="cancelTxt" name="cancelTxt" rows="10" placeholder="motif d'annulation."></textarea>
                     </div>
+                    <button class="btnValid" type="submit">
+                        <a href="{{ path('home') }}">
+                            Annuler la sortie
+                        </a>
+                    </button>
+
+
                 </div>
             </div>
         </div>
-        <div class="col-xs-2 col-md-4">
-        </div>
     </div>
 
-    <script type="text/javascript">
+    </div>
 
 
-        let lat = Number(($('#lat').attr("value")));
-        console.log(lat);
-
-        let long = Number(($('#long').attr("value")));
-        console.log(long);
-
-
-        function initMap() {
-
-
-            var location = {lat: lat, lng: long};
-            // The map, centered on location
-            var map = new google.maps.Map(
-                document.getElementById('map'), {zoom: 10, center: location});
-            // The marker, positioned on location
-            var marker = new google.maps.Marker({position: location, map: map});
-
-        }
-    </script>
 
 
 

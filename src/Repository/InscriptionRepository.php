@@ -35,7 +35,7 @@ DQL;
                 ->createQuery($dql)
                 ->setParameter(':event', $event);
 
-        dump($query->getSQL());
+//        dump($query->getSQL());
 
 
         return $query->getResult();

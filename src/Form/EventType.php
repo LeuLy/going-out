@@ -77,15 +77,15 @@ class EventType extends AbstractType
                     'choice_label' => 'label',
                 ]
             )
-            ->add(
-                'status',
-                EntityType::class,
-                [
-                    'label' => 'Status',
-                    'class' => Status::class,
-                    'choice_label' => 'label',
-                ]
-            )
+//            ->add(
+//                'status',
+//                EntityType::class,
+//                [
+//                    'label' => 'Status',
+//                    'class' => Status::class,
+//                    'choice_label' => 'label',
+//                ]
+//            )
             ->add (
                     'place',
                     EntityType::class,

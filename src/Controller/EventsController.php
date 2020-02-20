@@ -154,7 +154,7 @@ class EventsController extends Controller
         dump($event);
 
         return $this->render(
-                'events/createEvent.html.twig',
+                'events/cancelEvent.html.twig',
                 [
                         'eventForm' => $eventForm->createView(),
                 ]
@@ -181,7 +181,7 @@ class EventsController extends Controller
         $notSubscribed = $request->query->get("notSubscribed");
         $eventOwner = $request->query->get("eventOwner");
         $userId = $this->getUser()->getId();
-
+        $ouverture = $request->query->get("ouverture");
 
         $user = $userRepository->find($this->getUser());
 
@@ -212,7 +212,32 @@ class EventsController extends Controller
                 $site,
                 $page,
                 $limit
+
         );
+
+
+// WORKFLOW EN CREATION: Archivage
+//        $workflow = $this->workflows->get($eventByDescription, 'eventStatus');
+//
+//            $workflow = $this->workflows->get($eventByDescription);
+//
+//            try {
+//                $workflow->apply($eventByDescription, 'eventPast');
+//                $entityManager->persist($eventByDescription);
+//                $entityManager->flush();
+//            } catch (LogicException $exception) {
+//
+//
+//            }
+//
+//            $transitions = $workflow->getEnabledTransitions($eventByDescription);
+//            dump($transitions);
+
+
+
+
+
+
 
         $nbTotalEvents = count($event);
         $nbPage = ceil($nbTotalEvents / $limit);
@@ -264,32 +289,68 @@ class EventsController extends Controller
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
 
-// WORKFLOW EN CREATION:
 
-//        $workflow->apply($event, 'eventPublish');
-
-
-
-        $workflow = $this->workflows->get($event, 'eventStatus');
-//        $workflow = $this->workflows->get($event);
-
-//        try {
-//            $workflow->apply($event, 'eventPublish');
-//
-//        } catch (LogicException $exception) {
-//
-//
-//        }
-
-        $transitions = $workflow->getEnabledTransitions($event);
-        dump($transitions);
         $place = $event->getPlace();
-        dump($workflow);
+//        dump($workflow);
         dump($event);
 
 
         return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }
+
+
+    /**
+     * @Route("/cancelEvent/{id}", name="cancelEvent")
+     */
+    public function cancelEvent($id, Request $request, EntityManagerInterface $entityManager)
+    {
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $event = $eventRepository->find($id);
+
+        $eventForm = $this->createForm(EventType::class, $event);
+        $eventForm->handleRequest($request);
+        $event->setCreator($this->getUser());
+
+        // WORKFLOW EN CREATION:
+        $workflow = $this->workflows->get($event, 'eventStatus');
+
+            $workflow = $this->workflows->get($event);
+
+            try {
+                $workflow->apply($event, 'cancelEvent');
+                $entityManager->persist($event);
+                $entityManager->flush();
+            } catch (LogicException $exception) {
+
+
+            }
+
+            $transitions = $workflow->getEnabledTransitions($event);
+            dump($transitions);
+
+
+
+//        dump($workflow);
+        dump($event);
+
+        if ($eventForm->isSubmitted() & $eventForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Sortie annulée'
+            );
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('events/cancelEvent.html.twig', compact('event'));
+    }
+
 
 
     /**
