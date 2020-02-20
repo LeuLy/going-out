@@ -52,7 +52,7 @@ class File
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Site", mappedBy="image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Site", inversedBy="file", cascade={"persist", "remove"})
      */
     private $site;
 
@@ -149,9 +149,9 @@ class File
         $this->site = $site;
 
         // set (or unset) the owning side of the relation if necessary
-        $newImage = null === $site ? null : $this;
-        if ($site->getImage() !== $newImage) {
-            $site->setImage($newImage);
+        $newFile = null === $site ? null : $this;
+        if ($site->getFile() !== $newFile) {
+            $site->setFile($newFile);
         }
 
         return $this;

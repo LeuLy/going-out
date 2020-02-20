@@ -4,9 +4,12 @@
 namespace App\Controller;
 
 
+use App\Entity\File;
 use App\Entity\Site;
 use App\Form\SiteType;
 use Doctrine\ORM\EntityManagerInterface;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -20,7 +23,7 @@ class SiteController extends Controller
     /**
      * @Route("/update_sites", name="update_sites")
      */
-    public function site(Request $request, EntityManagerInterface $entityManager)
+    public function site(Request $request, EntityManagerInterface $entityManager, UploadableManager $uploadableManager)
     {
         $siteRep = $entityManager->getRepository(Site::class);
 
@@ -55,40 +58,46 @@ class SiteController extends Controller
                 $siteNew->setLabel('ENI '.strtoupper($site_name));
             }
 
-            $imageFile = $siteForm->get('image')->getData();
+            $filedata = $siteForm->get('file')->getData();
 
-            if ($imageFile instanceof UploadedFile) {
+            dump($filedata);
+
+            $file = new File();
+
+            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+
+            if ($filedata instanceof UploadedFile) {
+
                 dump('up');
-            }
-            if ($imageFile) {
-                dump('ok image');
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $imageFile->move(
-                        $this->getParameter('public/uploads_site'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $siteNew->setImage($newFilename);
-
-                $entityManager->persist($siteNew);
-                $entityManager->flush();
-
-                $this->addFlash(
-                    'success',
-                    'Site ajouté'
+                $pathF = $filedata->move(
+                    'public/uploads_site',
+                    $filedata->getClientOriginalName()
                 );
+
+                $inf = new UploadedFileInfo($filedata);
+                dump($inf);
+
+                $file->setMimeType($filedata->getClientMimeType());
+                $file->setName($filedata->getClientOriginalName());
+                $file->setSize($filedata->getClientSize());
+                $file->setPath($filedata->getRealPath());
+                $file->setSite($siteNew);
+                $file->setPublicPath('');
+
+                $uploadableManager->markEntityToUpload($file, $inf, $pathF);
             }
+
+            $entityManager->persist($siteNew);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Site ajouté'
+            );
+
+            /* Show all */
+            $site_result = $siteRep->findAll();
+
             return $this->render('site/update_sites.html.twig', array('site_result'=>$site_result,'siteFormView' => $siteForm->createView()));
 
         }

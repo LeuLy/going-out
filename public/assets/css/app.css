@@ -189,7 +189,7 @@ form{
 
 /* Logo */
 
-#logo{
+#logo, #hw{
     width: 10em;
     display: block;
     height: auto;
@@ -221,7 +221,7 @@ form{
 @media only screen and (min-width: 992px){
     #register{
         min-height:100vh;
-        background-image: url(../../img/typo_inscription.png);
+        background-image: url(../../img/fnd_ins.png);
         background-repeat: no-repeat;
         background-position: center bottom;
         background-attachment: fixed;
@@ -364,10 +364,13 @@ form{
     color: white;
 }
 
-@media only screen and (min-width: 992px) {
+/*@media only screen and (min-width: 992px) {
     #img_decal {
         margin-left: 5em;
     }
+}*/
+#decal{
+    margin-left: 5em;
 }
 
 footer{
@@ -421,6 +424,7 @@ footer{
 }
 .parts{
     text-decoration: none;
+    font-weight: bold;
     color: #235784;
 }
 .parts:hover{

@@ -48,7 +48,7 @@
                         <i class="far fa-calendar-times"></i> Fin des inscriptions
                         : {{ event.dateInscriptionEnd |date('d-m-Y') }} à {{ event.dateInscriptionEnd |date('H:i') }}
                         <br>
-                        <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H:i') }} <br/>
+                        <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H') }}h{{ event.duration |date('i') }}<br/>
                         <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
                     </p>
                 </div>

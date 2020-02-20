@@ -10,16 +10,17 @@
         </tr>
         </thead>
         <tbody>
-        <form role="add" action="{{ path('update_sites') }}" method="post">
+        {#<form role="add" action="{{ path('update_sites') }}" method="post">#}
             <tr>
 
-                {{ form_start(siteFormView) }}
-                <td> {{ form_row(siteFormView.label,{'label':'Nom de la ville'}) }} {{ form_row(siteFormView.image,{'label':'Ajouter une image'}) }}</td>
+                {{ form_start(siteFormView, {'enctype': 'multipart/form-data'}) }}
+                <td> {{ form_row(siteFormView.label,{'label':'Nom de la ville'}) }}
+                    {{ form_row(siteFormView.file,{'label':'Ajouter une image'}) }}</td>
 
                 <td><button type="submit" class="btnForm">Ajouter</button></td>
                 {{ form_end(siteFormView) }}
             </tr>
-        </form>
+        {#</form>#}
         {% if site_result is not null %}
             {% for site in site_result %}
 

@@ -34,9 +34,9 @@ class Site
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\File", inversedBy="site", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\File", mappedBy="site", cascade={"persist", "remove"})
      */
-    private $image;
+    private $file;
 
 
 
@@ -125,14 +125,14 @@ class Site
         return $this;
     }
 
-    public function getImage(): ?File
+    public function getFile(): ?File
     {
-        return $this->image;
+        return $this->file;
     }
 
-    public function setImage(?File $image): self
+    public function setFile(?File $file)
     {
-        $this->image = $image;
+        $this->file = $file;
 
         return $this;
     }
