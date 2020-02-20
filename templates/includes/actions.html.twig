@@ -8,8 +8,9 @@
     </button>
     {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}
         {% if workflow_can(eventByDescription, 'newEvent') == "EnCreation" %}
-            <button class="btnAdmin" name="ouverture" value="1">
-                <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">
+            <button class="btnAdmin" >
+                {% set ouverture = true %}
+                <a href="{{ path('ouvertureEvent', {'id': eventByDescription.id, 'state': 'eventPublish' }) }}">
                     Ouverture
                 </a>
             </button>
@@ -44,14 +45,14 @@
 
 
         {% if ( ((eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers) or (eventByDescription.dateInscriptionEnd <= date('now')) ) %}
-            {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
+            {% if workflow_can(eventByDescription, 'eventClose') %}
 
                 <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire
                 </button>
             {% endif %}
 
         {% else %}
-            {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
+            {% if workflow_can(eventByDescription, 'eventClose') %}
                 <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
             {% endif %}
 
@@ -62,10 +63,11 @@
     {% endif %}
 
     {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}
+        {% if workflow_can(eventByDescription, 'cancelEvent') == "[EnCreation, Ouverte]" %}
 
-        <button class="btnAdmin"><a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
-                                    class="card-link">Modifier</a></button>
-
+            <button class="btnAdmin"><a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
+                                        class="card-link">Modifier</a></button>
+        {% endif %}
 
     {% endif %}
 

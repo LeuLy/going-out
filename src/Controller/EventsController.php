@@ -272,6 +272,36 @@ class EventsController extends Controller
         );
     }
 
+    /**
+     * @Route("/ouvertureEvent/{id}", name="ouvertureEvent")
+     */
+    public function ouvertureEvent($id, Request $request, EntityManagerInterface $entityManager)
+    {
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $event = $eventRepository->find($id);
+
+        $inscriptionRepository = $entityManager->getRepository(Inscription::class);
+        $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
+
+
+        $workflow = $this->workflows->get($event, 'eventStatus');
+        try {
+            $workflow->apply($event, 'eventPublish');
+            $entityManager->persist($event);
+            $entityManager->flush();
+        } catch (LogicException $exception) {
+
+        }
+        $transitions = $workflow->getEnabledTransitions($event);
+
+        $place = $event->getPlace();
+//        dump($workflow);
+        dump($event);
+
+
+        return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
+    }
+
 
     /**
      * @Route("/affichEvent/{id}", name="affichEvent")
@@ -284,6 +314,14 @@ class EventsController extends Controller
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
 
+//
+//    $workflow = $this->workflows->get($event, 'eventStatus');
+//    try {
+//        $workflow->apply($event, 'eventPublish');
+//    } catch (LogicException $exception) {
+//
+//    }
+//    $transitions = $workflow->getEnabledTransitions($event);
 
         $place = $event->getPlace();
 //        dump($workflow);
