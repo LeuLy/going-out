@@ -6,19 +6,54 @@
 
     <button class="btnAction"><a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">Afficher</a>
     </button>
+    {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}
+        {% if workflow_can(eventByDescription, 'newEvent') == "EnCreation" %}
+            <button class="btnAdmin" name="ouverture" value="1">
+                <a href="{{ path('affichEvent', {'id': eventByDescription.id}) }}">
+                    Ouverture
+                </a>
+            </button>
+        {% endif %}
+
+        {% if workflow_can(eventByDescription, 'cancelEvent') == "[EnCreation, Ouverte]" %}
+            <button class="btnAdmin">
+                <a href="{{ path('cancelEvent', {'id': eventByDescription.id}) }}">
+                    Annuler
+                </a>
+            </button>
+        {% endif %}
+    {% endif %}
+    {#    {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}#}
+    {#        #}{#        or workflow_can(eventByDescription, 'cancelEvent')#}
+    {#        {% if workflow_can(eventByDescription, 'eventPublish') == "EnCreation" %}#}
+    {#            <button class="btnAdmin" >#}
+    {#                <a href="{{ path('cancelEvent', {'id': eventByDescription.id}) }}">#}
+    {#                    Annuler#}
+    {#                </a>#}
+    {#            </button>#}
+    {#        {% endif %}#}
+
+    {#    {% endif %}#}
 
     {% if found %}
 
-        <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
-
+        {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
+            <button class="withdraw-event" name="event_id" value="{{ eventByDescription.id }}">Se Désister</button>
+        {% endif %}
     {% else %}
 
 
         {% if ( ((eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers) or (eventByDescription.dateInscriptionEnd <= date('now')) ) %}
+            {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
 
-            <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" id="disabled" disabled>S'inscrire</button>
+                <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire
+                </button>
+            {% endif %}
+
         {% else %}
-            <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+            {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
+                <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
+            {% endif %}
 
         {% endif %}
 
@@ -29,7 +64,7 @@
     {% if ((eventByDescription.creator.id == userId) or (user.roles == ['ROLE_ADMIN'])) %}
 
         <button class="btnAdmin"><a href="{{ path('update-event', {'event_id': eventByDescription.id}) }}"
-                   class="card-link">Modifier</a></button>
+                                    class="card-link">Modifier</a></button>
 
 
     {% endif %}
