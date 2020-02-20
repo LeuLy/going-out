@@ -24,7 +24,8 @@
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title d-flex justify-content-center">{{ user.username }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted justify-content-center">{{ user.firstname }} {{ user.name }}</h6>
+                    <h6 class="card-subtitle d-flex justify-content-center">{{ user.firstname }} {{ user.name }}</h6>
+                    <div class="affProfil">
                     <p class="card-text">
                         {% if user.showPhone %}
                             Téléphone : {{ user.phone }}<br/>
@@ -32,6 +33,7 @@
                         Email : {{ user.email }}<br/>
                         Site de rattachement : {{ user.site.label }}
                     </p>
+                </div>
                 </div>
 
                 {% if  (currentUser.roles == ['ROLE_ADMIN']) %}
