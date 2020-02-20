@@ -20,12 +20,31 @@ class EventRepository extends ServiceEntityRepository
 {
 
 
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
+
+
     }
 
 
+
+public function findArchivedEvent($lastMonth){
+    $entityManager = $this->getEntityManager();
+    $dql           = <<<DQL
+SELECT e
+FROM APP\ENTITY\Event e
+WHERE e.dateStart < :lastMonth
+DQL;
+
+    $query = $entityManager
+        ->createQuery($dql)
+        ->setParameter(':lastMonth', $lastMonth);
+dump($lastMonth);
+
+    return $query->getResult();
+}
     public function findEventByFilters(
         $beginDate,
         $endDate,
@@ -41,6 +60,7 @@ class EventRepository extends ServiceEntityRepository
         $limit = 100
 
     ) {
+
         $qb = $this->createQueryBuilder('e');
         $qb
             ->andWhere('e.site = :site')

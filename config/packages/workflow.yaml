@@ -14,6 +14,7 @@ framework:
 
             supports:
                 - App\Entity\Event
+                - Doctrine\ORM\Tools\Pagination\Paginator
             initial_place: EnCreation # état de départ de notre objet.
             places:
                 - EnCreation
@@ -22,6 +23,7 @@ framework:
                 - ActiviteEnCours
                 - Passee
                 - Annulee
+                - Archivee
             transitions:
                 newEvent:
                     from: EnCreation
@@ -41,5 +43,9 @@ framework:
                 cancelEvent:
                     from: [EnCreation, Ouverte]
                     to: Annulee
+                archivedEvent:
+                    from: [Passee, Annulee]
+                    to: Archivee
+
 
 

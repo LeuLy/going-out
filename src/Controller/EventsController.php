@@ -42,10 +42,10 @@ class EventsController extends Controller
     public function index()
     {
         return $this->render(
-                'events/index.html.twig',
-                [
-                        'controller_name' => 'EventsController',
-                ]
+            'events/index.html.twig',
+            [
+                'controller_name' => 'EventsController',
+            ]
         );
     }
 
@@ -93,18 +93,18 @@ class EventsController extends Controller
             $entityManager->flush();
 
             $this->addFlash(
-                    'success',
-                    'Sortie modifiée'
+                'success',
+                'Sortie modifiée'
             );
 
             return $this->redirectToRoute('home');
         }
 
         return $this->render(
-                'events/updateEvent.html.twig',
-                [
-                        'eventForm' => $eventForm->createView(),
-                ]
+            'events/updateEvent.html.twig',
+            [
+                'eventForm' => $eventForm->createView(),
+            ]
         );
     }
 
@@ -143,8 +143,8 @@ class EventsController extends Controller
             $entityManager->flush();
 
             $this->addFlash(
-                    'success',
-                    'Sortie créée'
+                'success',
+                'Sortie créée'
             );
 
             return $this->redirectToRoute('create-events');
@@ -154,10 +154,10 @@ class EventsController extends Controller
         dump($event);
 
         return $this->render(
-                'events/createEvent.html.twig',
-                [
-                        'eventForm' => $eventForm->createView(),
-                ]
+            'events/createEvent.html.twig',
+            [
+                'eventForm' => $eventForm->createView(),
+            ]
         );
     }
 
@@ -167,6 +167,8 @@ class EventsController extends Controller
      */
     public function event(Request $request, EntityManagerInterface $entityManager, $page = 0)
     {
+
+
         $limit = 4;
         $siteRepository = $entityManager->getRepository(Site::class);
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
@@ -200,38 +202,47 @@ class EventsController extends Controller
         $event = $eventRepository->findEventBySite($site, $page, $limit);
 
         $eventByDescription = $eventRepository->findEventByFilters(
-                $beginDate,
-                $endDate,
-                $eventOwner,
-                $userId,
-                $user,
-                $passedEvent,
-                $subscribed,
-                $notSubscribed,
-                $var,
-                $site,
-                $page,
-                $limit
+            $beginDate,
+            $endDate,
+            $eventOwner,
+            $userId,
+            $user,
+            $passedEvent,
+            $subscribed,
+            $notSubscribed,
+            $var,
+            $site,
+            $page,
+            $limit
+
 
         );
 
+        $lastMonth = date('Y-m-d h:m:s', strtotime("last month"));
+        $eventArchived = $eventRepository->findArchivedEvent($lastMonth);
 
-// WORKFLOW EN CREATION: Archivage
-//        $workflow = $this->workflows->get($eventByDescription, 'eventStatus');
-//
-//            $workflow = $this->workflows->get($eventByDescription);
-//
-//            try {
-//                $workflow->apply($eventByDescription, 'eventPast');
-//                $entityManager->persist($eventByDescription);
-//                $entityManager->flush();
-//            } catch (LogicException $exception) {
-//
-//
-//            }
-//
-//            $transitions = $workflow->getEnabledTransitions($eventByDescription);
-//            dump($transitions);
+
+        dump($eventArchived);
+
+//        $workflow = $this->workflows->get($eventArchived, 'eventStatus');
+//        $workflow = $this->workflows->get($eventArchived);
+
+        if ($eventArchived) {
+
+            dump($eventArchived);
+//             $eventArchived->setEvent->setState("Archivee");
+
+//             $entityManager->persist($eventArchived);
+//             $entityManager->flush();
+//             try {
+//                 $workflow->apply($eventByDescription, 'archivedEvent');
+//                 $entityManager->persist($eventByDescription);
+//                 $entityManager->flush();
+//             } catch (LogicException $exception) {
+//             }
+
+//             $transitions = $workflow->getEnabledTransitions($eventByDescription);
+        }
 
 
         $nbTotalEvents = count($event);
@@ -247,30 +258,92 @@ class EventsController extends Controller
 
 
         return $this->render(
-                'events/event.html.twig',
-                compact(
-                        'eventByDescription',
-                        'eventByCreator',
-                        'page',
-                        'user',
-                        'nbPageByDescription',
-
-                        'nbPage',
-                        'siteLabel',
-                        'event',
-                        'inscription',
-                        'limit',
-                        'var',
-                        'beginDate',
-                        'endDate',
-                        'passedEvent',
-                        'eventOwner',
-                        'subscribed',
-                        'notSubscribed',
-                        'userId'
-                ) // userId  rajouté
+            'events/event.html.twig',
+            compact(
+                'eventByDescription',
+                'eventByCreator',
+                'page',
+                'user',
+                'nbPageByDescription',
+                'nbPage',
+                'siteLabel',
+                'event',
+                'inscription',
+                'limit',
+                'var',
+                'beginDate',
+                'endDate',
+                'passedEvent',
+                'eventOwner',
+                'subscribed',
+                'notSubscribed',
+                'userId',
+                'eventArchived'
+            ) // userId  rajouté
         );
     }
+
+
+
+
+//
+//    /**
+//     * @Route("/archivedEvent/{id}", name="archivedEvent")
+//     */
+//    public function archivedEvent($id, Request $request, EntityManagerInterface $entityManager)
+//    {
+//        $eventRepository = $entityManager->getRepository(Event::class);
+//        $event = $eventRepository->find($id);
+//
+//        $inscriptionRepository = $entityManager->getRepository(Inscription::class);
+//        $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
+//
+//
+//        $workflow = $this->workflows->get($event, 'eventStatus');
+//        try {
+//            $workflow->apply($event, 'eventPublish');
+//            $entityManager->persist($event);
+//            $entityManager->flush();
+//        } catch (LogicException $exception) {
+//
+//        }
+//        $transitions = $workflow->getEnabledTransitions($event);
+//
+//        $place = $event->getPlace();
+////        dump($workflow);
+//        dump($event);
+//
+//
+//        return $this->render(
+//            'events/event.html.twig',
+//            compact(
+//                'eventByDescription',
+//                'eventByCreator',
+//                'page',
+//                'user',
+//                'nbPageByDescription',
+//                'nbPage',
+//                'siteLabel',
+//                'event',
+//                'inscription',
+//                'limit',
+//                'var',
+//                'beginDate',
+//                'endDate',
+//                'passedEvent',
+//                'eventOwner',
+//                'subscribed',
+//                'notSubscribed',
+//                'userId'
+//            ) // userId  rajouté
+//        );    }
+//
+//
+//
+//
+//
+//
+
 
     /**
      * @Route("/ouvertureEvent/{id}", name="ouvertureEvent")
@@ -279,6 +352,7 @@ class EventsController extends Controller
     {
         $eventRepository = $entityManager->getRepository(Event::class);
         $event = $eventRepository->find($id);
+
 
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
@@ -370,15 +444,15 @@ class EventsController extends Controller
                 $entityManager->flush();
 
                 $this->addFlash(
-                        'success',
-                        'Sortie annulée'
+                    'success',
+                    'Sortie annulée'
                 );
 
                 return $this->redirectToRoute('home');
             } else {
                 $this->addFlash(
-                        'danger',
-                        'Identifiant ou email incorrect'
+                    'danger',
+                    'Identifiant ou email incorrect'
                 );
             }
         }
@@ -478,17 +552,17 @@ class EventsController extends Controller
         $event = $eventRepository->findAll();
 
         $eventByDescription = $eventRepository->findEventByFiltersAllSites(
-                $beginDate,
-                $endDate,
-                $eventOwner,
-                $userId,
-                $user,
-                $passedEvent,
-                $subscribed,
-                $notSubscribed,
-                $var,
-                $page,
-                $limit
+            $beginDate,
+            $endDate,
+            $eventOwner,
+            $userId,
+            $user,
+            $passedEvent,
+            $subscribed,
+            $notSubscribed,
+            $var,
+            $page,
+            $limit
         );
 
         $nbTotalEvents = count($event);
@@ -504,28 +578,28 @@ class EventsController extends Controller
 
 
         return $this->render(
-                'events/eventAllSites.html.twig',
-                compact(
-                        'eventByDescription',
-                        'eventByCreator',
-                        'page',
-                        'user',
-                        'nbPageByDescription',
+            'events/eventAllSites.html.twig',
+            compact(
+                'eventByDescription',
+                'eventByCreator',
+                'page',
+                'user',
+                'nbPageByDescription',
 
-                        'nbPage',
+                'nbPage',
 //                        'siteLabel',
-                        'event',
-                        'inscription',
-                        'limit',
-                        'var',
-                        'beginDate',
-                        'endDate',
-                        'passedEvent',
-                        'eventOwner',
-                        'subscribed',
-                        'notSubscribed',
-                        'userId'
-                ) // userId  rajouté
+                'event',
+                'inscription',
+                'limit',
+                'var',
+                'beginDate',
+                'endDate',
+                'passedEvent',
+                'eventOwner',
+                'subscribed',
+                'notSubscribed',
+                'userId'
+            ) // userId  rajouté
         );
     }
 

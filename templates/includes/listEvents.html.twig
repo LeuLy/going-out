@@ -1,9 +1,7 @@
 <div class="row d-flex justify-content-center">
 
+
     {% for eventByDescription in eventByDescription %}
-
-
-
 
 
         {% set found = false %}
@@ -31,12 +29,14 @@
                         {{ eventByDescription.creator.username }}
                     {% endif %}
                 </p>
-                {% if eventByDescription.state == "Ouverte" %}<p>L'événement ouvert à l'inscription</p> {% endif %}
+                {% if eventByDescription.state == "Ouverte" %}<p>L'événement est ouvert à l'inscription</p> {% endif %}
                 {% if eventByDescription.state == "Annulee" %}<p>L'événement à été annulé</p> {% endif %}
                 {% if eventByDescription.state == "EnCreation" %}<p>L'événement est en création</p> {% endif %}
                 {% if eventByDescription.state == "Cloturee" %}<p>Les inscriptions ne sont plus possible</p> {% endif %}
                 {% if eventByDescription.state == "ActiviteEnCours" %}<p>L'événement se déroule actuellement</p> {% endif %}
                 {% if eventByDescription.state == "Passee" %}<p>L'événement est fini</p> {% endif %}
+
+
                 <p class="card-text">{{ eventByDescription.label }}</p>
                 <p class="card-text">{{ eventByDescription.site.label }}</p>
                 <p class="card-text">Nombre inscrit(s): <span
