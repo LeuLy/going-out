@@ -31,7 +31,7 @@ class ForgottenPasswordController extends Controller
 
 
     /**
-     * @Route("/newPassword", name="newPassword")
+     * @Route("/newPassword/{email}/{token}", name="newPassword", requirements={"email": "\s", "token": "\s"})
      */
     public function newPassword(Request $request, EntityManagerInterface $entityManager,
             UserPasswordEncoderInterface $passwordEncoder, $user)
@@ -68,7 +68,7 @@ class ForgottenPasswordController extends Controller
 
 
     /**
-     * @Route("/passwordToken/{email}/{token}", name="passwordToken", requirements={"email": "\s", "token": "\s"})
+     * @Route("/passwordToken", name="passwordToken")
      */
     public function forgottenPasswordToken(Request $request, EntityManagerInterface $entityManager)
     {
