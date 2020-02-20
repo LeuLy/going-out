@@ -16,7 +16,7 @@
 
         {% if ( ((eventByDescription.inscriptions|length) >=  eventByDescription.maxMembers) or (eventByDescription.dateInscriptionEnd <= date('now')) ) %}
 
-            <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire</button>
+            <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" id="disabled" disabled>S'inscrire</button>
         {% else %}
             <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>
 
