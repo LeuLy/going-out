@@ -17,10 +17,13 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class EventRepository extends ServiceEntityRepository
 {
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Event::class);
     }
+
 
     public function findEventByFilters(
             $beginDate,
@@ -135,6 +138,7 @@ DQL;
         return $query->getResult();
     }
 
+
     public function findEventByFiltersAllSites(
             $beginDate,
             $endDate,
@@ -212,9 +216,6 @@ DQL;
 
         return ($paginator);
     }
-
-
-
 
 
 
