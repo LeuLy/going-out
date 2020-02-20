@@ -86,11 +86,8 @@ class ForgottenPasswordController extends Controller
 
         if (($userInfo != null) && ($userToken != null)) {
             $user = $userRepo->findUserByUsernameOrEmail($userInfo);
-            dump($user);
 
             if ($user) {
-                dump($user->getPasswordToken());
-                dump($userToken);
                 if ($user->getPasswordToken() == $userToken) {
                     $userEmail = $user->getEmail();
                     $userToken = $user->getPasswordToken();
@@ -128,7 +125,6 @@ class ForgottenPasswordController extends Controller
 
             if ($user) {
                 $token = bin2hex(random_bytes(10));
-                dump($token);
                 $user->setPasswordToken($token);
 
                 $entityManager->persist($user);
@@ -136,7 +132,7 @@ class ForgottenPasswordController extends Controller
 
                 $this->addFlash(
                         'success',
-                        'Votre clé vous a été envoyée par email!'.'\n Token = '.$token
+                        'Votre clé vous a été envoyée par email! [ => '.$token.']'
                 );
 
                 return $this->redirectToRoute('fpwpasswordToken');
