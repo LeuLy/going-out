@@ -1,17 +1,71 @@
-{% include 'includes/links.html.twig' %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
+    {#Fonts#}
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel&display=swap" rel="stylesheet">
+
+    {#FontAwesome#}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    {#Bootstrap & jQuery#}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossOrigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossOrigin="anonymous"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+
+
+    <link rel="icon" href="{{ asset('img/icon_HW.png') }}">
+
+    <title>{% block title %}TITRE PAR DEFAUT{% endblock %}</title>
+</head>
+
+<body>
 
 <div class="container-fluid" id="body">
+    <div id="error403_bgd">
+
+
     <div class="row">
-        <div class="col-xs-1 col-sm-2 col-md-1"></div>
-        <div class="col-xs-10 col-sm-8 col-md-10 justify-content-center">
+        <div class="col-xs-1 col-sm-2 col-md-3"></div>
+        <div class="col-xs-10 col-sm-8 col-md-6 justify-content-center">
 
-            <h3>Votre compte est inactif ou supprimé</h3>
+            <div class="user_delete">
+            {% if app.user.erased == 1 %}
+                <h3>Votre compte a été supprimé</h3>
                 <br/>
-            <div>Pour plus d'informations, écrivez-nous : contact@helloworld.com</div>
+                <div>Pour plus d'informations, écrivez-nous : contact@helloworld.com</div>
+                <br/>
+                <img class="user_delete" src="{{ asset('public/error/byebye.gif') }}" alt="user_delete" >
+            {% elseif app.user.active == 0 %}
+                <h3>Votre compte a été désactivé</h3>
+                <br/>
+                <div>Pour plus d'informations, écrivez-nous : contact@helloworld.com</div>
+            {% else %}
+                <img class="user_delete" src="{{ asset('public/error/get_out.gif') }}" alt="user_delete" >
+            {% endif %}
+        </div>
 
-            <button class="btnValid" id="restart"><a href="{{ asset('/going-out/public/login') }}">Retour</a></button></p>
+
+<div class="row">
+    <button class="btnValid" id="restart"><a href="{{ path('logout') }}">Retour</a></button></p>
+</div>
+
 
         </div>
-        <div class="col-xs-1 col-sm-2 col-md-1"></div>
+        <div class="col-xs-1 col-sm-2 col-md-3"></div>
+    </div>
     </div>
 </div>
+</body>
+</html>

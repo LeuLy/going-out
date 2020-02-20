@@ -1,15 +1,63 @@
-{% include 'includes/links.html.twig' %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
+    {#Fonts#}
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel&display=swap" rel="stylesheet">
+
+    {#FontAwesome#}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    {#Bootstrap & jQuery#}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossOrigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossOrigin="anonymous"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+
+
+    <link rel="icon" href="{{ asset('img/icon_HW.png') }}">
+
+    <title>{% block title %}TITRE PAR DEFAUT{% endblock %}</title>
+</head>
+
+<body>
 
 <div class="container-fluid" id="body">
-    <div class="row">
-        <div class="col-xs-1 col-sm-2 col-md-1"></div>
-        <div class="col-xs-10 col-sm-8 col-md-10 justify-content-center">
+    <div id="error502_bgd">
 
 
+        <div class="row">
+            <div class="col-xs-1 col-sm-2 col-md-3"></div>
+            <div class="col-xs-10 col-sm-8 col-md-6 justify-content-center">
 
-            <button class="btnValid" id="restart"><a href="{{ asset('/going-out/public/') }}">Retour</a></button></p>
+                <div class="error502">
+                    <h3>Le serveur a planté</h3>
+                    <br/>
+                    <div>Notre équipe s'active pour résoudre le problème !</div>
+                    <br/>
+                    <img class="error_502" src="{{ asset('public/error/cat_work.gif') }}" alt="error502" >
+                </div>
 
+
+                <div class="row">
+                    <button class="btnValid" id="restart"><a href="{{ asset('/going-out/public') }}">Retour</a></button></p>
+                </div>
+
+
+            </div>
+            <div class="col-xs-1 col-sm-2 col-md-3"></div>
         </div>
-        <div class="col-xs-1 col-sm-2 col-md-1"></div>
     </div>
 </div>
+</body>
+</html>
