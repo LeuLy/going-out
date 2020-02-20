@@ -324,6 +324,20 @@ form{
         background-size: 25%;
     }
 }
+/* Fond Erreur 403 */
+#error403_bgd{
+    min-height:100vh;
+    background-image: url(../../img/error/error403.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+    background-size: 25%;
+}
+.user_delete{
+    margin-top: 4em;
+    justify-content: center;
+    margin-bottom: 1em;
+}
 
 /* Image accueil*/
 
