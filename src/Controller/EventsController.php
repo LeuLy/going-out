@@ -154,7 +154,7 @@ class EventsController extends Controller
         dump($event);
 
         return $this->render(
-                'events/cancelEvent.html.twig',
+                'events/createEvent.html.twig',
                 [
                         'eventForm' => $eventForm->createView(),
                 ]
