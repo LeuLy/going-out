@@ -234,11 +234,6 @@ class EventsController extends Controller
 //            dump($transitions);
 
 
-
-
-
-
-
         $nbTotalEvents = count($event);
         $nbPage = ceil($nbTotalEvents / $limit);
 
@@ -300,57 +295,111 @@ class EventsController extends Controller
 
 
     /**
-     * @Route("/cancelEvent/{id}", name="cancelEvent")
+     * @Route("/cancelEvent/{id}", name="cancelEvent", requirements={"id": "\d+"})
      */
     public function cancelEvent($id, Request $request, EntityManagerInterface $entityManager)
     {
         $eventRepository = $entityManager->getRepository(Event::class);
         $event = $eventRepository->find($id);
 
-        $eventForm = $this->createForm(EventType::class, $event);
-        $eventForm->handleRequest($request);
-        $event->setCreator($this->getUser());
+        $eventCancelTxt = $request->query->get("cancelTxt");
 
         // WORKFLOW EN CREATION:
         $workflow = $this->workflows->get($event, 'eventStatus');
 
-            $workflow = $this->workflows->get($event);
+        $workflow = $this->workflows->get($event);
 
-            try {
-                $workflow->apply($event, 'cancelEvent');
-                $entityManager->persist($event);
-                $entityManager->flush();
-            } catch (LogicException $exception) {
+        try {
+            $workflow->apply($event, 'cancelEvent');
+            $entityManager->persist($event);
+            $entityManager->flush();
+        } catch (LogicException $exception) {
+        }
 
-
-            }
-
-            $transitions = $workflow->getEnabledTransitions($event);
-            dump($transitions);
-
+        $transitions = $workflow->getEnabledTransitions($event);
+        dump($transitions);
 
 
 //        dump($workflow);
         dump($event);
+        // TODO test cancel
+        if ($event->getState() == 'cancelEvent') {
 
-        if ($eventForm->isSubmitted() & $eventForm->isValid()) {
+            if ($eventCancelTxt != null) {
+                $event->setCancelTxt($eventCancelTxt);
 
-            $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($event);
+                $entityManager->flush();
 
-            $entityManager->persist($event);
-            $entityManager->flush();
+                $this->addFlash(
+                        'success',
+                        'Sortie annulée'
+                );
 
-            $this->addFlash(
-                'success',
-                'Sortie annulée'
-            );
-
-            return $this->redirectToRoute('home');
+                return $this->redirectToRoute('home');
+            } else {
+                $this->addFlash(
+                        'danger',
+                        'Identifiant ou email incorrect'
+                );
+            }
         }
 
         return $this->render('events/cancelEvent.html.twig', compact('event'));
     }
 
+
+//    /**
+//     * @Route("/cancelEvent/{id}", name="cancelEvent", requirements={"id": "\d+"})
+//     */
+//    public function cancelEvent($id, Request $request, EntityManagerInterface $entityManager)
+//    {
+//        $eventRepository = $entityManager->getRepository(Event::class);
+//        $event = $eventRepository->find($id);
+//
+//        $eventForm = $this->createForm(EventType::class, $event);
+//        $eventForm->handleRequest($request);
+//        $event->setCreator($this->getUser());
+//
+//        // WORKFLOW EN CREATION:
+//        $workflow = $this->workflows->get($event, 'eventStatus');
+//
+//        $workflow = $this->workflows->get($event);
+//
+//        try {
+//            $workflow->apply($event, 'cancelEvent');
+//            $entityManager->persist($event);
+//            $entityManager->flush();
+//        } catch (LogicException $exception) {
+//
+//
+//        }
+//
+//        $transitions = $workflow->getEnabledTransitions($event);
+//        dump($transitions);
+//
+//
+//
+////        dump($workflow);
+//        dump($event);
+//
+//        if ($eventForm->isSubmitted() & $eventForm->isValid()) {
+//
+//            $entityManager = $this->getDoctrine()->getManager();
+//
+//            $entityManager->persist($event);
+//            $entityManager->flush();
+//
+//            $this->addFlash(
+//                    'success',
+//                    'Sortie annulée'
+//            );
+//
+//            return $this->redirectToRoute('home');
+//        }
+//
+//        return $this->render('events/cancelEvent.html.twig', compact('event'));
+//    }
 
 
     /**

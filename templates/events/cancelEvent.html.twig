@@ -44,17 +44,15 @@
                     </p>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title d-flex justify-content-center">Motif d'annulation</h5>
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1"></label>
-                        <textarea class="form-control" id="cancelTxt" name="cancelTxt" rows="10" placeholder="motif d'annulation."></textarea>
-                    </div>
-                    <button class="btnValid" type="submit">
-                        <a href="{{ path('home') }}">
-                            Annuler la sortie
-                        </a>
-                    </button>
-
+                    <form role="search" action="{{ path('cancelEvent',{'id': event.id} ) }}">
+                        <h5 class="card-title d-flex justify-content-center">Motif d'annulation</h5>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1"></label>
+                            <textarea class="form-control" id="cancelTxt" name="cancelTxt" rows="10"
+                                      placeholder="motif d'annulation." required></textarea>
+                        </div>
+                        <button class="btnValid" type="submit">Annuler la sortie</button>
+                    </form>
 
                 </div>
             </div>
