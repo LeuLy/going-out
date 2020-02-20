@@ -107,6 +107,8 @@ class AdminController extends Controller
         $user = $userRepository->find($userId);
         $user->setActive(false);
 
+        $user->setRoles(['ROLE_DEACTIVATED']);
+
 
         $entityManager->persist($user);
         $entityManager->flush();
@@ -128,6 +130,8 @@ class AdminController extends Controller
         $userRepository = $entityManager->getRepository(User::class);
         $user = $userRepository->find($userId);
         $user->setActive(true);
+
+        $user->setRoles(['ROLE_USER']);
 
         $entityManager->persist($user);
         $entityManager->flush();

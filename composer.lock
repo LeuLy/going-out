@@ -6,7 +6,7 @@
     ],
 
     "content-hash": "ad9547e623f5cffe472e45e36b41e325",
-    
+
     "packages": [
         {
             "name": "behat/transliterator",
