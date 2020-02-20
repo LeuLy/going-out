@@ -113,6 +113,11 @@ class User implements UserInterface
      */
     private $erased;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $passwordToken;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -362,6 +367,18 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getPasswordToken(): ?string
+    {
+        return $this->passwordToken;
+    }
+
+    public function setPasswordToken(?string $passwordToken)
+    {
+        $this->passwordToken = $passwordToken;
+
+        return $this;
     }
 
 

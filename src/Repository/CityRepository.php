@@ -25,7 +25,6 @@ class CityRepository extends ServiceEntityRepository
 
     public function findCityByVar($var)
     {
-
         $entityManager = $this->getEntityManager();
         $dql = <<<DQL
 SELECT c

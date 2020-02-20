@@ -10,7 +10,10 @@
     <div class="d-flex flex-grow-1">
         <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
         <a class="navbar-brand d-none d-lg-inline-block" href="{{ path('home') }}">
-            <img id="logo" src="{{ asset('img/logo_HW.png') }}" alt="logo">
+            <div class="d-flex">
+            <img id="logo" src="{{ asset('img/logo_HW_2.png') }}" alt="logo">
+            <img id="hw" src="{{ asset('img/Hello.png') }}" alt="logo">
+            </div>
             <small id="catch">la plateforme qui organise vos sorties !</small>
         </a>
         <a class="navbar-brand-two mx-auto d-lg-none d-inline-block" href="#">
@@ -57,7 +60,7 @@
                 </a>
             </li>
                 <li class="nav-item">
-                    <a class="nav-link m-2 menu-item" href="{{ path('register') }}">
+                    <a class="nav-link m-2 menu-item" href="{{ path('app_register') }}">
                         <span><div class="nav_elt text_nav">Inscription</div></span>
                     </a>
                 </li>

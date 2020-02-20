@@ -48,6 +48,7 @@
                 <button class="inscription-event" name="id" value="{{ eventByDescription.id }}" disabled>S'inscrire
                 </button>
             {% endif %}
+
         {% else %}
             {% if workflow_can(eventByDescription, 'eventPublish') != "Ouverte" %}
                 <button class="inscription-event" name="id" value="{{ eventByDescription.id }}">S'inscrire</button>

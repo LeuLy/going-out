@@ -1,21 +1,15 @@
-{% extends 'layout.html.twig' %}
+{% include 'includes/links.html.twig' %}
 
-{% block title %}
-    Erreur 403
-{% endblock %}
-
-{% block body %}
-
+<div class="container-fluid" id="body">
     <div class="row">
         <div class="col-xs-1 col-sm-2 col-md-1"></div>
         <div class="col-xs-10 col-sm-8 col-md-10 justify-content-center">
 
-            <h3>Oups !</h3>
-            <br/>
-            <div>We got a problem!</div>
+
+
+            <button class="btnValid" id="restart"><a href="{{ asset('/going-out/public/') }}">Retour</a></button></p>
 
         </div>
         <div class="col-xs-1 col-sm-2 col-md-1"></div>
     </div>
-
-{% endblock %}
+</div>

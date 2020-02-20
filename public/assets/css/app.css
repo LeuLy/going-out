@@ -163,6 +163,18 @@ nav, small{
     box-shadow: 9px 9px 24px -13px rgba(247, 170, 0,0.75);
     border: 1.4px solid rgba(247, 170, 0,0.6);
 }
+#disabled{
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: rgba(35,87,132,0.2);
+    background-color: white;
+    box-shadow: 9px 9px 24px -13px rgba(35,87,132,0.55);
+    border: 1.4px solid rgba(35,87,132,0.2);
+    margin-left: 2em;
+}
 
     /* Formulaire */
 
@@ -189,7 +201,7 @@ form{
 
 /* Logo */
 
-#logo{
+#logo, #hw{
     width: 10em;
     display: block;
     height: auto;
@@ -221,7 +233,7 @@ form{
 @media only screen and (min-width: 992px){
     #register{
         min-height:100vh;
-        background-image: url(../../img/typo_inscription.png);
+        background-image: url(../../img/fnd_ins.png);
         background-repeat: no-repeat;
         background-position: center bottom;
         background-attachment: fixed;
@@ -364,10 +376,13 @@ form{
     color: white;
 }
 
-@media only screen and (min-width: 992px) {
+/*@media only screen and (min-width: 992px) {
     #img_decal {
         margin-left: 5em;
     }
+}*/
+#decal{
+    margin-left: 5em;
 }
 
 footer{
@@ -421,6 +436,7 @@ footer{
 }
 .parts{
     text-decoration: none;
+    font-weight: bold;
     color: #235784;
 }
 .parts:hover{

@@ -51,6 +51,11 @@ class File
      */
     private $user;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Site", inversedBy="file", cascade={"persist", "remove"})
+     */
+    private $site;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -130,6 +135,24 @@ class File
     public function setPublicPath(string $publicPath)
     {
         $this->publicPath = '/uploads/'.$this->name;;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newFile = null === $site ? null : $this;
+        if ($site->getFile() !== $newFile) {
+            $site->setFile($newFile);
+        }
 
         return $this;
     }
