@@ -4,9 +4,15 @@
 namespace App\Controller;
 
 
+use App\Entity\File;
 use App\Entity\Site;
+use App\Form\SiteType;
 use Doctrine\ORM\EntityManagerInterface;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
+use Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +23,7 @@ class SiteController extends Controller
     /**
      * @Route("/update_sites", name="update_sites")
      */
-    public function site(Request $request, EntityManagerInterface $entityManager)
+    public function site(Request $request, EntityManagerInterface $entityManager, UploadableManager $uploadableManager)
     {
         $siteRep = $entityManager->getRepository(Site::class);
 
@@ -34,20 +40,69 @@ class SiteController extends Controller
             dump($site_result);
         }
 
-        /* Add site */
-        $site_name = $request->query->get("label");
-        if (!is_null($site_name)) {
-            $site = new Site();
-            $site->setLabel('ENI '.strtoupper($site_name));
 
-            $entityManager->persist($site);
+
+        $siteNew =new Site();
+        $siteForm = $this->createForm(SiteType::class, $siteNew);
+        $siteForm->handleRequest($request);
+
+        if ($siteForm->isSubmitted() && $siteForm->isValid()) {
+
+            dump('ok');
+
+            /* Add site */
+            $site_name = $siteForm->get('label')->getData();
+            if(!is_null($site_name)){
+                dump('ok ok');
+                /*$site = new Site();*/
+                $siteNew->setLabel('ENI '.strtoupper($site_name));
+            }
+
+            $filedata = $siteForm->get('file')->getData();
+
+            dump($filedata);
+
+            $file = new File();
+
+            $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+
+            if ($filedata instanceof UploadedFile) {
+
+                dump('up');
+                $pathF = $filedata->move(
+                    'public/uploads_site',
+                    $filedata->getClientOriginalName()
+                );
+
+                $inf = new UploadedFileInfo($filedata);
+                dump($inf);
+
+                $file->setMimeType($filedata->getClientMimeType());
+                $file->setName($filedata->getClientOriginalName());
+                $file->setSize($filedata->getClientSize());
+                $file->setPath($filedata->getRealPath());
+                $file->setSite($siteNew);
+                $file->setPublicPath('');
+
+                $uploadableManager->markEntityToUpload($file, $inf, $pathF);
+            }
+
+            $entityManager->persist($siteNew);
             $entityManager->flush();
 
             $this->addFlash(
-                    'success',
-                    'Site ajouté'
+                'success',
+                'Site ajouté'
             );
+
+            /* Show all */
+            $site_result = $siteRep->findAll();
+
+            return $this->render('site/update_sites.html.twig', array('site_result'=>$site_result,'siteFormView' => $siteForm->createView()));
+
         }
+
+
 
         /* Remove site */
         $site_id_delete = $request->query->get("delete");
@@ -76,7 +131,10 @@ class SiteController extends Controller
             );
         }
 
-        return $this->render('site/update_sites.html.twig', compact('site_result'));
+
+        return $this->render('site/update_sites.html.twig', array('site_result'=>$site_result,'siteFormView' => $siteForm->createView()));
+
+
     }
 
 }

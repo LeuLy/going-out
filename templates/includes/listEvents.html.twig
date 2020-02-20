@@ -26,7 +26,7 @@
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
                 <p class="card-text">
                     {% if ((eventByDescription.creator.active == true) and (eventByDescription.creator.erased == false)) %}
-                        <a href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>
+                        <a class="parts" href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>
                         <br>
                     {% else %}
                         {{ eventByDescription.creator.username }}

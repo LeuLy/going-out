@@ -33,6 +33,13 @@ class Site
      */
     private $user;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\File", mappedBy="site", cascade={"persist", "remove"})
+     */
+    private $file;
+
+
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -114,6 +121,18 @@ class Site
                 $user->setSite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file)
+    {
+        $this->file = $file;
 
         return $this;
     }
