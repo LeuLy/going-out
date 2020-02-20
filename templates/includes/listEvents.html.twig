@@ -35,6 +35,7 @@
                     {#                    <a href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>#}
                 </p>
                 <p class="card-text">{{ eventByDescription.label }}</p>
+                <p class="card-text">{{ eventByDescription.site.label }}</p>
                 <p class="card-text">Nombre inscrit(s): <span
                             class="numberMember">{{ eventByDescription.inscriptions|length }}</span>
                     / {{ eventByDescription.maxMembers }}</p>
