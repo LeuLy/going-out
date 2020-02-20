@@ -89,6 +89,23 @@ class Event
      */
     private $cancelTxt;
 
+
+
+
+    private $currentPlace;
+    private $title;
+    private $content;
+
+    public function getCurrentPlace()
+    {
+        return $this->currentPlace;
+    }
+
+    public function setCurrentPlace($currentPlace, $context = [])
+    {
+        $this->currentPlace = $currentPlace;
+    }
+
     public function __construct()
     {
 //        $this->members = new ArrayCollection();

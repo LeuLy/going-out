@@ -18,6 +18,7 @@ use Http\Adapter\Guzzle6\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Exception\LogicException;
 use Symfony\Component\Workflow\Registry;
 class EventsController extends Controller
 {
@@ -125,12 +126,23 @@ class EventsController extends Controller
         $eventForm->handleRequest($request);
         $event->setCreator($this->getUser());
 
+
+        $workflow = $this->workflows->get($event, 'eventStatus');
+        try {
+            $workflow->apply($event, 'newEvent');
+        } catch (LogicException $exception) {
+
+        }
+        $transitions = $workflow->getEnabledTransitions($event);
+        dump($transitions);
+        dump($event);
+
+// Update the currentState on the post
+
         if ($eventForm->isSubmitted() & $eventForm->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            $workflow = $this->workflows->get($event, 'eventStatus');
-            dump($workflow);
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -142,8 +154,9 @@ class EventsController extends Controller
             return $this->redirectToRoute('create-events');
         }
 
+        dump($event);
 
-       
+
         return $this->render(
             'events/createEvent.html.twig',
             [
@@ -262,23 +275,26 @@ class EventsController extends Controller
         $inscriptions          = $inscriptionRepository->findSubscribedByEvent($id);
 
 // WORKFLOW EN CREATION:
-        $workflow = $this->workflows->get($event, 'eventStatus');
+
 //        $workflow->apply($event, 'eventPublish');
 
-        dump($workflow);
-        dump($inscriptions);
 
-//        if ($workflow->can($event, 'eventPublish')) {
 
-//            $eventWorkflow = new event();
-//            $workflow = $this->get('workflow.registry')->get($eventWorkflow);
-//            $workflow->getMarking($eventWorkflow);
-//
-//            $workflow->apply($eventWorkflow, 'eventPublish');
-//        }
+        $workflow = $this->workflows->get($event, 'eventStatus');
+//        $workflow = $this->workflows->get($event);
 
+        try {
+            $workflow->apply($event, 'eventPublish');
+
+        } catch (LogicException $exception) {
+
+        }
+
+        $transitions = $workflow->getEnabledTransitions($event);
+        dump($transitions);
         $place = $event->getPlace();
-
+        dump($workflow);
+        dump($event);
 
         return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }

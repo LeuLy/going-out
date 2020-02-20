@@ -37,7 +37,7 @@ framework:
                 eventPast:
                     from: Cloturee
                     to: Passee
-                cancel_order:
+                cancelEvent:
                     from: [EnCreation, Ouverte]
                     to: Annulee
 

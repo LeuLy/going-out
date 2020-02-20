@@ -30,24 +30,40 @@
                     <h5 class="card-title d-flex justify-content-center">{{ event.label }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p class="card-text">
-{#                        {% if 'EnCreation' in workflow_marked_places(eventStatus) %}#}
-{#                    <p>OKAYY</p>#}
-{#                    {% endif %}#}
+                        {% if workflow_can(event, 'newEvent') %}
+                    <p>OK OK0</p>
+                    {% endif %}
+                        {% if workflow_can(event, 'eventPublish') %}
+                    <p>OK OK1</p>
+                    {% endif %}
+                    {% if workflow_can(event, 'eventClose') %}
+                        <p>OK OK2</p>
+                    {% endif %}
+                    {% if workflow_can(event, 'eventNow') %}
+                        <p>OK OK3</p>
+                    {% endif %}
+                    {% if workflow_can(event, 'eventPast') %}
+                        <p>OK OK4</p>
+                    {% endif %}
+                    {% if workflow_can(event, 'cancelEvent') %}
+                        <p>OK OK5</p>
+                    {% endif %}
 
-                        <i class="fas fa-user-astronaut"></i> Organisateur :
-                        {% if ((event.creator.active == true) and (event.creator.erased == false)) %}
-                            <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a><br/>
-                        {% else %}
-                            {{ event.creator.username }}
-                        {% endif %}<br/>
-                        <i class="far fa-clipboard"></i> Description : {{ event.description }} <br/>
-                        <i class="far fa-calendar-alt"></i> Début des inscriptions
-                        : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br/>
-                        <i class="far fa-calendar-times"></i> Fin des inscriptions
-                        : {{ event.dateInscriptionEnd |date('d-m-Y') }} à {{ event.dateInscriptionEnd |date('H:i') }}
-                        <br>
-                        <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H:i') }} <br/>
-                        <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
+                    <i class="fas fa-user-astronaut"></i> Organisateur :
+                    {% if ((event.creator.active == true) and (event.creator.erased == false)) %}
+                    <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a>
+                <br/>
+                    {% else %}
+                        {{ event.creator.username }}
+                    {% endif %}<br/>
+                    <i class="far fa-clipboard"></i> Description : {{ event.description }} <br/>
+                    <i class="far fa-calendar-alt"></i> Début des inscriptions
+                    : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br/>
+                    <i class="far fa-calendar-times"></i> Fin des inscriptions
+                    : {{ event.dateInscriptionEnd |date('d-m-Y') }} à {{ event.dateInscriptionEnd |date('H:i') }}
+                    <br>
+                    <i class="far fa-clock"></i> Durée de l'évènement : {{ event.duration |date('H:i') }} <br/>
+                    <i class="fas fa-users"></i> Nombre maximum de participants : {{ event.maxMembers }}
                     </p>
                     <div class="card-body">
                         <h5 class="card-title d-flex justify-content-center">Liste des participants</h5>
