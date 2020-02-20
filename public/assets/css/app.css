@@ -105,7 +105,6 @@ nav, small{
     background-color: white;
     box-shadow: 10px 13px 24px -13px rgba(0,0,0,0.75);
     border: none;
-    margin-left: 2em;
 }
 .withdraw-event, .inscription-event, .btnAdmin, .delete-event, .btnAction{
     text-transform: uppercase;
@@ -412,7 +411,10 @@ footer{
 .pagination{
     color: #235784;
 }
-
+.parts, .parts:hover{
+    text-decoration: none;
+    color: #235784;
+}
 /* Error 404 */
 
 .title_game{

@@ -27,7 +27,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title d-flex justify-content-center">{{ event.label }}</h5>
+                    <h4 class="card-title d-flex justify-content-center">{{ event.label }}</h4>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
                     <p class="card-text">
 {#                        {% if 'EnCreation' in workflow_marked_places(eventStatus) %}#}
@@ -39,8 +39,9 @@
                             <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a><br/>
                         {% else %}
                             {{ event.creator.username }}
-                        {% endif %}<br/>
+                        {% endif %}
                         <i class="far fa-clipboard"></i> Description : {{ event.description }} <br/>
+                        <i class="fas fa-map-marker-alt"></i> Lieu : {{ event.place.label }}<br/>
                         <i class="far fa-calendar-alt"></i> Début des inscriptions
                         : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br/>
                         <i class="far fa-calendar-times"></i> Fin des inscriptions
@@ -51,11 +52,11 @@
                     </p>
                     <div class="card-body">
                         <h5 class="card-title d-flex justify-content-center">Liste des participants</h5>
-                        <h6 class="card-subtitle mb-2 text-muted"></h6>
+
 
                         <p>{{ inscriptions|length }} participant(s)</p>
                         {% for inscription in inscriptions %}
-                            <a href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
+                            <a class="parts" href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
                             <br>
 
                         {% endfor %}

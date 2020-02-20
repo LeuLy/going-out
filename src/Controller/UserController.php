@@ -99,7 +99,7 @@ class UserController extends Controller
 
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            
+
 
             $user->setPassword(
                 $passwordEncoder->encodePassword(
