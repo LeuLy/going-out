@@ -387,6 +387,11 @@ class EventsController extends Controller
 //        dump($workflow);
         dump($event);
 
+        $this->addFlash(
+                'success',
+                'Sortie ouverte à l\'inscription'
+        );
+
 
         return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
     }
@@ -431,28 +436,45 @@ class EventsController extends Controller
 
         $eventCancelTxt = $request->query->get("cancelTxt");
 
-        // WORKFLOW EN CREATION:
-        $workflow = $this->workflows->get($event, 'eventStatus');
-
-        $workflow = $this->workflows->get($event);
-
-        try {
-            $workflow->apply($event, 'cancelEvent');
-            $entityManager->persist($event);
-            $entityManager->flush();
-        } catch (LogicException $exception) {
-        }
-
-        $transitions = $workflow->getEnabledTransitions($event);
-        dump($transitions);
+//        // WORKFLOW EN CREATION:
+//        $workflow = $this->workflows->get($event, 'eventStatus');
+//
+//        $workflow = $this->workflows->get($event);
+//
+//        try {
+//            $workflow->apply($event, 'cancelEvent');
+//            $entityManager->persist($event);
+//            $entityManager->flush();
+//        } catch (LogicException $exception) {
+//        }
+//
+//        $transitions = $workflow->getEnabledTransitions($event);
+//        dump($transitions);
 
 
 //        dump($workflow);
         dump($event);
-        // TODO test cancel
-        if ($event->getState() == 'Annulee') {
+//        if ($event->getState() == 'Annulee') {
 
             if ($eventCancelTxt != null) {
+
+                // WORKFLOW EN CREATION:
+                $workflow = $this->workflows->get($event, 'eventStatus');
+
+                $workflow = $this->workflows->get($event);
+
+                try {
+                    $workflow->apply($event, 'cancelEvent');
+                    $entityManager->persist($event);
+                    $entityManager->flush();
+                } catch (LogicException $exception) {
+                }
+
+                $transitions = $workflow->getEnabledTransitions($event);
+                dump($transitions);
+
+
+
                 $event->setCancelTxt($eventCancelTxt);
 
                 $entityManager->persist($event);
@@ -464,13 +486,14 @@ class EventsController extends Controller
                 );
 
                 return $this->redirectToRoute('home');
-            } else {
-                $this->addFlash(
-                    'danger',
-                    'Identifiant ou email incorrect'
-                );
             }
-        }
+//            else {
+//                $this->addFlash(
+//                        'danger',
+//                        'Identifiant ou email incorrect'
+//                );
+//          }
+//        }
 
         return $this->render('events/cancelEvent.html.twig', compact('event'));
     }
