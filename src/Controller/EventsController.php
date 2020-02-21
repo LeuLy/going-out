@@ -217,21 +217,40 @@ class EventsController extends Controller
 
 
         );
-//ICI
 
 
-        $now = date('Y-m-d h:i:s',strtotime("now"));
-        $eventNow = $eventRepository->findArchivedEvent($now);
+
+        $now1 = date(strtotime("now"));
+        dump($now1);
+        $eventClosed = $eventRepository->findFinishedEvent($now1);
+
+        if ($eventClosed) {
+
+            foreach ($eventClosed as $archive) {
+                $eventState = $archive->getState();
+
+
+                $archive->setState('Cloturee');
+
+                $entityManager->persist($archive);
+                $entityManager->flush();
+
+            }
+        }
+
+
+$now = date('Y-m-d h:i:s',strtotime("now"));
+        $eventNow = $eventRepository->findNowEvent($now);
         dump($now);
 
         if ($eventNow) {
 
             foreach ($eventNow as $archive) {
                 $eventState = $archive->getState();
-                dump($eventState);
+
 
                 $archive->setState('ActiviteEnCours');
-                dump($archive);
+
                 $entityManager->persist($archive);
                 $entityManager->flush();
 
@@ -241,7 +260,7 @@ class EventsController extends Controller
 
 
 
-        $lastMonth = date('Y-m-d h:m:s', strtotime("last month"));
+        $lastMonth = date('Y-m-d h:i:s', strtotime("last month"));
         $eventArchived = $eventRepository->findArchivedEvent($lastMonth);
         if ($eventArchived) {
 
@@ -449,7 +468,7 @@ class EventsController extends Controller
 
 //        dump($workflow);
         dump($event);
-        // TODO test cancel
+
         if ($event->getState() == 'Annulee') {
 
             if ($eventCancelTxt != null) {
