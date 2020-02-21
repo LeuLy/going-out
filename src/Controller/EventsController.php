@@ -117,6 +117,13 @@ class EventsController extends Controller
         $cityRepo = $entityManager->getRepository(City::class);
 
         $event = new Event();
+
+        $event->setDateStart(new \DateTime('+ 2 days'));
+        $event->setDuration(30);
+        $event->setDateInscriptionEnd(new \DateTime('+ 1 days'));
+
+
+
         $eventForm = $this->createForm(EventType::class, $event);
         $eventForm->handleRequest($request);
         $event->setCreator($this->getUser());
