@@ -74,12 +74,6 @@ class Event
     private $place;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="events")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $status;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="event", cascade={"persist", "remove"})
      */
     private $inscriptions;
@@ -88,8 +82,6 @@ class Event
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $cancelTxt;
-
-
 
 
     private $currentPlace;
@@ -110,7 +102,6 @@ class Event
         $this->currentPlace = $currentPlace;
     }
 
-    
 
     public function __construct()
     {
@@ -217,18 +208,6 @@ class Event
         return $this;
     }
 
-    public function getStatus(): ?Status
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?Status $status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Inscription[]
      */
@@ -296,6 +275,27 @@ class Event
 
         return $this;
     }
+
+
+
+// Attr status replaced state via workflow
+//    /**
+//     * @ORM\ManyToOne(targetEntity="App\Entity\Status", inversedBy="events")
+//     * @ORM\JoinColumn(nullable=true)
+//     */
+//    private $status;
+//
+//    public function getStatus(): ?Status
+//    {
+//        return $this->status;
+//    }
+//
+//    public function setStatus(?Status $status)
+//    {
+//        $this->status = $status;
+//
+//        return $this;
+//    }
 
 
 // Attr not needed
