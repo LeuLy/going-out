@@ -115,6 +115,8 @@ class SiteController extends Controller
                     'success',
                     'Site supprimé'
             );
+            /* Show all */
+            $site_result = $siteRep->findAll();
         }
 
         /* Update site */

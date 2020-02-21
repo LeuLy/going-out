@@ -13,9 +13,7 @@
 {% endblock %}
 {% block body %}
     <div class="row">
-        <div class="col-xs-2 col-md-4">
-
-        </div>
+        <div class="col-xs-2 col-md-4"></div>
         <div class="col-xs-8 col-md-4">
 
 
@@ -24,11 +22,13 @@
                     <h4 class="card-title d-flex justify-content-center">{{ event.label }}</h4>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
 
+                    <div class="affEvent">
+                        <p class="card-text">
 
                     <i class="fas fa-user-astronaut"></i> Organisateur :
                     {% if ((event.creator.active == true) and (event.creator.erased == false)) %}
-                    <a href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a>
-                <br/>
+                    <a class="parts" href="{{ path('userProfile', {'userId': event.creator.id}) }}">{{ event.creator.username }}</a>
+
                     {% else %}
                         {{ event.creator.username }}
                     {% endif %}<br/>
@@ -57,9 +57,11 @@
                 </div>
             </div>
         </div>
+        <div class="col-xs-2 col-md-4"></div>
     </div>
 
-    </div>
+
+
 
 
 
