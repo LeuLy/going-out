@@ -196,6 +196,18 @@ class UserController extends Controller
         return $this->render('user/affichProfil.html.twig', compact('photo'));
     }
 
+    /**
+     * @Route("/showAllUsers", name="showAllUsers")
+     */
+    public function showAllUsers(UploadableManager $uploadableManager, Request $request, EntityManagerInterface $entityManager){
+
+        $currentUser = $this->getUser();
+        $userRep = $entityManager ->getRepository(User::class);
+        $userList = $userRep ->findAll();
+
+        return $this->render('user/showAllUsers.html.twig',compact('userList','currentUser'));
+
+    }
 
 //    Moved to AdminController.php
 //    /**

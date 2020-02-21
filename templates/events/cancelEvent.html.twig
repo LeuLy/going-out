@@ -6,18 +6,14 @@
         {{ parent() }}
     </div>
 {% endblock %}
-{% block geo %}
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrRyTeCxvTBbznCTK8sfvzUEM4WeJEyg4&callback=initMap">
-    </script>
-{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="col-xs-2 col-md-4"></div>
         <div class="col-xs-8 col-md-4">
 
 
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-body">
                     <h4 class="card-title d-flex justify-content-center">{{ event.label }}</h4>
                     <h6 class="card-subtitle mb-2 text-muted"></h6>
@@ -59,11 +55,6 @@
         </div>
         <div class="col-xs-2 col-md-4"></div>
     </div>
-
-
-
-
-
 
 
 

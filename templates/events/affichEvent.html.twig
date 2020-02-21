@@ -24,6 +24,12 @@
         </div>
         <div class="col-xs-8 col-md-4">
 
+            {% if event.state == "Ouverte" %}{% set i = 'L\'événement est ouvert à l\'inscription' %}{% endif %}
+            {% if event.state == "Annulee" %}{% set i = 'L\'événement à été annulé' %}{% endif %}
+            {% if event.state == "EnCreation" %}{% set i = 'L\'événement est en création' %}{% endif %}
+            {% if event.state == "Cloturee" %}{% set i = 'Les inscriptions ne sont plus possibles' %}{% endif %}
+            {% if event.state == "ActiviteEnCours" %}{% set i = 'L\'événement se déroule actuellement' %}{% endif %}
+            {% if event.state == "Passee" %}{% set i = 'L\'événement est fini' %}{% endif %}
 
             <div class="card">
                 <div class="card-body">
@@ -44,6 +50,7 @@
                         {% endif %}
                         <i class="far fa-clipboard"></i> Description : {{ event.description }} <br/>
                         <i class="fas fa-map-marker-alt"></i> Lieu : {{ event.place.label }}<br/>
+                            <i class="fas fa-terminal"></i> {{ i }}<br/>
                         <i class="far fa-calendar-alt"></i> Début de l'évènement
                         : {{ event.dateStart |date('d-m-Y') }} à {{ event.dateStart |date('H:i') }} <br/>
                         <i class="far fa-calendar-times"></i> Fin des inscriptions
