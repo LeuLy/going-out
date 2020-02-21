@@ -450,9 +450,17 @@ footer{
 /*Image Profil*/
 
 .card-img-top{
-    max-width: 20em;
-    align-self: center;
+    max-width: 100%;
+    height: auto;
+    max-height: 18em;
+    width: auto;
+    margin: auto;
 }
+
+.block-img {
+    text-align: center;
+}
+
 @media only screen and (min-width: 992px) {
     .img-thumbnail {
         max-height: 40%;

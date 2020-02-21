@@ -16,13 +16,15 @@
 
         <div class="col-l-2 ml-5 mb-4">
             <div class="card" style="width: 18rem; min-height: 31rem">
-                {% if user.file is not null %}
-                    <img class="card-img-top " src="{{ asset('public/uploads/' ~ user.file.name) }}"
-                         alt="Card image cap"/>
-                {% else %}
-                    <img class="card-img-top" src="{{ asset('public/img_default/avatar_default.png') }}"
-                         alt="Card image cap"/>
-                {% endif %}
+                <div class="block-img">
+                    {% if user.file is not null %}
+                        <img class="card-img-top " src="{{ asset('public/uploads/' ~ user.file.name) }}"
+                             alt="Card image cap"/>
+                    {% else %}
+                        <img class="card-img-top" src="{{ asset('public/img_default/avatar_default.png') }}"
+                             alt="Card image cap"/>
+                    {% endif %}
+                </div>
                 <div class="card-body">
                     <h5 class="card-title d-flex justify-content-center">{{ user.username }}</h5>
                     <h6 class="card-subtitle d-flex justify-content-center">{{ user.firstname }} {{ user.name }}</h6>
