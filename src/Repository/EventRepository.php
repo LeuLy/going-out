@@ -29,7 +29,25 @@ class EventRepository extends ServiceEntityRepository
     }
 
 
+    public function findNowEvent($now){
+        $entityManager = $this->getEntityManager();
+        $dql           = <<<DQL
+SELECT e
+FROM APP\ENTITY\Event e
+WHERE e.dateStart < :now
+DQL;
 
+        $query = $entityManager
+            ->createQuery($dql)
+            ->setParameter(':now', $now);
+        dump($now);
+
+        return $query->getResult();
+    }
+
+
+
+//ICI
 public function findArchivedEvent($lastMonth){
     $entityManager = $this->getEntityManager();
     $dql           = <<<DQL
@@ -45,6 +63,7 @@ dump($lastMonth);
 
     return $query->getResult();
 }
+//ICI
     public function findEventByFilters(
         $beginDate,
         $endDate,

@@ -62,15 +62,19 @@
                     </p>
                 </div>
                     <div class="card-body">
+                        {% if (event.state != 'Annulee') %}
                         <h5 class="card-title d-flex justify-content-center">Liste des participants</h5>
                         <h6 class="card-title d-flex justify-content-center">{{ inscriptions|length }} participant(s)</h6>
 
                         <div class="affEvent">
-                        {% for inscription in inscriptions %}
-                            <a class="parts" href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
-                            <br>
-
-                        {% endfor %}
+                            {% for inscription in inscriptions %}
+                                <a class="parts" href="{{ path('userProfile', {'userId': inscription.user.id}) }}">{{ inscription.user.username }}</a>
+                                <br>
+                            {% endfor %}
+                            {% else %}
+                                <h5 class="card-title d-flex justify-content-center">Motif d'annulation</h5>
+                                {{ event.cancelTxt }}
+                            {% endif %}
                         </div>
 
                     </div>
