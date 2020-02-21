@@ -217,32 +217,47 @@ class EventsController extends Controller
 
 
         );
+//ICI
+
+
+        $now = date('Y-m-d h:i:s',strtotime("now"));
+        $eventNow = $eventRepository->findArchivedEvent($now);
+        dump($now);
+
+        if ($eventNow) {
+
+            foreach ($eventNow as $archive) {
+                $eventState = $archive->getState();
+                dump($eventState);
+
+                $archive->setState('ActiviteEnCours');
+                dump($archive);
+                $entityManager->persist($archive);
+                $entityManager->flush();
+
+            }
+        }
+
+
+
 
         $lastMonth = date('Y-m-d h:m:s', strtotime("last month"));
         $eventArchived = $eventRepository->findArchivedEvent($lastMonth);
-
-
-        dump($eventArchived);
-
-//        $workflow = $this->workflows->get($eventArchived, 'eventStatus');
-//        $workflow = $this->workflows->get($eventArchived);
-
         if ($eventArchived) {
 
             dump($eventArchived);
-//             $eventArchived->setEvent->setState("Archivee");
+            foreach ($eventArchived as $archive) {
+                $eventState = $archive->getState();
+                dump($eventState);
 
-//             $entityManager->persist($eventArchived);
-//             $entityManager->flush();
-//             try {
-//                 $workflow->apply($eventByDescription, 'archivedEvent');
-//                 $entityManager->persist($eventByDescription);
-//                 $entityManager->flush();
-//             } catch (LogicException $exception) {
-//             }
+                $archive->setState('Archivee');
+                dump($archive);
+                $entityManager->persist($archive);
+                $entityManager->flush();
 
-//             $transitions = $workflow->getEnabledTransitions($eventByDescription);
+            }
         }
+
 
 
         $nbTotalEvents = count($event);
@@ -435,7 +450,7 @@ class EventsController extends Controller
 //        dump($workflow);
         dump($event);
         // TODO test cancel
-        if ($event->getState() == 'cancelEvent') {
+        if ($event->getState() == 'Annulee') {
 
             if ($eventCancelTxt != null) {
                 $event->setCancelTxt($eventCancelTxt);

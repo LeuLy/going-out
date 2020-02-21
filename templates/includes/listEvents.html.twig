@@ -36,6 +36,7 @@
                 {% if eventByDescription.state == "Cloturee" %}<p><i class="fas fa-terminal"></i> Les inscriptions ne sont plus possible</p> {% endif %}
                 {% if eventByDescription.state == "ActiviteEnCours" %}<p><i class="fas fa-terminal"></i> L'événement se déroule actuellement</p> {% endif %}
                 {% if eventByDescription.state == "Passee" %}<p><i class="fas fa-terminal"></i> L'événement est fini</p> {% endif %}
+                {% if eventByDescription.state == "Archivee" %}<p><i class="fas fa-terminal"></i> En archive </p> {% endif %}
 
 
                 <p class="card-text"><i class="fas fa-map-marker-alt"></i> Lieu :  {{ eventByDescription.label }}</p>
