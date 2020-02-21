@@ -30,21 +30,7 @@ class EventRepository extends ServiceEntityRepository
 
 
 
-    public function findFinishedEvent($now1){
-        $entityManager = $this->getEntityManager();
-        $dql           = <<<DQL
-SELECT e
-FROM APP\ENTITY\Event e
-WHERE e.dateStart < :now1
-DQL;
 
-        $query = $entityManager
-            ->createQuery($dql)
-            ->setParameter(':now1', $now1);
-
-
-        return $query->getResult();
-    }
 
 
 
@@ -60,14 +46,30 @@ DQL;
         $query = $entityManager
             ->createQuery($dql)
             ->setParameter(':now', $now);
-        dump($now);
+//        dump($now);
 
         return $query->getResult();
     }
 
 
 
-//ICI
+    public function findDurationEnd($eventDurationEnd){
+        $entityManager = $this->getEntityManager();
+        $dql           = <<<DQL
+SELECT e
+FROM APP\ENTITY\Event e
+WHERE e.dateStart < :eventDurationEnd
+DQL;
+
+        $query = $entityManager
+            ->createQuery($dql)
+            ->setParameter(':eventDurationEnd', $eventDurationEnd);
+//        dump($eventDurationEnd);
+
+        return $query->getResult();
+    }
+
+
 public function findArchivedEvent($lastMonth){
     $entityManager = $this->getEntityManager();
     $dql           = <<<DQL
@@ -79,7 +81,7 @@ DQL;
     $query = $entityManager
         ->createQuery($dql)
         ->setParameter(':lastMonth', $lastMonth);
-dump($lastMonth);
+//dump($lastMonth);
 
     return $query->getResult();
 }
@@ -143,7 +145,7 @@ dump($lastMonth);
                     ->innerJoin('e.inscriptions', 'i')
                     ->andWhere('i.user = :user')
                     ->setParameter(':user', $user);
-                dump($user);
+//                dump($user);
             }
             if ($notSubscribed == 'on') {
                 $subQb = $this->createQueryBuilder('sq')
@@ -154,7 +156,7 @@ dump($lastMonth);
                     ->leftJoin('e.inscriptions', 'i')
                     ->andWhere('e NOT IN ('.$subQb->getDQL().')')
                     ->setParameter(':user', $user);
-                dump($user);
+//                dump($user);
             }
         }
 
@@ -175,7 +177,7 @@ dump($lastMonth);
 
         $query = $qb->getQuery();
 
-        dump($query->getSQL());
+//        dump($query->getSQL());
         $eventByCreator = $query->getResult();
 
         return ($eventByCreator);

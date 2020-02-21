@@ -58,7 +58,6 @@ class EventsController extends Controller
 //        $entityManager = $this->getDoctrine()->getManager();
         $eventUser = $entityManager->getRepository(Event::class);
         $event = $eventUser->find($event_id);
-        dump($event);
 
         $eventForm = $this->createForm(EventType::class, $event);
         $eventForm->handleRequest($request);
@@ -68,22 +67,22 @@ class EventsController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
             $formData = $request->request->all();
-            dump($formData);
+//            dump($formData);
 
             if (empty($formData['event']['place'])) {
 
                 $place = new Place();
 
                 $placeData = $formData['event']['placeForm'];
-                dump($formData);
-                dump($placeData);
+//                dump($formData);
+//                dump($placeData);
 
                 $place->setLabel($formData['event']['placeForm']['label']);
                 $place->setAddress($formData['event']['placeForm']['address']);
 
                 $place->setLatitude($formData['event']['placeForm']['latitude']);
                 $place->setLongitude($formData['event']['placeForm']['longitude']);
-                dump($place);
+//                dump($place);
                 $entityManager->persist($place);
                 $entityManager->flush();
                 $event->setPlace($place);
@@ -130,8 +129,8 @@ class EventsController extends Controller
 
         }
         $transitions = $workflow->getEnabledTransitions($event);
-        dump($transitions);
-        dump($event);
+//        dump($transitions);
+//        dump($event);
 
 // Update the currentState on the post
 
@@ -151,7 +150,7 @@ class EventsController extends Controller
         }
 
 
-        dump($event);
+//        dump($event);
 
         return $this->render(
             'events/createEvent.html.twig',
@@ -220,28 +219,13 @@ class EventsController extends Controller
 
 
 
-        $now1 = date(strtotime("now"));
-        dump($now1);
-        $eventClosed = $eventRepository->findFinishedEvent($now1);
-
-        if ($eventClosed) {
-
-            foreach ($eventClosed as $archive) {
-                $eventState = $archive->getState();
 
 
-                $archive->setState('Cloturee');
-
-                $entityManager->persist($archive);
-                $entityManager->flush();
-
-            }
-        }
 
 
 $now = date('Y-m-d h:i:s',strtotime("now"));
         $eventNow = $eventRepository->findNowEvent($now);
-        dump($now);
+//        dump($now);
 
         if ($eventNow) {
 
@@ -258,19 +242,32 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
         }
 
 
+        $now1 = date(strtotime("now"));
+        $eventClosed = $eventRepository->findNowEvent($now);
+        if ($eventClosed) {
 
+            foreach ($eventClosed as $archive) {
+                $eventDuration=$archive->getDuration($archive);
+                $eventDurationEnd = (date('Y-m-d h:i:s',$now1 + $eventDuration));
+                $archiveDuration= $eventRepository->findDurationEnd($eventDurationEnd);
+                foreach ($archiveDuration as $archiveDurationValue) {
+                    $archiveDurationValue->setState('Passee');
+
+                    $entityManager->persist($archiveDurationValue);
+                    $entityManager->flush();
+                }
+            }
+        }
 
         $lastMonth = date('Y-m-d h:i:s', strtotime("last month"));
         $eventArchived = $eventRepository->findArchivedEvent($lastMonth);
         if ($eventArchived) {
 
-            dump($eventArchived);
             foreach ($eventArchived as $archive) {
-                $eventState = $archive->getState();
-                dump($eventState);
+
+
 
                 $archive->setState('Archivee');
-                dump($archive);
                 $entityManager->persist($archive);
                 $entityManager->flush();
 
@@ -403,8 +400,6 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
         $transitions = $workflow->getEnabledTransitions($event);
 
         $place = $event->getPlace();
-//        dump($workflow);
-        dump($event);
 
         $this->addFlash(
                 'success',
@@ -427,18 +422,10 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
         $inscriptionRepository = $entityManager->getRepository(Inscription::class);
         $inscriptions = $inscriptionRepository->findSubscribedByEvent($id);
 
-//
-//    $workflow = $this->workflows->get($event, 'eventStatus');
-//    try {
-//        $workflow->apply($event, 'eventPublish');
-//    } catch (LogicException $exception) {
-//
-//    }
-//    $transitions = $workflow->getEnabledTransitions($event);
+
 
         $place = $event->getPlace();
-//        dump($workflow);
-        dump($event);
+
 
 
         return $this->render('events/affichEvent.html.twig', compact('event', 'inscriptions', 'place'));
@@ -455,33 +442,13 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
 
         $eventCancelTxt = $request->query->get("cancelTxt");
 
-//        // WORKFLOW EN CREATION:
-//        $workflow = $this->workflows->get($event, 'eventStatus');
-//
-//        $workflow = $this->workflows->get($event);
-//
-//        try {
-//            $workflow->apply($event, 'cancelEvent');
-//            $entityManager->persist($event);
-//            $entityManager->flush();
-//        } catch (LogicException $exception) {
-//        }
-//
-//        $transitions = $workflow->getEnabledTransitions($event);
-//        dump($transitions);
-
-
-//        dump($workflow);
-        dump($event);
-
-//        if ($event->getState() == 'Annulee') {
 
             if ($eventCancelTxt != null) {
 
-                // WORKFLOW EN CREATION:
+
                 $workflow = $this->workflows->get($event, 'eventStatus');
 
-                $workflow = $this->workflows->get($event);
+//                $workflow = $this->workflows->get($event);
 
                 try {
                     $workflow->apply($event, 'cancelEvent');
@@ -491,7 +458,7 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
                 }
 
                 $transitions = $workflow->getEnabledTransitions($event);
-                dump($transitions);
+
 
 
 
@@ -507,69 +474,11 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
 
                 return $this->redirectToRoute('home');
             }
-//            else {
-//                $this->addFlash(
-//                        'danger',
-//                        'Identifiant ou email incorrect'
-//                );
-//          }
-//        }
+
 
         return $this->render('events/cancelEvent.html.twig', compact('event'));
     }
 
-
-//    /**
-//     * @Route("/cancelEvent/{id}", name="cancelEvent", requirements={"id": "\d+"})
-//     */
-//    public function cancelEvent($id, Request $request, EntityManagerInterface $entityManager)
-//    {
-//        $eventRepository = $entityManager->getRepository(Event::class);
-//        $event = $eventRepository->find($id);
-//
-//        $eventForm = $this->createForm(EventType::class, $event);
-//        $eventForm->handleRequest($request);
-//        $event->setCreator($this->getUser());
-//
-//        // WORKFLOW EN CREATION:
-//        $workflow = $this->workflows->get($event, 'eventStatus');
-//
-//        $workflow = $this->workflows->get($event);
-//
-//        try {
-//            $workflow->apply($event, 'cancelEvent');
-//            $entityManager->persist($event);
-//            $entityManager->flush();
-//        } catch (LogicException $exception) {
-//
-//
-//        }
-//
-//        $transitions = $workflow->getEnabledTransitions($event);
-//        dump($transitions);
-//
-//
-//
-////        dump($workflow);
-//        dump($event);
-//
-//        if ($eventForm->isSubmitted() & $eventForm->isValid()) {
-//
-//            $entityManager = $this->getDoctrine()->getManager();
-//
-//            $entityManager->persist($event);
-//            $entityManager->flush();
-//
-//            $this->addFlash(
-//                    'success',
-//                    'Sortie annulée'
-//            );
-//
-//            return $this->redirectToRoute('home');
-//        }
-//
-//        return $this->render('events/cancelEvent.html.twig', compact('event'));
-//    }
 
 
     /**
@@ -597,15 +506,6 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
 
         $inscription = $inscriptionRepository->findAll();
 
-//        Nombre total d'inscriptions
-//        $nbTotalSubscribed = count ($inscription);
-//        dump($nbTotalSubscribed);
-
-//        $nbInscription = $inscription->getInscriptions()->count();
-
-//        $siteLabel = $request->query->get('label');
-//
-//        $site = $siteRepository->findByLabel($siteLabel);
 
         $event = $eventRepository->findAll();
 
@@ -645,7 +545,6 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
                 'nbPageByDescription',
 
                 'nbPage',
-//                        'siteLabel',
                 'event',
                 'inscription',
                 'limit',
@@ -657,7 +556,7 @@ $now = date('Y-m-d h:i:s',strtotime("now"));
                 'subscribed',
                 'notSubscribed',
                 'userId'
-            ) // userId  rajouté
+            )
         );
     }
 
