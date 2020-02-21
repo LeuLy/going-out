@@ -1,0 +1,69 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Liste des utilisateurs
+{% endblock %}
+{% block test %}
+    <div id="show_profil_bgd">
+        {{ parent() }}
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+
+        {% for user in userList %}
+
+        <div class="col-l-2 ml-5 mb-4">
+            <div class="card" style="width: 18rem; min-height: 31rem">
+                {% if user.file is not null %}
+                    <img class="card-img-top " src="{{ asset('public/uploads/' ~ user.file.name) }}"
+                         alt="Card image cap"/>
+                {% else %}
+                    <img class="card-img-top" src="{{ asset('public/img_default/avatar_default.png') }}"
+                         alt="Card image cap"/>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title d-flex justify-content-center">{{ user.username }}</h5>
+                    <h6 class="card-subtitle d-flex justify-content-center">{{ user.firstname }} {{ user.name }}</h6>
+                    <div class="affAllProfil">
+                        <p class="card-text">
+                            {% if user.showPhone %}
+                                Téléphone : {{ user.phone }}<br/>
+                            {% endif %}
+                            Email : {{ user.email }}<br/>
+                            Site de rattachement : {{ user.site.label }}
+                        </p>
+                    </div>
+                </div>
+
+                {% if  (currentUser.roles == ['ROLE_ADMIN']) %}
+                    <div class="d-flex justify-content-around">
+                        {% if (user.active) %}
+                            <button class="btnActive">
+                                <a href="{{ path('admindeactivateUser',{'userId': user.id}) }}">Rendre inactif</a>
+                            </button>
+                        {% else %}
+                            <button class="btnActive">
+                                <a href="{{ path('adminactivateUser',{'userId': user.id}) }}">Rendre actif</a>
+                            </button>
+                        {% endif %}
+
+
+                        <button class="btnActive">
+                            <a href="{{ path('adminuserModif',{'userId': user.id}) }}">Modifier</a>
+                        </button>
+
+                        <button class="btnDelete">
+
+                            <a href="{{ path('admindeleteUser',{'userId': user.id}) }}">Supprimer</a>
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+{% endblock %}

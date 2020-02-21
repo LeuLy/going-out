@@ -489,5 +489,11 @@ footer{
     }
 }
 
-/* Error 403 */
+/* Afficher tous les profils */
+.affAllProfil{
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-top: 1em;
+    font-size: small;
+}
 
