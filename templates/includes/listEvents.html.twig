@@ -16,55 +16,43 @@
             {% endif %}
         {% endfor %}
 
-        {% if (eventByDescription.state != "Archivee") %}
-
-
-
         <div class="card col-sm-6 col-md-4" style="width: 18rem;" id="event_card">
             <div class="card-body">
                 <h5 class="card-title d-flex justify-content-center">{{ eventByDescription.label }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
                 <p class="card-text">
 
-                    {% if ((eventByDescription.creator.active == true) and (eventByDescription.creator.erased == false)) %}
-                        <i class="fas fa-user-astronaut"></i> Organisateur :
-                        <a class="parts"
-                           href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>
+                {% if ((eventByDescription.creator.active == true) and (eventByDescription.creator.erased == false)) %}
+                    <i class="fas fa-user-astronaut"></i> Organisateur :
+                        <a class="parts" href="{{ path('userProfile', {'userId': eventByDescription.creator.id}) }}">{{ eventByDescription.creator.username }}</a>
                         <br>
                     {% else %}
                         {{ eventByDescription.creator.username }}
                     {% endif %}
                 </p>
-                {% if eventByDescription.state == "Ouverte" %}<p><i class="fas fa-terminal"></i> L'événement est ouvert
-                    à l'inscription</p> {% endif %}
-                {% if eventByDescription.state == "Annulee" %}<p><i class="fas fa-terminal"></i> L'événement à été
-                    annulé</p> {% endif %}
-                {% if eventByDescription.state == "EnCreation" %}<p><i class="fas fa-terminal"></i> L'événement est en
-                    création</p> {% endif %}
-                {% if eventByDescription.state == "Cloturee" %}<p><i class="fas fa-terminal"></i> Les inscriptions ne
-                    sont plus possibles</p> {% endif %}
-                {% if eventByDescription.state == "ActiviteEnCours" %}<p><i class="fas fa-terminal"></i> L'événement se
-                    déroule actuellement</p> {% endif %}
-                {% if eventByDescription.state == "Passee" %}<p><i class="fas fa-terminal"></i> L'événement est fini
-                </p> {% endif %}
-                {% if eventByDescription.state == "Archivee" %}<p><i class="fas fa-terminal"></i> En archive
-                </p> {% endif %}
+                {% if eventByDescription.state == "Ouverte" %}<p><i class="fas fa-terminal"></i> L'événement est ouvert à l'inscription</p> {% endif %}
+                {% if eventByDescription.state == "Annulee" %}<p><i class="fas fa-terminal"></i> L'événement à été annulé</p> {% endif %}
+                {% if eventByDescription.state == "EnCreation" %}<p><i class="fas fa-terminal"></i> L'événement est en création</p> {% endif %}
+                {% if eventByDescription.state == "Cloturee" %}<p><i class="fas fa-terminal"></i> Les inscriptions ne sont plus possibles</p> {% endif %}
+                {% if eventByDescription.state == "ActiviteEnCours" %}<p><i class="fas fa-terminal"></i> L'événement se déroule actuellement</p> {% endif %}
+                {% if eventByDescription.state == "Passee" %}<p><i class="fas fa-terminal"></i> L'événement est fini</p> {% endif %}
+                {% if eventByDescription.state == "Archivee" %}<p><i class="fas fa-terminal"></i> En archive </p> {% endif %}
 
 
-                <p class="card-text"><i class="fas fa-map-marker-alt"></i> Lieu : {{ eventByDescription.label }}</p>
+                <p class="card-text"><i class="fas fa-map-marker-alt"></i> Lieu :  {{ eventByDescription.label }}</p>
                 <p class="card-text"><i class="fas fa-code"></i> {{ eventByDescription.site.label }}</p>
                 <p class="card-text"><i class="fas fa-users"></i> Nombre inscrit(s): <span
                             class="numberMember">{{ eventByDescription.inscriptions|length }}</span>
                     / {{ eventByDescription.maxMembers }}</p>
 
-                {#                {% if found == true %}
+{#                {% if found == true %}
 
-                                    <p class="card-text">Inscrit</p>
+                    <p class="card-text">Inscrit</p>
 
 
-                                {% else %}
-                                    <p class="card-text"><br></p>
-                                {% endif %}#}
+                {% else %}
+                    <p class="card-text"><br></p>
+                {% endif %}#}
 
                 <div {#class="d-flex justify-content-center"#}>
 
@@ -77,8 +65,8 @@
 
     {% endfor %}
 
+
 </div>
-{% endif %}
 
 
 <script>
