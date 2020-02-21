@@ -104,6 +104,8 @@ dump($lastMonth);
         $qb
             ->andWhere('e.site = :site')
             ->setParameter(':site', $site)
+            ->andWhere('e.state != :state')
+            ->setParameter(':state', "Archivee")
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
         if ($var != null) {
@@ -216,6 +218,8 @@ DQL;
         $qb
 //                ->andWhere('e.site = :site')
 //                ->setParameter(':site', $site)
+            ->andWhere('e.state != :state')
+            ->setParameter(':state', "Archivee")
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
         if ($var != null) {
