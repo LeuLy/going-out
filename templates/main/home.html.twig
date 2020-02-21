@@ -21,6 +21,16 @@
 
             {% if site.file is not null %}
                 <img class="img_home" src="{{ asset('public/uploads_site/' ~ site.file.name) }}" alt="img_city" >
+                {% elseif site.label == 'ENI NANTES' %}
+                    <img class="img_home" src="{{ asset('public/img_default/nantes_default.png') }}" alt="img_city" >
+                {% elseif site.label == 'ENI QUIMPER' %}
+                    <img class="img_home" src="{{ asset('public/img_default/quimper_default.png') }}" alt="img_city" >
+                {% elseif site.label == 'ENI RENNES' %}
+                    <img class="img_home" src="{{ asset('public/img_default/rennes_default.png') }}" alt="img_city" >
+                {% elseif site.label == 'ENI NIORT' %}
+                    <img class="img_home" src="{{ asset('public/img_default/niort_default.png') }}" alt="img_city" >
+                {% elseif site.label == 'ENI BORDEAUX' %}
+                    <img class="img_home" src="{{ asset('public/img_default/bordeaux_default.png') }}" alt="img_city" >
                 {% else %}
                     <img class="img_home" src="{{ asset('public/img_default/city_default.png') }}" alt="img_city" >
                     {% endif %}
