@@ -1,0 +1,4 @@
+username,password,name,firstName,phone,email,inscriptionYear,site
+testCsvA,123,Durand,Marc,0652956410,testCsv1@azerty.fr,2020,"ENI NANTES"
+testCsvZ,123,Durand,Marc,0652956410,testCsv2@azerty.fr,2020,"ENI NANTES"
+testCsvE,123,Dupont,Boby,0632524751,testCsv3@azerty.fr,2020,"ENI RENNES"
