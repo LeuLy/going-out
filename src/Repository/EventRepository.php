@@ -29,6 +29,26 @@ class EventRepository extends ServiceEntityRepository
     }
 
 
+
+    public function findFinishedEvent($now1){
+        $entityManager = $this->getEntityManager();
+        $dql           = <<<DQL
+SELECT e
+FROM APP\ENTITY\Event e
+WHERE e.dateStart < :now1
+DQL;
+
+        $query = $entityManager
+            ->createQuery($dql)
+            ->setParameter(':now1', $now1);
+
+
+        return $query->getResult();
+    }
+
+
+
+
     public function findNowEvent($now){
         $entityManager = $this->getEntityManager();
         $dql           = <<<DQL
@@ -84,6 +104,8 @@ dump($lastMonth);
         $qb
             ->andWhere('e.site = :site')
             ->setParameter(':site', $site)
+            ->andWhere('e.state != :state')
+            ->setParameter(':state', "Archivee")
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
         if ($var != null) {
@@ -196,6 +218,8 @@ DQL;
         $qb
 //                ->andWhere('e.site = :site')
 //                ->setParameter(':site', $site)
+            ->andWhere('e.state != :state')
+            ->setParameter(':state', "Archivee")
             ->setFirstResult($page * $limit)
             ->setMaxResults($limit);
         if ($var != null) {
