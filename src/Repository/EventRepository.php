@@ -30,6 +30,21 @@ class EventRepository extends ServiceEntityRepository
 
 
 
+    public function findBeforeEvent($now){
+        $entityManager = $this->getEntityManager();
+        $dql           = <<<DQL
+SELECT e
+FROM APP\ENTITY\Event e
+WHERE e.dateStart > :now
+DQL;
+
+        $query = $entityManager
+            ->createQuery($dql)
+            ->setParameter(':now', $now);
+//        dump($now);
+
+        return $query->getResult();
+    }
 
 
 
@@ -58,7 +73,8 @@ DQL;
         $dql           = <<<DQL
 SELECT e
 FROM APP\ENTITY\Event e
-WHERE e.dateStart < :eventDurationEnd
+WHERE e.dateStart > :eventDurationEnd
+
 DQL;
 
         $query = $entityManager

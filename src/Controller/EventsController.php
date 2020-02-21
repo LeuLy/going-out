@@ -220,44 +220,70 @@ class EventsController extends Controller
 
 
 
+//
+//        $now = date('Y-m-d h:i:s',strtotime("now"));
+//
+//
+//        $now1 = date(strtotime("now"));
+//        $eventClosed = $eventRepository->findNowEvent($now);
+//        if ($eventClosed) {
+//
+//            foreach ($eventClosed as $archive1) {
+//                $eventDuration=$archive1->getDuration($archive1);
+//                $value = $now1 - $eventDuration;
+//                $eventDurationEnd = (date('Y-m-d h:i:s',("$value")));
+//
+//                $archiveDuration= $eventRepository->findDurationEnd($eventDurationEnd);
+//                foreach ($archiveDuration as $archiveDurationValue) {
+//                    $archiveState = $archiveDurationValue->getState();
+//                    if ($archiveState == 'ActiviteEnCours') {
+//                        $archiveDurationValue->setState('Passee');
+//
+//                        $entityManager->persist($archiveDurationValue);
+//                        $entityManager->flush();
+//                    }
+//
+//                }
+//            }
+//        }
+//        $eventNow = $eventRepository->findNowEvent($now);
+//
+//
+//        if ($eventNow) {
+//
+//            foreach ($eventNow as $archive) {
+//
+//                $archiveState = $archive->getState();
+//                if ($archiveState == 'Ouverte') {
+//                    $archive->setState('ActiviteEnCours');
+//
+//                    $entityManager->persist($archive);
+//                    $entityManager->flush();
+//                }
+//            }
+//        }
 
 
 
-$now = date('Y-m-d h:i:s',strtotime("now"));
-        $eventNow = $eventRepository->findNowEvent($now);
-//        dump($now);
 
-        if ($eventNow) {
+//        $eventBefore = $eventRepository->findBeforeEvent($now);
 
-            foreach ($eventNow as $archive) {
-                $eventState = $archive->getState();
+//        if ($eventBefore) {
+//
+//            foreach ($eventBefore as $archive) {
+//
+//                $archiveState = $archive->getState();
+//                if ($archiveState =! 'Ouverte'){
+//                $archive->setState('EnCreation');
+//
+//                $entityManager->persist($archive);
+//                $entityManager->flush();
+//            }
+//            }
+//        }
 
 
-                $archive->setState('ActiviteEnCours');
 
-                $entityManager->persist($archive);
-                $entityManager->flush();
-
-            }
-        }
-
-
-        $now1 = date(strtotime("now"));
-        $eventClosed = $eventRepository->findNowEvent($now);
-        if ($eventClosed) {
-
-            foreach ($eventClosed as $archive) {
-                $eventDuration=$archive->getDuration($archive);
-                $eventDurationEnd = (date('Y-m-d h:i:s',$now1 + $eventDuration));
-                $archiveDuration= $eventRepository->findDurationEnd($eventDurationEnd);
-                foreach ($archiveDuration as $archiveDurationValue) {
-                    $archiveDurationValue->setState('Passee');
-
-                    $entityManager->persist($archiveDurationValue);
-                    $entityManager->flush();
-                }
-            }
-        }
 
         $lastMonth = date('Y-m-d h:i:s', strtotime("last month"));
         $eventArchived = $eventRepository->findArchivedEvent($lastMonth);
