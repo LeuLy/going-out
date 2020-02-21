@@ -267,7 +267,7 @@ form{
 
 /* Fond Profil */
 @media only screen and (min-width: 992px){
-    #profil_bgd{
+    .profil_bgd_basic{
         min-height:100vh;
         background-image: url(../../img/illustration/personal_data_.png);
         background-repeat: no-repeat;
@@ -276,7 +276,26 @@ form{
         background-size: 20%;
     }
 }
-
+@media only screen and (min-width: 992px){
+    .profil_bgd_batman{
+        min-height:100vh;
+        background-image: url(../../img/illustration/batman.gif);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 100%;
+    }
+}
+@media only screen and (min-width: 992px){
+    .profil_bgd_wolverine{
+        min-height:100vh;
+        background-image: url(../../img/illustration/cat_wolverine.gif);
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-attachment: fixed;
+        background-size: 20%;
+    }
+}
 /* Fond Create Event */
 @media only screen and (min-width: 992px) {
     #create_event_bgd {
